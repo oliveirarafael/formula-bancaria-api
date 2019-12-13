@@ -1,6 +1,7 @@
 package br.com.formula.bancaria.api.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.formula.bancaria.api.dto.SimuladoDTO;
+import br.com.formula.bancaria.api.form.simulado.SimuladoFormCreate;
 import br.com.formula.bancaria.api.model.Simulado;
 import br.com.formula.bancaria.api.repository.SimuladoRepository;
 
@@ -27,15 +30,20 @@ public class SimuladoController {
 
     
     @GetMapping
-    public void get(){
+    public List<SimuladoDTO> get(){
+        return SimuladoDTO.converte(simuladoRepository.findAll());
+    }
 
+    @GetMapping("/{uuid}")
+    public SimuladoDTO getUUID(String uuid){
+       return null;
     }
 
     @PostMapping
-    public ResponseEntity post(@RequestBody @Valid Simulado simulado, UriComponentsBuilder uriBuilder){
-        simuladoRepository.save(simulado);
-        URI uri = uriBuilder.path("/simulados/{uuid}").buildAndExpand(simulado.getUuid()).toUri();
-        return ResponseEntity.created(uri).body(simulado);
+    public ResponseEntity post(@RequestBody @Valid SimuladoFormCreate simuladoFomCreate, UriComponentsBuilder uriBuilder){
+        Simulado simuladoCadastrado = simuladoRepository.save(simuladoFomCreate.converte());
+        URI uri = uriBuilder.path("/simulados/{uuid}").buildAndExpand(simuladoCadastrado.getUuid()).toUri();
+        return ResponseEntity.created(uri).body(simuladoCadastrado);
     }
 
     @PutMapping
