@@ -2,6 +2,8 @@ package br.com.formula.bancaria.api.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
@@ -35,8 +37,13 @@ public class SimuladoController {
     }
 
     @GetMapping("/{uuid}")
-    public SimuladoDTO getUUID(String uuid){
-       return null;
+    public ResponseEntity<SimuladoDTO> getUUID(String uuid){
+      Optional<Simulado> optional = simuladoRepository.findById(UUID.fromString(uuid));
+
+       if(optional.isPresent()){
+           return ResponseEntity.ok(new SimuladoDTO(optional.get()));
+       }
+       return ResponseEntity.notFound().build();
     }
 
     @PostMapping
@@ -55,6 +62,5 @@ public class SimuladoController {
     public void delete(){
 
     }
-
 
 }

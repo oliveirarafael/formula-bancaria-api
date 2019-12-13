@@ -15,6 +15,7 @@ public class Simulado {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)  
   private Long id;
+
   private UUID uuid;
   private String titulo;
   private String descricao;
@@ -61,5 +62,4 @@ public class Simulado {
   	this.dataHoraCriacao = dataHoraCriacao;
   }
 
-  
 }
