@@ -1,5 +1,8 @@
 package br.com.formula.bancaria.api.model;
 
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
 
 public class Usuario {
 
@@ -24,6 +27,9 @@ public class Usuario {
 	}
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return null;
 	}
 
     

@@ -21,6 +21,8 @@ import br.com.formula.bancaria.api.service.TokenService;
 @RequestMapping("/auth")
 public class AutenticacaoController {
 
+    private static final String BEARER = "Bearer";
+    
     @Autowired
     private AuthenticationManager authManager;
     @Autowired
@@ -33,7 +35,7 @@ public class AutenticacaoController {
         try{
             Authentication authentication = authManager.authenticate(dadosLogin);
             String token = tokenService.token(authentication);
-            return ResponseEntity.ok(new TokenDTO(token, "Bearer"));    
+            return ResponseEntity.ok(new TokenDTO(token, BEARER));    
         }catch(AuthenticationException e){
             e.printStackTrace();
             return ResponseEntity.badRequest().build();

@@ -1,5 +1,6 @@
 package br.com.formula.bancaria.api.config.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -10,11 +11,21 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import br.com.formula.bancaria.api.config.filter.AutenticacaoTokenFilter;
+import br.com.formula.bancaria.api.repository.UsuarioRepository;
+import br.com.formula.bancaria.api.service.TokenService;
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private TokenService tokenService;
+    
+    @Autowired
+    private UsuarioRepository usuarioRepository;
  
     @Override
     @Bean
@@ -22,11 +33,13 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
         return super.authenticationManager();
     }
 
+    //Configura autenticação
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         
     }
 
+    // Configura autorização
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
@@ -35,9 +48,11 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
             .authenticated()
             .and()
             .csrf().disable()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); 
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and().addFilterBefore(new AutenticacaoTokenFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class); 
     }
 
+    // Configura os arquivos estaticos
     @Override
     public void configure(WebSecurity web) throws Exception {
         

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 
 import br.com.formula.bancaria.api.model.Usuario;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -30,6 +31,21 @@ public class TokenService {
                    .setExpiration(dataExpiracao)
                    .signWith(SignatureAlgorithm.HS256, secret)
                    .compact();
+	}
+
+	public boolean isValido(String token) {
+        try{
+            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public Long getIdUsuario(String token) {
+		Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+		return Long.parseLong(claims.getSubject());
 	}
 
 }
