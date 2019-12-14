@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+
 import br.com.formula.bancaria.api.model.Simulado;
 
 public class SimuladoDTO {
@@ -38,11 +40,10 @@ public class SimuladoDTO {
 		return dataHoraCriacao;
 	}
 
-    public static List<SimuladoDTO> converte(List<Simulado> simulados){
+    public static Page<SimuladoDTO> converte(Page<Simulado> simulados){
         if(Optional.ofNullable(simulados).isPresent()){
-           return simulados.stream().map(SimuladoDTO::new).collect(Collectors.toList());
+           return simulados.map(SimuladoDTO::new);
         }
-
-        return Collections.EMPTY_LIST;
+        return Page.empty();
     }
 }

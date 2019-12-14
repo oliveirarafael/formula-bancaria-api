@@ -2,7 +2,7 @@ package br.com.formula.bancaria.api.form.simulado;
 
 import br.com.formula.bancaria.api.model.Simulado;
 
-public class SimuladoFormCreate {
+public class CreateSimuladoForm {
 
     private String titulo;
     private String descricao;
