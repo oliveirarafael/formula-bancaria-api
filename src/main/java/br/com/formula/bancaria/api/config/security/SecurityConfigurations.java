@@ -11,11 +11,13 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import br.com.formula.bancaria.api.config.filter.AutenticacaoTokenFilter;
 import br.com.formula.bancaria.api.repository.UsuarioRepository;
 import br.com.formula.bancaria.api.service.TokenService;
+import br.com.formula.bancaria.api.service.auth.AutenticacaoService;
 
 @EnableWebSecurity
 @Configuration
@@ -26,6 +28,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private AutenticacaoService autenticacaoService;
  
     @Override
     @Bean
@@ -36,7 +41,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     //Configura autenticação
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        
+        auth.userDetailsService(autenticacaoService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
     // Configura autorização
