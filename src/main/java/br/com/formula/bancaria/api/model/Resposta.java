@@ -10,16 +10,16 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 
-@Entity
+//@Entity
 public class Resposta {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID uuid;
     private String descricao;
     private Boolean correta;
     private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
-    @ManyToOne
+    //@ManyToOne
     private Pergunta pergunta;
 }

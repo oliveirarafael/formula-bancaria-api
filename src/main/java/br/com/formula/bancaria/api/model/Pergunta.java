@@ -10,15 +10,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-@Entity
+//@Entity
 public class Pergunta {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID uuid;
     private String descricao;
     private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "pergunta")
+    //@OneToMany(mappedBy = "pergunta")
     private Collection<Resposta> respostas;
 }

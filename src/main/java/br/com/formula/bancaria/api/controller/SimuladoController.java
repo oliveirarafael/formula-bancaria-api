@@ -50,7 +50,7 @@ public class SimuladoController {
     @GetMapping("/{uuid}")
     @Cacheable(value = "simuladoUUID")
     public ResponseEntity<SimuladoDTO> getUUID(String uuid){
-      Optional<Simulado> optional = simuladoRepository.findById(UUID.fromString(uuid));
+       Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
 
        if(optional.isPresent()){
           return ResponseEntity.ok(new SimuladoDTO(optional.get()));

@@ -4,15 +4,16 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
 
 import br.com.formula.bancaria.api.model.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-
+@Service
 public class TokenService {
     
-    private Date hoje = new Date();
+    private Date hoje;
 
     @Value("${formula.bancaria.api.jwt.expiration}")
     private String expiration;
@@ -20,10 +21,12 @@ public class TokenService {
     @Value("${formula.bancaria.api.jwt.secret}")
     private String secret;
 
-    private Date dataExpiracao = new Date(hoje.getTime() + Long.parseLong(expiration));
+    private Date dataExpiracao;
 
 	public String token(Authentication authentication) {
         Usuario usuarioLogado = (Usuario) authentication.getPrincipal();
+        hoje = new Date();
+        dataExpiracao = new Date(hoje.getTime() + Long.parseLong(expiration));
         return Jwts.builder()
                    .setIssuer("API Formula Bancaria")
                    .setSubject(usuarioLogado.getId().toString())

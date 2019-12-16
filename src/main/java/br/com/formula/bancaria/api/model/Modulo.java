@@ -12,17 +12,17 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.ManyToAny;
 
-@Entity
+//@Entity
 public class Modulo {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID uuid;
     private String titulo;
     private Long percentual;
     private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
-    @ManyToOne
+    //@ManyToOne
     private Simulado simulado;
     private Collection<Pergunta> perguntas;
 }
