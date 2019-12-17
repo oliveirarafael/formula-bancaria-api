@@ -22,7 +22,7 @@ public class Simulado {
   private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
   /*@OneToMany(mappedBy = "simulado")
-  private Collection<Modulo> modulos;  */
+  private List<Modulo> modulos;  */
 
   public Simulado(){}
 

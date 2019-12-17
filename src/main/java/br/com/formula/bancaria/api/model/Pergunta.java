@@ -2,6 +2,7 @@ package br.com.formula.bancaria.api.model;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Entity;
@@ -20,5 +21,5 @@ public class Pergunta {
     private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
     //@OneToMany(mappedBy = "pergunta")
-    private Collection<Resposta> respostas;
+    private List<Resposta> respostas;
 }

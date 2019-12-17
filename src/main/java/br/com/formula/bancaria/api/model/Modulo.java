@@ -2,6 +2,7 @@ package br.com.formula.bancaria.api.model;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Entity;
@@ -24,5 +25,5 @@ public class Modulo {
 
     //@ManyToOne
     private Simulado simulado;
-    private Collection<Pergunta> perguntas;
+    private List<Pergunta> perguntas;
 }
