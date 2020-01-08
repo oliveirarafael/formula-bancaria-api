@@ -2,7 +2,7 @@ package br.com.formula.bancaria.api.form.simulado;
 
 import br.com.formula.bancaria.api.model.entity.Simulado;
 
-public class CreateSimuladoForm {
+public class UpdateSimuladoForm {
 
     private String titulo;
     private String descricao;
@@ -15,7 +15,11 @@ public class CreateSimuladoForm {
 		this.descricao = descricao;
     }
 
-    public Simulado converte(){
-        return new Simulado(titulo, descricao);
-    }
+	public Simulado atualizar(Simulado simulado) {
+        simulado.setTitulo(this.titulo);
+        simulado.setDescricao(this.descricao);
+		return simulado;
+	}
+
+    
 }

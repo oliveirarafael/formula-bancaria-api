@@ -12,7 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import br.com.formula.bancaria.api.model.Usuario;
+import br.com.formula.bancaria.api.model.entity.Usuario;
 import br.com.formula.bancaria.api.repository.UsuarioRepository;
 import br.com.formula.bancaria.api.service.TokenService;
 

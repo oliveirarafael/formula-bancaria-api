@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import br.com.formula.bancaria.api.model.Usuario;
+import br.com.formula.bancaria.api.model.entity.Usuario;
 import br.com.formula.bancaria.api.repository.UsuarioRepository;
 
 @Service

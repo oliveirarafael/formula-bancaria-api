@@ -11,7 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.formula.bancaria.api.model.Usuario;
+import br.com.formula.bancaria.api.model.entity.Usuario;
 
 @DataJpaTest
 public class UsuarioRepositoryTest {

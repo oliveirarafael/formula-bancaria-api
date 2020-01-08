@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 
-import br.com.formula.bancaria.api.model.Simulado;
+import br.com.formula.bancaria.api.model.entity.Simulado;
 
 public class SimuladoDTO {
 

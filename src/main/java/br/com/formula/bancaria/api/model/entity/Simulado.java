@@ -1,13 +1,15 @@
-package br.com.formula.bancaria.api.model;
+package br.com.formula.bancaria.api.model.entity;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Simulado {
@@ -21,14 +23,14 @@ public class Simulado {
   private String descricao;
   private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
-  /*@OneToMany(mappedBy = "simulado")
-  private List<Modulo> modulos;  */
+  @OneToMany(mappedBy = "simulado")
+  private List<Modulo> modulos;
 
   public Simulado(){}
 
   public Simulado(String titulo, String descricao) {
-	this.titulo = titulo;
-	this.descricao = descricao;
+	  this.titulo = titulo;
+	  this.descricao = descricao;
   }
    
   public Long getId() {

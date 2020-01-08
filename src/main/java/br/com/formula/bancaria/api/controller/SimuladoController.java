@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +19,18 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.formula.bancaria.api.dto.SimuladoDTO;
 import br.com.formula.bancaria.api.form.simulado.CreateSimuladoForm;
-import br.com.formula.bancaria.api.model.Simulado;
+import br.com.formula.bancaria.api.form.simulado.UpdateSimuladoForm;
+import br.com.formula.bancaria.api.model.entity.Simulado;
 import br.com.formula.bancaria.api.repository.SimuladoRepository;
 
 @RestController
@@ -60,20 +62,36 @@ public class SimuladoController {
 
     @PostMapping
     @CacheEvict(value = {"simulados", "simuladoUUID"}, allEntries = true)
-    public ResponseEntity post(@RequestBody @Valid CreateSimuladoForm simuladoFomCreate, UriComponentsBuilder uriBuilder){
-        Simulado simuladoCadastrado = simuladoRepository.save(simuladoFomCreate.converte());
+    @Transactional
+    public ResponseEntity post(@RequestBody @Valid CreateSimuladoForm createSimuladoFom, UriComponentsBuilder uriBuilder){
+        Simulado simuladoCadastrado = simuladoRepository.save(createSimuladoFom.converte());
         URI uri = uriBuilder.path("/simulados/{uuid}").buildAndExpand(simuladoCadastrado.getUuid()).toUri();
         return ResponseEntity.created(uri).body(simuladoCadastrado);
     }
 
-    @PutMapping
-    public void put(){
+    @PutMapping("/{uuid}")
+    @CacheEvict(value = {"simulados", "simuladoUUID"}, allEntries = true)
+    @Transactional
+    public ResponseEntity<SimuladoDTO> put(@PathVariable String uuid, @RequestBody @Valid UpdateSimuladoForm updateSimuladoForm){
+        Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
+        if(optional.isPresent()){
+           Simulado simulado = updateSimuladoForm.atualizar(optional.get());
+           return ResponseEntity.ok(new SimuladoDTO(simulado));
+        }
 
+        return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping
-    public void delete(){
-
+    @DeleteMapping("/{uuid}")
+    @CacheEvict(value = {"simulados", "simuladoUUID"}, allEntries = true)
+    @Transactional
+    public ResponseEntity delete(@PathVariable String uuid){
+        Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
+        if(optional.isPresent()){
+           simuladoRepository.delete(optional.get());
+           return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
 }

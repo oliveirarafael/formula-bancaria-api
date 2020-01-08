@@ -1,4 +1,4 @@
-package br.com.formula.bancaria.api.model;
+package br.com.formula.bancaria.api.model.entity;
 
 import java.util.ArrayList;
 import java.util.Collection;

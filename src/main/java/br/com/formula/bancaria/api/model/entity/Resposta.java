@@ -1,4 +1,4 @@
-package br.com.formula.bancaria.api.model;
+package br.com.formula.bancaria.api.model.entity;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -10,16 +10,18 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 
-//@Entity
+@Entity
 public class Resposta {
 
-    //@Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private UUID uuid;
     private String descricao;
     private Boolean correta;
     private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
-    //@ManyToOne
+    @ManyToOne
     private Pergunta pergunta;
 }
