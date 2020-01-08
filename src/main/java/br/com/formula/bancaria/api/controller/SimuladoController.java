@@ -1,9 +1,7 @@
 package br.com.formula.bancaria.api.controller;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -12,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
@@ -27,7 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.formula.bancaria.api.dto.SimuladoDTO;
+import br.com.formula.bancaria.api.dto.simulado.DetalheSimuladoDTO;
+import br.com.formula.bancaria.api.dto.simulado.SimuladoDTO;
 import br.com.formula.bancaria.api.form.simulado.CreateSimuladoForm;
 import br.com.formula.bancaria.api.form.simulado.UpdateSimuladoForm;
 import br.com.formula.bancaria.api.model.entity.Simulado;
@@ -45,7 +43,7 @@ public class SimuladoController {
     public Page<SimuladoDTO> get(@PageableDefault(sort = "dataHoraCriacao", 
                                                   direction = Direction.DESC, 
                                                   page = 0, size = 10) Pageable paginacao){
-
+  
         return SimuladoDTO.converte(simuladoRepository.findAll(paginacao));
     }
 
@@ -60,6 +58,17 @@ public class SimuladoController {
        return ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/{uuid}/modulos")
+    @Cacheable(value = "simuladoUUID")
+    public ResponseEntity<DetalheSimuladoDTO> getModulos(String uuid){
+       Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
+
+       if(optional.isPresent()){
+          return ResponseEntity.ok(new DetalheSimuladoDTO(optional.get()));
+       }
+       return ResponseEntity.notFound().build();
+    }
+    
     @PostMapping
     @CacheEvict(value = {"simulados", "simuladoUUID"}, allEntries = true)
     @Transactional

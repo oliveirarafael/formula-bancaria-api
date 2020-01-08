@@ -64,4 +64,13 @@ public class Simulado {
   	this.dataHoraCriacao = dataHoraCriacao;
   }
 
+  public List<Modulo> getModulos() {
+  	return modulos;
+  }
+  
+  public void setModulos(List<Modulo> modulos) {
+  	this.modulos = modulos;
+  }
+
+
 }

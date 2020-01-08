@@ -29,4 +29,62 @@ public class Modulo {
 
     @ManyToMany(mappedBy = "modulos")
     private List<Pergunta> perguntas;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public UUID getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(UUID uuid) {
+		this.uuid = uuid;
+	}
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+
+	public Long getPercentual() {
+		return percentual;
+	}
+
+	public void setPercentual(Long percentual) {
+		this.percentual = percentual;
+	}
+
+	public LocalDateTime getDataHoraCriacao() {
+		return dataHoraCriacao;
+	}
+
+	public void setDataHoraCriacao(LocalDateTime dataHoraCriacao) {
+		this.dataHoraCriacao = dataHoraCriacao;
+	}
+
+	public Simulado getSimulado() {
+		return simulado;
+	}
+
+	public void setSimulado(Simulado simulado) {
+		this.simulado = simulado;
+	}
+
+	public List<Pergunta> getPerguntas() {
+		return perguntas;
+	}
+
+	public void setPerguntas(List<Pergunta> perguntas) {
+		this.perguntas = perguntas;
+	}
+
+    
 }

@@ -1,10 +1,15 @@
 package br.com.formula.bancaria.api.form.simulado;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import br.com.formula.bancaria.api.model.entity.Simulado;
 
 public class CreateSimuladoForm {
 
+    @NotNull @NotEmpty
     private String titulo;
+    @NotNull @NotEmpty
     private String descricao;
 
 	public void setTitulo(String titulo) {

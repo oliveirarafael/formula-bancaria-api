@@ -24,4 +24,54 @@ public class Resposta {
 
     @ManyToOne
     private Pergunta pergunta;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public UUID getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(UUID uuid) {
+		this.uuid = uuid;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public Boolean getCorreta() {
+		return correta;
+	}
+
+	public void setCorreta(Boolean correta) {
+		this.correta = correta;
+	}
+
+	public LocalDateTime getDataHoraCriacao() {
+		return dataHoraCriacao;
+	}
+
+	public void setDataHoraCriacao(LocalDateTime dataHoraCriacao) {
+		this.dataHoraCriacao = dataHoraCriacao;
+	}
+
+	public Pergunta getPergunta() {
+		return pergunta;
+	}
+
+	public void setPergunta(Pergunta pergunta) {
+		this.pergunta = pergunta;
+	}
+
+    
 }

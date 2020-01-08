@@ -1,4 +1,4 @@
-package br.com.formula.bancaria.api.dto;
+package br.com.formula.bancaria.api.dto.simulado;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -16,7 +16,7 @@ public class SimuladoDTO {
     private String titulo;
     private String descricao;
     private LocalDateTime dataHoraCriacao;
-
+    
     public SimuladoDTO(Simulado simulado){
        this.uuid = simulado.getUuid().toString();
        this.titulo = simulado.getTitulo();
