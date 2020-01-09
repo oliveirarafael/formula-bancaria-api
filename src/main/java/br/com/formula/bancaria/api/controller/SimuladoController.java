@@ -50,12 +50,12 @@ public class SimuladoController {
     @GetMapping("/{uuid}")
     @Cacheable(value = "simuladoUUID")
     public ResponseEntity<SimuladoDTO> getUUID(String uuid){
-       Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
+      Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
 
-       if(optional.isPresent()){
-          return ResponseEntity.ok(new SimuladoDTO(optional.get()));
-       }
-       return ResponseEntity.notFound().build();
+      if(optional.isPresent()){
+        return ResponseEntity.ok(new SimuladoDTO(optional.get()));
+      }
+      return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/{uuid}/modulos")
@@ -98,7 +98,7 @@ public class SimuladoController {
         Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
         if(optional.isPresent()){
            simuladoRepository.delete(optional.get());
-           return ResponseEntity.ok().build();
+           return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
     }
