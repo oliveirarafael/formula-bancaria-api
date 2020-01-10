@@ -2,8 +2,6 @@ package br.com.formula.bancaria.api.controller;
 
 import java.util.Optional;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;

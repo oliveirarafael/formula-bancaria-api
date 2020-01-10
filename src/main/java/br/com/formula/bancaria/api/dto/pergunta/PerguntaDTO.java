@@ -16,7 +16,7 @@ public class PerguntaDTO {
     public PerguntaDTO(Pergunta pergunta){
         this.uuid = pergunta.getUuid();
         this.descricao = pergunta.getDescricao();
-        this.respostas.addAll(pergunta.getRespostas().stream().map(RespostaDTO::new).collect(Collectors.toList()))
+        this.respostas.addAll(pergunta.getRespostas().stream().map(RespostaDTO::new).collect(Collectors.toList()));
     }
 
     public UUID getUuid() {

@@ -26,7 +26,7 @@ public class Modulo {
     @ManyToOne
     private Simulado simulado;
 
-    @ManyToMany(mappedBy = "modulos")
+    @ManyToMany
     private List<Pergunta> perguntas;
 
 	public Long getId() {

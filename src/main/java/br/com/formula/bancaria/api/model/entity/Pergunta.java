@@ -24,7 +24,7 @@ public class Pergunta {
     @OneToMany(mappedBy = "pergunta")
     private List<Resposta> respostas;
 
-    @ManyToMany(mappedBy = "perguntas")
+    @ManyToMany
     private List<Modulo> modulos;
 
 	public Long getId() {
