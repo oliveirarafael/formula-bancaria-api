@@ -3,7 +3,7 @@ package br.com.formula.bancaria.api.dto.simulado;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import br.com.formula.bancaria.api.dto.ModuloDTO;
+import br.com.formula.bancaria.api.dto.modulo.ModuloDTO;
 import br.com.formula.bancaria.api.model.entity.Simulado;
 
 public class DetalheSimuladoDTO {

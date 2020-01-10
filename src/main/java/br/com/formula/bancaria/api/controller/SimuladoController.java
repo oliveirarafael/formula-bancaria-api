@@ -59,7 +59,7 @@ public class SimuladoController {
     }
 
     @GetMapping("/{uuid}/modulos")
-    @Cacheable(value = "simuladoUUID")
+    @Cacheable(value = "simuladoModulos")
     public ResponseEntity<DetalheSimuladoDTO> getModulos(String uuid){
        Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
 

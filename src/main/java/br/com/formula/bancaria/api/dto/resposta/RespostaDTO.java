@@ -1,4 +1,4 @@
-package br.com.formula.bancaria.api.dto;
+package br.com.formula.bancaria.api.dto.resposta;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -10,7 +10,6 @@ public class RespostaDTO {
     private UUID uuid;
     private String descricao;
     private Boolean correta;
-    private LocalDateTime dataHoraCriacao;
 
     public RespostaDTO(Resposta resposta){
         this.uuid = resposta.getUuid();
@@ -21,9 +20,11 @@ public class RespostaDTO {
     public UUID getUuid() {
         return uuid;
     }
+
     public String getDescricao() {
         return descricao;
     }
+    
     public Boolean getCorreta() {
         return correta;
     }
