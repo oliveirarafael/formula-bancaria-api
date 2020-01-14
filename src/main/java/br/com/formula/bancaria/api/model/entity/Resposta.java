@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Version;
 
 
 @Entity
@@ -20,7 +21,10 @@ public class Resposta {
     private UUID uuid;
     private String descricao;
     private Boolean correta;
-    private LocalDateTime dataHoraCriacao = LocalDateTime.now();
+	private LocalDateTime dataHoraCriacao = LocalDateTime.now();
+	
+	@Version
+    private Long versao;
 
     @ManyToOne
     private Pergunta pergunta;

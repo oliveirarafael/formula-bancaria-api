@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Version;
 
 @Entity
 public class Pergunta {
@@ -20,6 +21,9 @@ public class Pergunta {
     private UUID uuid;
     private String descricao;
     private LocalDateTime dataHoraCriacao = LocalDateTime.now();
+
+	@Version
+    private Long versao;
 
     @OneToMany(mappedBy = "pergunta")
     private List<Resposta> respostas;

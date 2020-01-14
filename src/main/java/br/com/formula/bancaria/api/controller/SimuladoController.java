@@ -75,7 +75,7 @@ public class SimuladoController {
     public ResponseEntity post(@RequestBody @Valid CreateSimuladoForm createSimuladoFom, UriComponentsBuilder uriBuilder){
         Simulado simuladoCadastrado = simuladoRepository.save(createSimuladoFom.converte());
         URI uri = uriBuilder.path("/simulados/{uuid}").buildAndExpand(simuladoCadastrado.getUuid()).toUri();
-        return ResponseEntity.created(uri).body(simuladoCadastrado);
+        return ResponseEntity.created(uri).body(new SimuladoDTO(simuladoCadastrado));
     }
 
     @PutMapping("/{uuid}")

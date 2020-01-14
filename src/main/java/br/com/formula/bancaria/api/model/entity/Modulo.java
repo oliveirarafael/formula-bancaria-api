@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Version;
 
 @Entity
 public class Modulo {
@@ -22,6 +23,9 @@ public class Modulo {
     private String titulo;
     private Long percentual;
     private LocalDateTime dataHoraCriacao = LocalDateTime.now();
+
+	@Version
+    private Long versao;
 
     @ManyToOne
     private Simulado simulado;

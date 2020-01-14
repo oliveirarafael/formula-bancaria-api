@@ -19,10 +19,11 @@ public class Usuario implements UserDetails{
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  
-    private Long id;
+	private Long id;
+	private String nome;
     private String email;
 	private String senha;
-	private Boolean assinante;
+	//private Boolean assinante;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Perfil> perfis = new ArrayList<>();
@@ -33,6 +34,12 @@ public class Usuario implements UserDetails{
 	public void setId(final Long id) {
 		this.id = id;
 	}
+	public String getNome() {
+		return nome;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}	
 	public String getEmail() {
 		return email;
 	}

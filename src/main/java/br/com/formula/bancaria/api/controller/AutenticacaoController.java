@@ -40,6 +40,5 @@ public class AutenticacaoController {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
-
     }
 }

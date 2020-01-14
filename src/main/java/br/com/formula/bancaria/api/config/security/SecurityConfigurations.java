@@ -54,7 +54,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
             .and()
             .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and().addFilterBefore(new AutenticacaoTokenFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class); 
+            .and()
+            .addFilterBefore(new AutenticacaoTokenFilter(tokenService, usuarioRepository), 
+                             UsernamePasswordAuthenticationFilter.class); 
     }
 
     // Configura os arquivos estaticos

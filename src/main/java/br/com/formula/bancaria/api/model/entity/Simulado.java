@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Version;
 
 @Entity
 public class Simulado {
@@ -18,10 +19,13 @@ public class Simulado {
   @GeneratedValue(strategy = GenerationType.IDENTITY)  
   private Long id;
 
-  private UUID uuid;
+  private UUID uuid = UUID.randomUUID();
   private String titulo;
   private String descricao;
   private LocalDateTime dataHoraCriacao = LocalDateTime.now();
+  
+  @Version
+  private Long versao;
 
   @OneToMany(mappedBy = "simulado")
   private List<Modulo> modulos;

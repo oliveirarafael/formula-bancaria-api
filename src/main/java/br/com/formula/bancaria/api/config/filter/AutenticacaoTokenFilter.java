@@ -55,5 +55,6 @@ public class AutenticacaoTokenFilter extends OncePerRequestFilter{
 
         return token.split(" ")[1];
     }
+
     
 }

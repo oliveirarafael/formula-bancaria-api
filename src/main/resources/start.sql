@@ -1,1 +1,0 @@
-insert into usuario (email, senha) values ("admin@formulabancario.com", "$2a$10$1LdyiUsZvD/VFINogbZrBO4RHP7OVtTEATRTcYj6NpgptQCdGmkS6");

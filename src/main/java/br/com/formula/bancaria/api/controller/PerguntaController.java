@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.formula.bancaria.api.dto.pergunta.PerguntaDTO;
 import br.com.formula.bancaria.api.model.entity.Pergunta;
+import br.com.formula.bancaria.api.repository.PerguntaRepository;
 
 @RestController
 @RequestMapping("/api/v1/perguntas")

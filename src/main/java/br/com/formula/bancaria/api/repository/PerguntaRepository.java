@@ -1,4 +1,4 @@
-package br.com.formula.bancaria.api.controller;
+package br.com.formula.bancaria.api.repository;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
