@@ -18,7 +18,7 @@ public class Resposta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private UUID uuid;
+    private UUID uuid = UUID.randomUUID();
     private String descricao;
     private Boolean correta;
 	private LocalDateTime dataHoraCriacao = LocalDateTime.now();

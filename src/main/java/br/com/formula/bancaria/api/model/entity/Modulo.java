@@ -19,7 +19,7 @@ public class Modulo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private UUID uuid;
+    private UUID uuid = UUID.randomUUID();
     private String titulo;
     private Long percentual;
     private LocalDateTime dataHoraCriacao = LocalDateTime.now();

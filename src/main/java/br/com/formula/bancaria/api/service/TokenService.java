@@ -2,6 +2,8 @@ package br.com.formula.bancaria.api.service;
 
 import java.util.Date;
 
+import com.google.common.base.Optional;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,11 @@ public class TokenService {
 	}
 
 	public boolean isValido(String token) {
+
+        if(Optional.fromNullable(token).isPresent()){
+            return false;
+        }
+
         try{
             Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
             return true;
