@@ -15,7 +15,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.PagedModel;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,8 +48,7 @@ public class SimuladoController {
                                                   direction = Direction.DESC, 
                                                   page = 0, size = 10) Pageable paginacao){
                                               
-        Page<SimuladoDTO> simuladoDTO = SimuladoDTO.converte(simuladoRepository.findAll(paginacao));
-        return new CollectionModel<SimuladoDTO>(simuladoDTO, linkTo(methodOn(SimuladoController.class).getUUID("1")).withSelfRel());
+        return new CollectionModel<SimuladoDTO>(SimuladoDTO.converte(simuladoRepository.findAll(paginacao)));
     }
 
     @GetMapping("/{uuid}")

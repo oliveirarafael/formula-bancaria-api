@@ -1,8 +1,7 @@
 package br.com.formula.bancaria.api.service;
 
 import java.util.Date;
-
-import com.google.common.base.Optional;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -40,7 +39,7 @@ public class TokenService {
 
 	public boolean isValido(String token) {
 
-        if(Optional.fromNullable(token).isPresent()){
+        if(!Optional.ofNullable(token).isPresent()){
             return false;
         }
 

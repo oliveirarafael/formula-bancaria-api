@@ -49,19 +49,14 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
             .antMatchers(HttpMethod.POST, "/auth").permitAll()
-            .anyRequest()
-            .authenticated()
-            .and()
-            .csrf().disable()
+            .anyRequest().authenticated()
+            .and().csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .addFilterBefore(new AutenticacaoTokenFilter(tokenService, usuarioRepository), 
-                             UsernamePasswordAuthenticationFilter.class); 
+            .and().addFilterBefore(new AutenticacaoTokenFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class); 
     }
 
     // Configura os arquivos estaticos
     @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**");
+    public void configure(WebSecurity web) throws Exception {      
     }
 }

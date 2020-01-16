@@ -3,22 +3,30 @@ package br.com.formula.bancaria.api.model.entity;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Version;
 
+@Entity
 public class Comentario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private UUID uuid;
+    private UUID uuid = UUID.randomUUID();
     private String descricao;
     private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
-    @ManyToOne
-    private Pergunta pergunta;
+	@Version
+	private Long versao;
+	
+	@OneToOne
+	private Pergunta pergunta;
+ 
+	
 
 	public Long getId() {
 		return id;

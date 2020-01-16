@@ -4,10 +4,12 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
-
+import org.springframework.hateoas.RepresentationModel;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import br.com.formula.bancaria.api.controller.SimuladoController;
 import br.com.formula.bancaria.api.model.entity.Simulado;
 
-public class SimuladoDTO {
+public class SimuladoDTO extends RepresentationModel{
 
     private String uuid;
     private String titulo;
@@ -19,6 +21,7 @@ public class SimuladoDTO {
        this.titulo = simulado.getTitulo();
        this.descricao = simulado.getDescricao();
        this.dataHoraCriacao = simulado.getDataHoraCriacao();
+       add(linkTo(methodOn(SimuladoController.class).getUUID(this.uuid)).withSelfRel());
     }
 
 	public String getUuid() {

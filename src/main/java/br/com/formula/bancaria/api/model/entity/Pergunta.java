@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,13 +23,16 @@ public class Pergunta {
     private UUID uuid = UUID.randomUUID();
     private String descricao;
     private LocalDateTime dataHoraCriacao = LocalDateTime.now();
+	
 	@Version
     private Long versao;
-    @OneToMany(mappedBy = "pergunta")
+	
+	@OneToMany(mappedBy = "pergunta")
     private List<Resposta> respostas;
     @ManyToMany
 	private List<Modulo> modulos;
-	@OneToOne
+	
+	@OneToOne(mappedBy = "pergunta", cascade = CascadeType.ALL)	
 	private Comentario comentario;
 
 
@@ -79,6 +83,13 @@ public class Pergunta {
 	public void setModulos(List<Modulo> modulos) {
 		this.modulos = modulos;
 	}
+	
+	public Comentario getComentario() {
+		return comentario;
+	}
 
-    
+	public void setComentario(Comentario comentario) {
+		this.comentario = comentario;
+	}
+   
 }
