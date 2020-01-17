@@ -44,11 +44,11 @@ public class SimuladoController {
 
     @GetMapping
     @Cacheable(value = "simulados") //Value serve como identificador do cache
-    public CollectionModel<SimuladoDTO> get(@PageableDefault(sort = "dataHoraCriacao", 
+    public Page<SimuladoDTO> get(@PageableDefault(sort = "dataHoraCriacao", 
                                                   direction = Direction.DESC, 
                                                   page = 0, size = 10) Pageable paginacao){
                                               
-        return new CollectionModel<SimuladoDTO>(SimuladoDTO.converte(simuladoRepository.findAll(paginacao)));
+        return SimuladoDTO.converte(simuladoRepository.findAll(paginacao));
     }
 
     @GetMapping("/{uuid}")

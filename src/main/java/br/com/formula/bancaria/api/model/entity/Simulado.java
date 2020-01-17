@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,7 +28,7 @@ public class Simulado {
   @Version
   private Long versao;
 
-  @OneToMany(mappedBy = "simulado")
+  @OneToMany(mappedBy = "simulado", cascade = CascadeType.ALL)
   private List<Modulo> modulos;
 
   public Simulado(){}
