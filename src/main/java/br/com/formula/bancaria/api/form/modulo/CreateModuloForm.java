@@ -1,20 +1,42 @@
 package br.com.formula.bancaria.api.form.modulo;
 
+import java.util.Optional;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import br.com.formula.bancaria.api.model.entity.Modulo;
+import br.com.formula.bancaria.api.model.entity.Simulado;
+import br.com.formula.bancaria.api.repository.SimuladoRepository;
 
 public class CreateModuloForm {
 
     @NotNull @NotEmpty
+    private String simuladoUUID;
+    @NotNull @NotEmpty
     private String titulo;
     @NotNull @NotEmpty
-    private Long percetual;
+    private Long percentual;
+
+    public void setSimuladoUUID(String simuladoUUID) {
+        this.simuladoUUID = simuladoUUID;
+    }
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
 
-    public void setPercetual(Long percetual) {
-        this.percetual = percetual;
+    public void setPercentual(Long percentual) {
+        this.percentual = percentual;
     }
+
+	public Modulo converte(SimuladoRepository simuladoRepository) {
+        Optional<Simulado> simulado = simuladoRepository.findByUuid(simuladoUUID);
+
+        if(simulado.isPresent()){
+            return new Modulo(this.titulo, this.percentual, simulado.get());
+        }
+        
+		return (Modulo) Optional.empty().get();
+	}
 }

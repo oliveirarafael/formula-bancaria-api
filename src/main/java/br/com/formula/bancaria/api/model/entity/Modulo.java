@@ -29,9 +29,16 @@ public class Modulo {
 
     @ManyToOne
     private Simulado simulado;
-
+	
     @ManyToMany
-    private List<Pergunta> perguntas;
+	private List<Pergunta> perguntas;
+	
+	
+	public Modulo(String titulo, Long percentual, Simulado simulado) {
+		this.titulo = titulo;
+		this.percentual = percentual;
+		this.simulado = simulado;
+	}
 
 	public Long getId() {
 		return id;
@@ -88,6 +95,7 @@ public class Modulo {
 	public void setPerguntas(List<Pergunta> perguntas) {
 		this.perguntas = perguntas;
 	}
+
 
     
 }

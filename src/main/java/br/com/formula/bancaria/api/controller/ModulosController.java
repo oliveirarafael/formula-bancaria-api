@@ -1,8 +1,13 @@
 package br.com.formula.bancaria.api.controller;
 
+import java.net.URI;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,20 +16,27 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.formula.bancaria.api.dto.modulo.DetalheModuloDTO;
 import br.com.formula.bancaria.api.dto.modulo.ModuloDTO;
+import br.com.formula.bancaria.api.form.modulo.CreateModuloForm;
 import br.com.formula.bancaria.api.model.entity.Modulo;
 import br.com.formula.bancaria.api.repository.ModuloRepository;
+import br.com.formula.bancaria.api.repository.SimuladoRepository;
 
 @RestController
-@RequestMapping("/api/v1/modulos")
+@RequestMapping("/modulos")
 public class ModulosController {
 
     @Autowired
     private ModuloRepository moduloRepository;
+    @Autowired
+	private SimuladoRepository simuladoRepository;
 
     @GetMapping
     @Cacheable(value = "modulos")
@@ -57,6 +69,15 @@ public class ModulosController {
         }
 
         return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping
+    @CacheEvict(value = {"modulos", "modulosUUID", "modulosPerguntas"}, allEntries = true)
+    @Transactional
+    public ResponseEntity postModulos(@RequestBody @Valid CreateModuloForm createModuloFom, UriComponentsBuilder uriBuilder){
+        Modulo moduloCadastrado = moduloRepository.save(createModuloFom.converte(simuladoRepository));
+        URI uri = uriBuilder.path("/{uuid}").buildAndExpand(moduloCadastrado.getUuid()).toUri();
+        return ResponseEntity.created(uri).body(new ModuloDTO(moduloCadastrado));
     }
     
 }

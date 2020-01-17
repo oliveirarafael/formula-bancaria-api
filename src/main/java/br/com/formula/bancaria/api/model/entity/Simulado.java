@@ -19,7 +19,6 @@ public class Simulado {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)  
   private Long id;
-
   private UUID uuid = UUID.randomUUID();
   private String titulo;
   private String descricao;
