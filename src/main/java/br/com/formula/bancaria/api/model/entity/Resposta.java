@@ -17,18 +17,30 @@ public class Resposta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private UUID uuid = UUID.randomUUID();
     private String descricao;
     private Boolean correta;
 	private LocalDateTime dataHoraCriacao = LocalDateTime.now();
-	
 	@Version
     private Long versao;
 
     @ManyToOne
-    private Pergunta pergunta;
+	private Pergunta pergunta;
+	
+	public Resposta() {
+	}
 
+	public Resposta(String descricao, Boolean correta) {
+		this.descricao = descricao;
+		this.correta = correta;
+	}
+
+	public Resposta(String descricao, Boolean correta, Pergunta pergunta) {
+		this.descricao = descricao;
+		this.correta = correta;
+		this.pergunta = pergunta;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -77,5 +89,5 @@ public class Resposta {
 		this.pergunta = pergunta;
 	}
 
-    
+
 }

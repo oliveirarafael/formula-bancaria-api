@@ -19,14 +19,21 @@ public class Comentario {
     private UUID uuid = UUID.randomUUID();
     private String descricao;
     private LocalDateTime dataHoraCriacao = LocalDateTime.now();
-
 	@Version
 	private Long versao;
-	
 	@OneToOne
 	private Pergunta pergunta;
- 
 	
+	public Comentario() {}
+	
+	public Comentario(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public Comentario(String descricao, Pergunta pergunta) {
+		this.descricao = descricao;
+		this.pergunta = pergunta;
+	}
 
 	public Long getId() {
 		return id;
@@ -122,5 +129,4 @@ public class Comentario {
 		return "Comentario [dataHoraCriacao=" + dataHoraCriacao + ", descricao=" + descricao + ", id=" + id
 				+ ", pergunta=" + pergunta + ", uuid=" + uuid + "]";
 	}
-	
 }

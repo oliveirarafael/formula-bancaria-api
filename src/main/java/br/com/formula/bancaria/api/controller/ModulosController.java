@@ -74,8 +74,8 @@ public class ModulosController {
     @PostMapping
     @CacheEvict(value = {"modulos", "modulosUUID", "modulosPerguntas"}, allEntries = true)
     @Transactional
-    public ResponseEntity postModulos(@RequestBody @Valid CreateModuloForm createModuloFom, UriComponentsBuilder uriBuilder){
-        Modulo moduloCadastrado = moduloRepository.save(createModuloFom.converte(simuladoRepository));
+    public ResponseEntity postModulos(@RequestBody @Valid CreateModuloForm moduloFom, UriComponentsBuilder uriBuilder){
+        Modulo moduloCadastrado = moduloRepository.save(moduloFom.converte(simuladoRepository));
         URI uri = uriBuilder.path("/{uuid}").buildAndExpand(moduloCadastrado.getUuid()).toUri();
         return ResponseEntity.created(uri).body(new ModuloDTO(moduloCadastrado));
     }

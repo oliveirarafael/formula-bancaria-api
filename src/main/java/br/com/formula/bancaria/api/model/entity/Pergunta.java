@@ -28,14 +28,23 @@ public class Pergunta {
     private Long versao;
 	
 	@OneToMany(mappedBy = "pergunta")
-    private List<Resposta> respostas;
+	private List<Resposta> respostas;
+	
     @ManyToMany
 	private List<Modulo> modulos;
 	
 	@OneToOne(mappedBy = "pergunta", cascade = CascadeType.ALL)	
 	private Comentario comentario;
 
+	public Pergunta(){}
 
+	public Pergunta(String descricao, List<Resposta> respostas, List<Modulo> modulos, Comentario comentario) {
+		this.descricao = descricao;
+		this.respostas = respostas;
+		this.modulos = modulos;
+		this.comentario = comentario;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -91,5 +100,5 @@ public class Pergunta {
 	public void setComentario(Comentario comentario) {
 		this.comentario = comentario;
 	}
-   
+
 }

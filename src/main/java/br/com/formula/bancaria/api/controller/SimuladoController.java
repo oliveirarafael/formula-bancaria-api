@@ -74,8 +74,8 @@ public class SimuladoController {
     @PostMapping
     @CacheEvict(value = {"simulados", "simuladoUUID", "simuladoModulos"}, allEntries = true)
     @Transactional
-    public ResponseEntity post(@RequestBody @Valid CreateSimuladoForm createSimuladoFom, UriComponentsBuilder uriBuilder){
-        Simulado simuladoCadastrado = simuladoRepository.save(createSimuladoFom.converte());
+    public ResponseEntity post(@RequestBody @Valid CreateSimuladoForm simuladoFom, UriComponentsBuilder uriBuilder){
+        Simulado simuladoCadastrado = simuladoRepository.save(simuladoFom.converte());
         URI uri = uriBuilder.path("/simulados/{uuid}").buildAndExpand(simuladoCadastrado.getUuid()).toUri();
         return ResponseEntity.created(uri).body(new SimuladoDTO(simuladoCadastrado));
     }
@@ -83,10 +83,10 @@ public class SimuladoController {
     @PutMapping("/{uuid}")
     @CacheEvict(value = {"simulados", "simuladoUUID", "simuladoModulos"}, allEntries = true)
     @Transactional
-    public ResponseEntity<SimuladoDTO> put(@PathVariable String uuid, @RequestBody @Valid UpdateSimuladoForm updateSimuladoForm){
+    public ResponseEntity<SimuladoDTO> put(@PathVariable String uuid, @RequestBody @Valid UpdateSimuladoForm simuladoForm){
         Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
         if(optional.isPresent()){
-           Simulado simulado = updateSimuladoForm.atualizar(optional.get());
+           Simulado simulado = simuladoForm.atualizar(optional.get());
            return ResponseEntity.ok(new SimuladoDTO(simulado));
         }
 
