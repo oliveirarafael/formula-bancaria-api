@@ -1,5 +1,6 @@
 package br.com.formula.bancaria.api.dto.pergunta;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -11,7 +12,7 @@ public class PerguntaDTO {
 
     private UUID uuid;
     private String descricao;
-    private List<RespostaDTO> respostas;
+    private List<RespostaDTO> respostas = new ArrayList();
 
     public PerguntaDTO(Pergunta pergunta){
         this.uuid = pergunta.getUuid();
@@ -25,5 +26,9 @@ public class PerguntaDTO {
 
     public String getDescricao() {
         return descricao;
+    }
+
+    public List<RespostaDTO> getRespostas() {
+        return respostas;
     }
 }

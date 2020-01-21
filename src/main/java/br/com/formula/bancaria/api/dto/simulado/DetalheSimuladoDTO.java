@@ -1,5 +1,6 @@
 package br.com.formula.bancaria.api.dto.simulado;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,7 +10,7 @@ import br.com.formula.bancaria.api.model.entity.Simulado;
 
 public class DetalheSimuladoDTO extends SimuladoLinks{
     private String titulo;
-    private List<ModuloDTO> modulos;
+    private List<ModuloDTO> modulos = new ArrayList();
 
     public DetalheSimuladoDTO(Simulado simulado){
         this.titulo = simulado.getTitulo();

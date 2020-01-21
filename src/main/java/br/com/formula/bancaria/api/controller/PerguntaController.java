@@ -2,6 +2,7 @@ package br.com.formula.bancaria.api.controller;
 
 import java.net.URI;
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -25,7 +26,7 @@ import br.com.formula.bancaria.api.repository.ModuloRepository;
 import br.com.formula.bancaria.api.repository.PerguntaRepository;
 
 @RestController
-@RequestMapping("/api/v1/perguntas")
+@RequestMapping("/perguntas")
 public class PerguntaController {
 
     @Autowired
@@ -33,9 +34,9 @@ public class PerguntaController {
     @Autowired
     private ModuloRepository moduloRepository;
 
-    @GetMapping("/{uuid}/cometarios")
+    @GetMapping("/{uuid}/comentarios")
     @Cacheable(value = "perguntasComentarios")
-    public ResponseEntity<PerguntaDTO> getComentario(@PathVariable String uuid){
+    public ResponseEntity<PerguntaDTO> getComentario(@PathVariable UUID uuid){
         Optional<Pergunta> optional = perguntaRepository.findByUuid(uuid);
 
         if(optional.isPresent()){

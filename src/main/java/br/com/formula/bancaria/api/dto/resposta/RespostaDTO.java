@@ -1,6 +1,5 @@
 package br.com.formula.bancaria.api.dto.resposta;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import br.com.formula.bancaria.api.model.entity.Resposta;

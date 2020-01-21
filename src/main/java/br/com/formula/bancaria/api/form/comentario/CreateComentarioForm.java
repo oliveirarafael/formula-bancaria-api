@@ -8,14 +8,8 @@ import br.com.formula.bancaria.api.model.entity.Comentario;
 public class CreateComentarioForm {
 
     @NotNull @NotEmpty
-    private String perguntaUUID;
-    @NotNull @NotEmpty
     private String descricao;
     
-    public void setPerguntaUUID(String perguntaUUID) {
-        this.perguntaUUID = perguntaUUID;
-    }
-     
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }

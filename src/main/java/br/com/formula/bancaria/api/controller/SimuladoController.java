@@ -2,6 +2,7 @@ package br.com.formula.bancaria.api.controller;
 
 import java.net.URI;
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -51,7 +52,7 @@ public class SimuladoController {
 
     @GetMapping("/{uuid}")
     @Cacheable(value = "simuladoUUID")
-    public ResponseEntity<SimuladoDTO> getUUID(String uuid){
+    public ResponseEntity<SimuladoDTO> getUUID(@PathVariable UUID uuid){
       Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
 
       if(optional.isPresent()){
@@ -62,7 +63,7 @@ public class SimuladoController {
 
     @GetMapping("/{uuid}/modulos")
     @Cacheable(value = "simuladoModulos")
-    public ResponseEntity<DetalheSimuladoDTO> getModulos(String uuid){
+    public ResponseEntity<DetalheSimuladoDTO> getModulos(@PathVariable UUID uuid){
        Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
 
        if(optional.isPresent()){
@@ -83,7 +84,7 @@ public class SimuladoController {
     @PutMapping("/{uuid}")
     @CacheEvict(value = {"simulados", "simuladoUUID", "simuladoModulos"}, allEntries = true)
     @Transactional
-    public ResponseEntity<SimuladoDTO> put(@PathVariable String uuid, @RequestBody @Valid UpdateSimuladoForm simuladoForm){
+    public ResponseEntity<SimuladoDTO> put(@PathVariable UUID uuid, @RequestBody @Valid UpdateSimuladoForm simuladoForm){
         Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
         if(optional.isPresent()){
            Simulado simulado = simuladoForm.atualizar(optional.get());
@@ -96,7 +97,7 @@ public class SimuladoController {
     @DeleteMapping("/{uuid}")
     @CacheEvict(value = {"simulados", "simuladoUUID", "simuladoModulos"}, allEntries = true)
     @Transactional
-    public ResponseEntity delete(@PathVariable String uuid){
+    public ResponseEntity delete(@PathVariable UUID uuid){
         Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
         if(optional.isPresent()){
            simuladoRepository.delete(optional.get());

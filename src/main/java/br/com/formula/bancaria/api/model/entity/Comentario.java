@@ -35,6 +35,12 @@ public class Comentario {
 		this.pergunta = pergunta;
 	}
 
+	public Comentario(UUID uuid, String descricao, LocalDateTime dataHoraCriacao) {
+		this.uuid = uuid;
+		this.descricao = descricao;
+		this.dataHoraCriacao = dataHoraCriacao;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -129,4 +135,5 @@ public class Comentario {
 		return "Comentario [dataHoraCriacao=" + dataHoraCriacao + ", descricao=" + descricao + ", id=" + id
 				+ ", pergunta=" + pergunta + ", uuid=" + uuid + "]";
 	}
+
 }

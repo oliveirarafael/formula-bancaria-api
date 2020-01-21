@@ -2,6 +2,7 @@ package br.com.formula.bancaria.api.controller;
 
 import java.net.URI;
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -49,7 +50,7 @@ public class ModulosController {
 
     @GetMapping("/{uuid}")
     @Cacheable(value = "modulosUUID")
-    public ResponseEntity<ModuloDTO> getUUID(@PathVariable String uuid){
+    public ResponseEntity<ModuloDTO> getUUID(@PathVariable UUID uuid){
         Optional<Modulo> optional = moduloRepository.findByUuid(uuid);
 
         if(optional.isPresent()){
@@ -61,7 +62,7 @@ public class ModulosController {
 
     @GetMapping("/{uuid}/perguntas")
     @Cacheable(value = "modulosPerguntas")
-    public ResponseEntity<DetalheModuloDTO> getPerguntas(@PathVariable String uuid){
+    public ResponseEntity<DetalheModuloDTO> getPerguntas(@PathVariable UUID uuid){
         Optional<Modulo> optional = moduloRepository.findByUuid(uuid);
 
         if(optional.isPresent()){
@@ -74,7 +75,7 @@ public class ModulosController {
     @PostMapping
     @CacheEvict(value = {"modulos", "modulosUUID", "modulosPerguntas"}, allEntries = true)
     @Transactional
-    public ResponseEntity postModulos(@RequestBody @Valid CreateModuloForm moduloFom, UriComponentsBuilder uriBuilder){
+    public ResponseEntity post(@RequestBody @Valid CreateModuloForm moduloFom, UriComponentsBuilder uriBuilder){
         Modulo moduloCadastrado = moduloRepository.save(moduloFom.converte(simuladoRepository));
         URI uri = uriBuilder.path("/{uuid}").buildAndExpand(moduloCadastrado.getUuid()).toUri();
         return ResponseEntity.created(uri).body(new ModuloDTO(moduloCadastrado));

@@ -33,6 +33,7 @@ public class Modulo {
     @ManyToMany
 	private List<Pergunta> perguntas;
 	
+	public Modulo(){}
 	
 	public Modulo(String titulo, Long percentual, Simulado simulado) {
 		this.titulo = titulo;
@@ -95,7 +96,6 @@ public class Modulo {
 	public void setPerguntas(List<Pergunta> perguntas) {
 		this.perguntas = perguntas;
 	}
-
 
     
 }

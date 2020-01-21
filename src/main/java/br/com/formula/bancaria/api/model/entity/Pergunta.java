@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
+import static javax.persistence.CascadeType.*;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,13 +27,13 @@ public class Pergunta {
 	@Version
     private Long versao;
 	
-	@OneToMany(mappedBy = "pergunta")
+	@OneToMany(mappedBy = "pergunta", cascade = {PERSIST, REMOVE})
 	private List<Resposta> respostas;
 	
     @ManyToMany
 	private List<Modulo> modulos;
 	
-	@OneToOne(mappedBy = "pergunta", cascade = CascadeType.ALL)	
+	@OneToOne(mappedBy = "pergunta", cascade = {PERSIST, REMOVE})	
 	private Comentario comentario;
 
 	public Pergunta(){}

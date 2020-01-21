@@ -2,6 +2,7 @@ package br.com.formula.bancaria.api.dto.simulado;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import br.com.formula.bancaria.api.dto.simulado.hateoas.SimuladoLinks;
@@ -9,20 +10,20 @@ import br.com.formula.bancaria.api.model.entity.Simulado;
 
 public class SimuladoDTO extends SimuladoLinks{
 
-    private String uuid;
+    private UUID uuid;
     private String titulo;
     private String descricao;
     private LocalDateTime dataHoraCriacao;
     
     public SimuladoDTO(Simulado simulado){
-       this.uuid = simulado.getUuid().toString();
+       this.uuid = simulado.getUuid();
        this.titulo = simulado.getTitulo();
        this.descricao = simulado.getDescricao();
        this.dataHoraCriacao = simulado.getDataHoraCriacao();
        add(this.uuid);
     }
 
-	public String getUuid() {
+	public UUID getUuid() {
 		return uuid;
 	}
 

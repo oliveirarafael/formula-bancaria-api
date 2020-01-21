@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -19,14 +20,18 @@ import br.com.formula.bancaria.api.repository.ModuloRepository;
 
 public class CreatePerguntaForm {
 
-    @NotNull @NotEmpty
-    private String moduloUUID;
+    @NotNull
+    private UUID moduloUUID;
     @NotNull @NotEmpty
     private String descricao;
-    @NotNull @NotEmpty
+    @Valid
     private CreateComentarioForm comentario; 
     @Valid
-    private List<CreateRespostaForm> respostasForm;
+    private List<CreateRespostaForm> respostas;
+
+    public void setModuloUUID(UUID moduloUUID) {
+        this.moduloUUID = moduloUUID;
+    }
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
@@ -37,13 +42,13 @@ public class CreatePerguntaForm {
     }
 
     public void setRespostas(List<CreateRespostaForm> respostas) {
-        this.respostasForm = respostas;
+        this.respostas = respostas;
     }
 
 	public Pergunta converte(ModuloRepository moduloRepository) {
         Optional<Modulo> moduloConsultado = moduloRepository.findByUuid(this.moduloUUID);
         List<Resposta> respostas = new ArrayList();
-        this.respostasForm.stream().map(respostaForm -> respostas.add(respostaForm.converte()));
+        this.respostas.stream().map(respostaForm -> respostas.add(respostaForm.converte()));
         
         if(moduloConsultado.isPresent()){
            return new Pergunta(this.descricao, respostas, Arrays.asList(moduloConsultado.get()), comentario.converte());

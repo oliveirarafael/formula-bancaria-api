@@ -1,6 +1,7 @@
 package br.com.formula.bancaria.api.form.modulo;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -15,7 +16,7 @@ public class CreateModuloForm {
     private String simuladoUUID;
     @NotNull @NotEmpty
     private String titulo;
-    @NotNull @NotEmpty
+    @NotNull
     private Long percentual;
 
     public void setSimuladoUUID(String simuladoUUID) {
@@ -31,7 +32,7 @@ public class CreateModuloForm {
     }
 
 	public Modulo converte(SimuladoRepository simuladoRepository) {
-        Optional<Simulado> simulado = simuladoRepository.findByUuid(simuladoUUID);
+        Optional<Simulado> simulado = simuladoRepository.findByUuid(UUID.fromString(simuladoUUID));
 
         if(simulado.isPresent()){
             return new Modulo(this.titulo, this.percentual, simulado.get());
