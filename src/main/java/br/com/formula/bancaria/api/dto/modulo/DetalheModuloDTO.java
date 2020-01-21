@@ -1,5 +1,6 @@
 package br.com.formula.bancaria.api.dto.modulo;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +22,7 @@ public class DetalheModuloDTO {
     }
 
     public List<PerguntaDTO> getPerguntas() {
+        Collections.shuffle(perguntas);
         return perguntas;
     }
     

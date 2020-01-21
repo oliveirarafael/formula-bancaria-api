@@ -1,6 +1,7 @@
 package br.com.formula.bancaria.api.dto.pergunta;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -29,6 +30,7 @@ public class PerguntaDTO {
     }
 
     public List<RespostaDTO> getRespostas() {
+        Collections.shuffle(respostas);
         return respostas;
     }
 }
