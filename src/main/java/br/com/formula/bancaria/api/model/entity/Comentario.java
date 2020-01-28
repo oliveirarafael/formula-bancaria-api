@@ -22,7 +22,7 @@ public class Comentario {
 	@Version
 	private Long versao;
 	@OneToOne
-	private Pergunta pergunta;
+	private Questao questao;
 	
 	public Comentario() {}
 	
@@ -30,9 +30,9 @@ public class Comentario {
 		this.descricao = descricao;
 	}
 
-	public Comentario(String descricao, Pergunta pergunta) {
+	public Comentario(String descricao, Questao questao) {
 		this.descricao = descricao;
-		this.pergunta = pergunta;
+		this.questao = questao;
 	}
 
 	public Comentario(UUID uuid, String descricao, LocalDateTime dataHoraCriacao) {
@@ -73,12 +73,12 @@ public class Comentario {
 		this.dataHoraCriacao = dataHoraCriacao;
 	}
 
-	public Pergunta getPergunta() {
-		return pergunta;
+	public Questao getQuestao() {
+		return questao;
 	}
 
-	public void setPergunta(Pergunta pergunta) {
-		this.pergunta = pergunta;
+	public void setQuestao(Questao questao) {
+		this.questao = questao;
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public class Comentario {
 		result = prime * result + ((dataHoraCriacao == null) ? 0 : dataHoraCriacao.hashCode());
 		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((pergunta == null) ? 0 : pergunta.hashCode());
+		result = prime * result + ((questao == null) ? 0 : questao.hashCode());
 		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
 		return result;
 	}
@@ -117,10 +117,10 @@ public class Comentario {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (pergunta == null) {
-			if (other.pergunta != null)
+		if (questao == null) {
+			if (other.questao != null)
 				return false;
-		} else if (!pergunta.equals(other.pergunta))
+		} else if (!questao.equals(other.questao))
 			return false;
 		if (uuid == null) {
 			if (other.uuid != null)
@@ -133,7 +133,7 @@ public class Comentario {
 	@Override
 	public String toString() {
 		return "Comentario [dataHoraCriacao=" + dataHoraCriacao + ", descricao=" + descricao + ", id=" + id
-				+ ", pergunta=" + pergunta + ", uuid=" + uuid + "]";
+				+ ", questao=" + questao + ", uuid=" + uuid + "]";
 	}
 
 }

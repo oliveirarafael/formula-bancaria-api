@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -14,11 +13,11 @@ import javax.validation.constraints.NotNull;
 import br.com.formula.bancaria.api.form.comentario.CreateComentarioForm;
 import br.com.formula.bancaria.api.form.resposta.CreateRespostaForm;
 import br.com.formula.bancaria.api.model.entity.Modulo;
-import br.com.formula.bancaria.api.model.entity.Pergunta;
+import br.com.formula.bancaria.api.model.entity.Questao;
 import br.com.formula.bancaria.api.model.entity.Resposta;
 import br.com.formula.bancaria.api.repository.ModuloRepository;
 
-public class CreatePerguntaForm {
+public class CreateQuestaoForm {
 
     @NotNull
     private UUID moduloUUID;
@@ -45,15 +44,15 @@ public class CreatePerguntaForm {
         this.respostas = respostas;
     }
 
-	public Pergunta converte(ModuloRepository moduloRepository) {
+	public Questao converte(ModuloRepository moduloRepository) {
         Optional<Modulo> moduloConsultado = moduloRepository.findByUuid(this.moduloUUID);
         List<Resposta> respostas = new ArrayList();
         this.respostas.stream().map(respostaForm -> respostas.add(respostaForm.converte()));
         
         if(moduloConsultado.isPresent()){
-           return new Pergunta(this.descricao, respostas, Arrays.asList(moduloConsultado.get()), comentario.converte());
+           return new Questao(this.descricao, respostas, Arrays.asList(moduloConsultado.get()), comentario.converte());
         }
 
-		return (Pergunta) Optional.empty().get();
+		return (Questao) Optional.empty().get();
 	}
 }

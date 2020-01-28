@@ -7,18 +7,19 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import br.com.formula.bancaria.api.dto.resposta.RespostaDTO;
-import br.com.formula.bancaria.api.model.entity.Pergunta;
+import br.com.formula.bancaria.api.model.entity.Questao;
 
-public class PerguntaDTO {
+public class QuestaoDTO {
 
     private UUID uuid;
     private String descricao;
     private List<RespostaDTO> respostas = new ArrayList();
 
-    public PerguntaDTO(Pergunta pergunta){
+    public QuestaoDTO(Questao pergunta){
         this.uuid = pergunta.getUuid();
         this.descricao = pergunta.getDescricao();
         this.respostas.addAll(pergunta.getRespostas().stream().map(RespostaDTO::new).collect(Collectors.toList()));
+        embaralhaRespostas();
     }
 
     public UUID getUuid() {
@@ -29,8 +30,12 @@ public class PerguntaDTO {
         return descricao;
     }
 
-    public List<RespostaDTO> getRespostas() {
-        Collections.shuffle(respostas);
-        return respostas;
+    public List<RespostaDTO> getRespostas() {  
+        return this.respostas;
     }
+
+    private void embaralhaRespostas(){
+      Collections.shuffle(respostas);
+    }
+
 }

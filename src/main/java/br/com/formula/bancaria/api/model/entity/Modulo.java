@@ -31,7 +31,7 @@ public class Modulo {
     private Simulado simulado;
 	
     @ManyToMany
-	private List<Pergunta> perguntas;
+	private List<Questao> questoes;
 	
 	public Modulo(){}
 	
@@ -89,12 +89,12 @@ public class Modulo {
 		this.simulado = simulado;
 	}
 
-	public List<Pergunta> getPerguntas() {
-		return perguntas;
+	public List<Questao> getQuestoes() {
+		return questoes;
 	}
 
-	public void setPerguntas(List<Pergunta> perguntas) {
-		this.perguntas = perguntas;
+	public void setPerguntas(List<Questao> questoes) {
+		this.questoes = questoes;
 	}
 
     

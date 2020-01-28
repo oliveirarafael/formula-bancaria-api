@@ -15,7 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Version;
 
 @Entity
-public class Pergunta {
+public class Questao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +27,7 @@ public class Pergunta {
 	@Version
     private Long versao;
 	
-	@OneToMany(mappedBy = "pergunta", cascade = {PERSIST, REMOVE})
+	@OneToMany(mappedBy = "questao", cascade = {PERSIST, REMOVE})
 	private List<Resposta> respostas;
 	
     @ManyToMany
@@ -36,9 +36,9 @@ public class Pergunta {
 	@OneToOne(mappedBy = "pergunta", cascade = {PERSIST, REMOVE})	
 	private Comentario comentario;
 
-	public Pergunta(){}
+	public Questao(){}
 
-	public Pergunta(String descricao, List<Resposta> respostas, List<Modulo> modulos, Comentario comentario) {
+	public Questao(String descricao, List<Resposta> respostas, List<Modulo> modulos, Comentario comentario) {
 		this.descricao = descricao;
 		this.respostas = respostas;
 		this.modulos = modulos;

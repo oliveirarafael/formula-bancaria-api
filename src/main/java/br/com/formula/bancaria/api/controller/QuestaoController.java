@@ -19,28 +19,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.formula.bancaria.api.dto.pergunta.PerguntaDTO;
-import br.com.formula.bancaria.api.form.pergunta.CreatePerguntaForm;
-import br.com.formula.bancaria.api.model.entity.Pergunta;
+import br.com.formula.bancaria.api.dto.pergunta.QuestaoDTO;
+import br.com.formula.bancaria.api.form.pergunta.CreateQuestaoForm;
+import br.com.formula.bancaria.api.model.entity.Questao;
 import br.com.formula.bancaria.api.repository.ModuloRepository;
-import br.com.formula.bancaria.api.repository.PerguntaRepository;
+import br.com.formula.bancaria.api.repository.QuestaoRepository;
 
 @RestController
-@RequestMapping("/perguntas")
-public class PerguntaController {
+@RequestMapping("/questoes")
+public class QuestaoController {
 
     @Autowired
-    private PerguntaRepository perguntaRepository;
+    private QuestaoRepository perguntaRepository;
     @Autowired
     private ModuloRepository moduloRepository;
 
     @GetMapping("/{uuid}/comentarios")
     @Cacheable(value = "perguntasComentarios")
-    public ResponseEntity<PerguntaDTO> getComentario(@PathVariable UUID uuid){
-        Optional<Pergunta> optional = perguntaRepository.findByUuid(uuid);
+    public ResponseEntity<QuestaoDTO> getComentario(@PathVariable UUID uuid){
+        Optional<Questao> optional = perguntaRepository.findByUuid(uuid);
 
         if(optional.isPresent()){
-           return ResponseEntity.ok(new PerguntaDTO(optional.get()));
+           return ResponseEntity.ok(new QuestaoDTO(optional.get()));
         }
 
         return ResponseEntity.notFound().build();
@@ -49,10 +49,10 @@ public class PerguntaController {
     @PostMapping
     @Transactional
     @CacheEvict(value = {"perguntasComentarios"})
-    public ResponseEntity<PerguntaDTO> post(@Valid @RequestBody CreatePerguntaForm perguntaForm, UriComponentsBuilder uriBuilder){
-        Pergunta perguntaCadastrada = perguntaRepository.save(perguntaForm.converte(moduloRepository));
-        URI uri = uriBuilder.path("/{uuid}").buildAndExpand(perguntaCadastrada.getUuid()).toUri();
-        return ResponseEntity.created(uri).body(new PerguntaDTO(perguntaCadastrada));
+    public ResponseEntity<QuestaoDTO> post(@Valid @RequestBody CreateQuestaoForm perguntaForm, UriComponentsBuilder uriBuilder){
+        Questao questaoCadastrada = perguntaRepository.save(perguntaForm.converte(moduloRepository));
+        URI uri = uriBuilder.path("/{uuid}").buildAndExpand(questaoCadastrada.getUuid()).toUri();
+        return ResponseEntity.created(uri).body(new QuestaoDTO(questaoCadastrada));
     }
     
 }

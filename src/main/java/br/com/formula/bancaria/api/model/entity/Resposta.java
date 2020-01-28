@@ -25,7 +25,7 @@ public class Resposta {
     private Long versao;
 
     @ManyToOne
-	private Pergunta pergunta;
+	private Questao questao;
 	
 	public Resposta() {
 	}
@@ -35,10 +35,10 @@ public class Resposta {
 		this.correta = correta;
 	}
 
-	public Resposta(String descricao, Boolean correta, Pergunta pergunta) {
+	public Resposta(String descricao, Boolean correta, Questao questao) {
 		this.descricao = descricao;
 		this.correta = correta;
-		this.pergunta = pergunta;
+		this.questao = questao;
 	}
 	
 	public Long getId() {
@@ -81,12 +81,12 @@ public class Resposta {
 		this.dataHoraCriacao = dataHoraCriacao;
 	}
 
-	public Pergunta getPergunta() {
-		return pergunta;
+	public Questao getQuestao() {
+		return questao;
 	}
 
-	public void setPergunta(Pergunta pergunta) {
-		this.pergunta = pergunta;
+	public void setQuestao(Questao questao) {
+		this.questao = questao;
 	}
 
 
