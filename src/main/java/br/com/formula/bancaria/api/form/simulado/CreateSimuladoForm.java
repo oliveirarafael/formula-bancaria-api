@@ -1,5 +1,7 @@
 package br.com.formula.bancaria.api.form.simulado;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import br.com.formula.bancaria.api.model.entity.Simulado;
