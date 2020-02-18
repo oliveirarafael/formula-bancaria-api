@@ -33,7 +33,7 @@ public class Questao {
     @ManyToMany
 	private List<Modulo> modulos;
 	
-	@OneToOne(mappedBy = "pergunta", cascade = {PERSIST, REMOVE})	
+	@OneToOne(mappedBy = "questao", cascade = {PERSIST, REMOVE})	
 	private Comentario comentario;
 
 	public Questao(){}
