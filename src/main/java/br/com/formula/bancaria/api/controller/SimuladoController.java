@@ -36,12 +36,8 @@ import br.com.formula.bancaria.api.repository.SimuladoRepository;
 @RequestMapping("/simulados")
 public class SimuladoController {
 
-    private static final String [] CACHE = {"simulados", "simuladoUUID", "simuladoModulos"}; 
-
-    @Autowired
+   @Autowired
     private SimuladoRepository simuladoRepository;
-
-    //private static final String PATH = "/error";
 
     @GetMapping
     @Cacheable(value = "simulados") //Value serve como identificador do cache
