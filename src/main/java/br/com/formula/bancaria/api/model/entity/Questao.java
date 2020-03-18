@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Version;
 
 @Entity
@@ -33,12 +32,11 @@ public class Questao {
     @ManyToMany
 	private List<Modulo> modulos;
 	
-	@OneToOne(mappedBy = "questao", cascade = {PERSIST, REMOVE})	
-	private Comentario comentario;
+	private String comentario;
 
 	public Questao(){}
 
-	public Questao(String descricao, List<Resposta> respostas, List<Modulo> modulos, Comentario comentario) {
+	public Questao(String descricao, List<Resposta> respostas, List<Modulo> modulos, String comentario) {
 		this.descricao = descricao;
 		this.respostas = respostas;
 		this.modulos = modulos;
@@ -93,11 +91,11 @@ public class Questao {
 		this.modulos = modulos;
 	}
 	
-	public Comentario getComentario() {
+	public String getComentario() {
 		return comentario;
 	}
 
-	public void setComentario(Comentario comentario) {
+	public void setComentario(String comentario) {
 		this.comentario = comentario;
 	}
 

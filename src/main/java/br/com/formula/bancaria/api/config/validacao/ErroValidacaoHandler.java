@@ -48,7 +48,7 @@ public class ErroValidacaoHandler {
 	@ResponseStatus(code = HttpStatus.NOT_FOUND)
 	@ExceptionHandler(NotFoundException.class)
 	public ErroDTO handleNotFound(NotFoundException exception){
-		return new ErroDTO("Nenhum recurso encontrado");
+		return new ErroDTO(exception.getMessage());
 	}
 
 	@ResponseStatus(code = HttpStatus.CONFLICT)

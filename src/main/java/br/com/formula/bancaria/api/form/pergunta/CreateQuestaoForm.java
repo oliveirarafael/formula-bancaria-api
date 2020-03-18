@@ -10,7 +10,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import br.com.formula.bancaria.api.form.comentario.CreateComentarioForm;
 import br.com.formula.bancaria.api.form.resposta.CreateRespostaForm;
 import br.com.formula.bancaria.api.model.entity.Modulo;
 import br.com.formula.bancaria.api.model.entity.Questao;
@@ -23,8 +22,8 @@ public class CreateQuestaoForm {
     private UUID moduloUUID;
     @NotNull @NotEmpty
     private String descricao;
-    @Valid
-    private CreateComentarioForm comentario; 
+    @NotNull @NotEmpty
+    private String comentario; 
     @Valid
     private List<CreateRespostaForm> respostas;
 
@@ -36,7 +35,7 @@ public class CreateQuestaoForm {
         this.descricao = descricao;
     }
 
-    public void setComentario(CreateComentarioForm comentario) {
+    public void setComentario(String comentario) {
         this.comentario = comentario;
     }
 
@@ -50,7 +49,7 @@ public class CreateQuestaoForm {
         this.respostas.stream().map(respostaForm -> respostas.add(respostaForm.converte()));
         
         if(moduloConsultado.isPresent()){
-           return new Questao(this.descricao, respostas, Arrays.asList(moduloConsultado.get()), comentario.converte());
+           return new Questao(this.descricao, respostas, Arrays.asList(moduloConsultado.get()), comentario);
         }
 
 		return (Questao) Optional.empty().get();
