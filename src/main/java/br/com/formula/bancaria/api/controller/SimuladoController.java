@@ -40,7 +40,7 @@ public class SimuladoController {
     private SimuladoRepository simuladoRepository;
 
     @GetMapping
-    @Cacheable(value = "simulados") //Value serve como identificador do cache
+    //@Cacheable(value = "simulados") //Value serve como identificador do cache
     public Page<SimuladoDTO> get(@PageableDefault(sort = "dataHoraCriacao", 
                                                   direction = Direction.DESC, 
                                                   page = 0, size = 10) Pageable paginacao){
@@ -49,7 +49,7 @@ public class SimuladoController {
     }
 
     @GetMapping("/{uuid}")
-    @Cacheable(value = "simuladoUUID")
+    //@Cacheable(value = "simuladoUUID")
     public ResponseEntity<SimuladoDTO> getUUID(@PathVariable UUID uuid){
       Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
 
@@ -60,7 +60,7 @@ public class SimuladoController {
     }
 
     @GetMapping("/{uuid}/modulos")
-    @Cacheable(value = "simuladoModulos")
+    //@Cacheable(value = "simuladoModulos")
     public ResponseEntity<DetalheSimuladoDTO> getModulos(@PathVariable UUID uuid){
        Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
 
@@ -71,7 +71,7 @@ public class SimuladoController {
     }
     
     @PostMapping
-    @CacheEvict(value = {"simulados", "simuladoUUID", "simuladoModulos"}, allEntries = true)
+    //@CacheEvict(value = {"simulados", "simuladoUUID", "simuladoModulos"}, allEntries = true)
     @Transactional
     public ResponseEntity post(@RequestBody @Valid CreateSimuladoForm simuladoFom, UriComponentsBuilder uriBuilder){
         Simulado simuladoCadastrado = simuladoRepository.save(simuladoFom.converte());
@@ -80,7 +80,7 @@ public class SimuladoController {
     }
 
     @PutMapping("/{uuid}")
-    @CacheEvict(value = {"simulados", "simuladoUUID", "simuladoModulos"}, allEntries = true)
+    //@CacheEvict(value = {"simulados", "simuladoUUID", "simuladoModulos"}, allEntries = true)
     @Transactional
     public ResponseEntity<SimuladoDTO> put(@PathVariable UUID uuid, @RequestBody @Valid UpdateSimuladoForm simuladoForm){
         Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
@@ -93,7 +93,7 @@ public class SimuladoController {
     }
 
     @DeleteMapping("/{uuid}")
-    @CacheEvict(value = {"simulados", "simuladoUUID", "simuladoModulos"}, allEntries = true)
+    //@CacheEvict(value = {"simulados", "simuladoUUID", "simuladoModulos"}, allEntries = true)
     @Transactional
     public ResponseEntity delete(@PathVariable UUID uuid){
         Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
