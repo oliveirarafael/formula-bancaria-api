@@ -22,7 +22,7 @@ public class DetalheModuloDTO {
         return titulo;
     }
 
-    public List<QuestaoDTO> getPerguntas() {
+    public List<QuestaoDTO> getQuestoes() {
         return questoes;
     }
     
