@@ -17,7 +17,7 @@ public abstract class ModuloLinks extends ResourceSupport {
             linkTo(methodOn(ModulosController.class).get(null)).withRel("modulos").withType("GET"),
             linkTo(methodOn(ModulosController.class).post(null, null)).withRel("modulos").withType("POST"),
             linkTo(methodOn(ModulosController.class, parametro).getUUID(null)).withSelfRel().withType("GET"),
-            linkTo(methodOn(ModulosController.class, parametro).getPerguntas(null)).withRel("perguntas").withType("GET")
+            linkTo(methodOn(ModulosController.class, parametro).getQuestoes(null)).withRel("perguntas").withType("GET")
         };
 	}
 }
