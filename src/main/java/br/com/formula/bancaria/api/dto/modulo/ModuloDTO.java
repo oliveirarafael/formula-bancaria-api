@@ -11,13 +11,11 @@ import br.com.formula.bancaria.api.model.entity.Modulo;
 public class ModuloDTO extends ModuloLinks {
 
     private String uuid;
-    private String titulo;
     private Long percentual;
     private LocalDateTime dataHoraCriacao;
 
     public ModuloDTO(Modulo modulo){
         this.uuid = modulo.getUuid().toString();
-        this.titulo = modulo.getTitulo();
         this.percentual = modulo.getPercentual();
         this.dataHoraCriacao = modulo.getDataHoraCriacao();
         add(this.uuid);
@@ -25,10 +23,6 @@ public class ModuloDTO extends ModuloLinks {
 
 	public String getUuid() {
 		return uuid;
-    }
-    
-	public String getTitulo() {
-		return titulo;
     }
     
 	public Long getPercentual() {

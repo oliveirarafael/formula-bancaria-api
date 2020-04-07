@@ -19,7 +19,9 @@ public class Questao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private UUID uuid = UUID.randomUUID();
+	private UUID uuid = UUID.randomUUID();
+	
+	private String assunto; 
     private String descricao;
     private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 	
@@ -36,13 +38,21 @@ public class Questao {
 
 	public Questao(){}
 
-	public Questao(String descricao, List<Resposta> respostas, List<Modulo> modulos, String comentario) {
+	public Questao(String assunto, String descricao, List<Resposta> respostas, List<Modulo> modulos, String comentario) {
+		this.assunto = assunto;
 		this.descricao = descricao;
 		this.respostas = respostas;
 		this.modulos = modulos;
 		this.comentario = comentario;
 	}
-	
+
+	public Questao(String assunto, String descricao, List<Resposta> respostas, String comentario) {
+		this.assunto = assunto;
+		this.descricao = descricao;
+		this.respostas = respostas;
+		this.comentario = comentario;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -57,6 +67,14 @@ public class Questao {
 
 	public void setUuid(UUID uuid) {
 		this.uuid = uuid;
+	}
+
+	public String getAssunto() {
+		return assunto;
+	}
+
+	public void setAssunto(String assunto) {
+		this.assunto = assunto;
 	}
 
 	public String getDescricao() {
@@ -75,6 +93,14 @@ public class Questao {
 		this.dataHoraCriacao = dataHoraCriacao;
 	}
 
+	public Long getVersao() {
+		return versao;
+	}
+
+	public void setVersao(Long versao) {
+		this.versao = versao;
+	}
+
 	public List<Resposta> getRespostas() {
 		return respostas;
 	}
@@ -90,7 +116,7 @@ public class Questao {
 	public void setModulos(List<Modulo> modulos) {
 		this.modulos = modulos;
 	}
-	
+
 	public String getComentario() {
 		return comentario;
 	}
@@ -98,5 +124,86 @@ public class Questao {
 	public void setComentario(String comentario) {
 		this.comentario = comentario;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((assunto == null) ? 0 : assunto.hashCode());
+		result = prime * result + ((comentario == null) ? 0 : comentario.hashCode());
+		result = prime * result + ((dataHoraCriacao == null) ? 0 : dataHoraCriacao.hashCode());
+		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((modulos == null) ? 0 : modulos.hashCode());
+		result = prime * result + ((respostas == null) ? 0 : respostas.hashCode());
+		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
+		result = prime * result + ((versao == null) ? 0 : versao.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Questao other = (Questao) obj;
+		if (assunto == null) {
+			if (other.assunto != null)
+				return false;
+		} else if (!assunto.equals(other.assunto))
+			return false;
+		if (comentario == null) {
+			if (other.comentario != null)
+				return false;
+		} else if (!comentario.equals(other.comentario))
+			return false;
+		if (dataHoraCriacao == null) {
+			if (other.dataHoraCriacao != null)
+				return false;
+		} else if (!dataHoraCriacao.equals(other.dataHoraCriacao))
+			return false;
+		if (descricao == null) {
+			if (other.descricao != null)
+				return false;
+		} else if (!descricao.equals(other.descricao))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (modulos == null) {
+			if (other.modulos != null)
+				return false;
+		} else if (!modulos.equals(other.modulos))
+			return false;
+		if (respostas == null) {
+			if (other.respostas != null)
+				return false;
+		} else if (!respostas.equals(other.respostas))
+			return false;
+		if (uuid == null) {
+			if (other.uuid != null)
+				return false;
+		} else if (!uuid.equals(other.uuid))
+			return false;
+		if (versao == null) {
+			if (other.versao != null)
+				return false;
+		} else if (!versao.equals(other.versao))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Questao [assunto=" + assunto + ", comentario=" + comentario + ", dataHoraCriacao=" + dataHoraCriacao
+				+ ", descricao=" + descricao + ", id=" + id + ", modulos=" + modulos + ", respostas=" + respostas
+				+ ", uuid=" + uuid + ", versao=" + versao + "]";
+	}
+
 
 }

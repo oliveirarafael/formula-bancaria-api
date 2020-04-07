@@ -20,7 +20,6 @@ public class Modulo {
     private Long id;
 
     private UUID uuid = UUID.randomUUID();
-    private String titulo;
     private Long percentual;
     private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
@@ -35,8 +34,7 @@ public class Modulo {
 	
 	public Modulo(){}
 	
-	public Modulo(String titulo, Long percentual, Simulado simulado) {
-		this.titulo = titulo;
+	public Modulo(Long percentual, Simulado simulado) {
 		this.percentual = percentual;
 		this.simulado = simulado;
 	}
@@ -55,14 +53,6 @@ public class Modulo {
 
 	public void setUuid(UUID uuid) {
 		this.uuid = uuid;
-	}
-
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
 	}
 
 	public Long getPercentual() {
@@ -93,9 +83,75 @@ public class Modulo {
 		return questoes;
 	}
 
-	public void setPerguntas(List<Questao> questoes) {
+	public void setQuestoes(List<Questao> questoes) {
 		this.questoes = questoes;
 	}
 
-    
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((dataHoraCriacao == null) ? 0 : dataHoraCriacao.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((percentual == null) ? 0 : percentual.hashCode());
+		result = prime * result + ((questoes == null) ? 0 : questoes.hashCode());
+		result = prime * result + ((simulado == null) ? 0 : simulado.hashCode());
+		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
+		result = prime * result + ((versao == null) ? 0 : versao.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Modulo other = (Modulo) obj;
+		if (dataHoraCriacao == null) {
+			if (other.dataHoraCriacao != null)
+				return false;
+		} else if (!dataHoraCriacao.equals(other.dataHoraCriacao))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (percentual == null) {
+			if (other.percentual != null)
+				return false;
+		} else if (!percentual.equals(other.percentual))
+			return false;
+		if (questoes == null) {
+			if (other.questoes != null)
+				return false;
+		} else if (!questoes.equals(other.questoes))
+			return false;
+		if (simulado == null) {
+			if (other.simulado != null)
+				return false;
+		} else if (!simulado.equals(other.simulado))
+			return false;
+		if (uuid == null) {
+			if (other.uuid != null)
+				return false;
+		} else if (!uuid.equals(other.uuid))
+			return false;
+		if (versao == null) {
+			if (other.versao != null)
+				return false;
+		} else if (!versao.equals(other.versao))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Modulo [dataHoraCriacao=" + dataHoraCriacao + ", id=" + id + ", percentual=" + percentual
+				+ ", questoes=" + questoes + ", simulado=" + simulado + ", uuid=" + uuid + ", versao=" + versao + "]";
+	}
+
 }

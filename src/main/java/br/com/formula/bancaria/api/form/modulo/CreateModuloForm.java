@@ -14,17 +14,11 @@ public class CreateModuloForm {
 
     @NotNull @NotEmpty
     private String simuladoUUID;
-    @NotNull @NotEmpty
-    private String titulo;
     @NotNull
     private Long percentual;
 
     public void setSimuladoUUID(String simuladoUUID) {
         this.simuladoUUID = simuladoUUID;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
     }
 
     public void setPercentual(Long percentual) {
@@ -35,7 +29,7 @@ public class CreateModuloForm {
         Optional<Simulado> simulado = simuladoRepository.findByUuid(UUID.fromString(simuladoUUID));
 
         if(simulado.isPresent()){
-            return new Modulo(this.titulo, this.percentual, simulado.get());
+            return new Modulo(this.percentual, simulado.get());
         }
         
 		return (Modulo) Optional.empty().get();

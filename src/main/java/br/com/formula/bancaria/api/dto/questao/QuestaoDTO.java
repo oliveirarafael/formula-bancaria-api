@@ -1,4 +1,4 @@
-package br.com.formula.bancaria.api.dto.pergunta;
+package br.com.formula.bancaria.api.dto.questao;
 
 import java.util.ArrayList;
 import java.util.Collections;

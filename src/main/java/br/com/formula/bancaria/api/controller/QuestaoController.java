@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.formula.bancaria.api.dto.pergunta.QuestaoDTO;
-import br.com.formula.bancaria.api.form.pergunta.CreateQuestaoForm;
+import br.com.formula.bancaria.api.dto.questao.QuestaoDTO;
+import br.com.formula.bancaria.api.form.questao.CreateQuestaoForm;
 import br.com.formula.bancaria.api.model.entity.Questao;
 import br.com.formula.bancaria.api.repository.ModuloRepository;
 import br.com.formula.bancaria.api.repository.QuestaoRepository;

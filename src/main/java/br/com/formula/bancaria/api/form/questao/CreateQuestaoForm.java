@@ -1,4 +1,4 @@
-package br.com.formula.bancaria.api.form.pergunta;
+package br.com.formula.bancaria.api.form.questao;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +21,8 @@ public class CreateQuestaoForm {
     @NotNull
     private UUID moduloUUID;
     @NotNull @NotEmpty
+    private String assunto;
+    @NotNull @NotEmpty
     private String descricao;
     @NotNull @NotEmpty
     private String comentario; 
@@ -29,6 +31,10 @@ public class CreateQuestaoForm {
 
     public void setModuloUUID(UUID moduloUUID) {
         this.moduloUUID = moduloUUID;
+    }
+
+    public void setAssunto(String assunto) {
+        this.assunto = assunto;
     }
 
     public void setDescricao(String descricao) {
@@ -49,7 +55,7 @@ public class CreateQuestaoForm {
         this.respostas.stream().map(respostaForm -> respostas.add(respostaForm.converte()));
         
         if(moduloConsultado.isPresent()){
-           return new Questao(this.descricao, respostas, Arrays.asList(moduloConsultado.get()), comentario);
+           return new Questao(this.assunto, this.descricao, respostas, Arrays.asList(moduloConsultado.get()), comentario);
         }
 
 		return (Questao) Optional.empty().get();

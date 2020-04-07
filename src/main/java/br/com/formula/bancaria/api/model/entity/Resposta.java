@@ -40,7 +40,7 @@ public class Resposta {
 		this.correta = correta;
 		this.questao = questao;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -81,6 +81,14 @@ public class Resposta {
 		this.dataHoraCriacao = dataHoraCriacao;
 	}
 
+	public Long getVersao() {
+		return versao;
+	}
+
+	public void setVersao(Long versao) {
+		this.versao = versao;
+	}
+
 	public Questao getQuestao() {
 		return questao;
 	}
@@ -89,5 +97,71 @@ public class Resposta {
 		this.questao = questao;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((correta == null) ? 0 : correta.hashCode());
+		result = prime * result + ((dataHoraCriacao == null) ? 0 : dataHoraCriacao.hashCode());
+		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((questao == null) ? 0 : questao.hashCode());
+		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
+		result = prime * result + ((versao == null) ? 0 : versao.hashCode());
+		return result;
+	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Resposta other = (Resposta) obj;
+		if (correta == null) {
+			if (other.correta != null)
+				return false;
+		} else if (!correta.equals(other.correta))
+			return false;
+		if (dataHoraCriacao == null) {
+			if (other.dataHoraCriacao != null)
+				return false;
+		} else if (!dataHoraCriacao.equals(other.dataHoraCriacao))
+			return false;
+		if (descricao == null) {
+			if (other.descricao != null)
+				return false;
+		} else if (!descricao.equals(other.descricao))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (questao == null) {
+			if (other.questao != null)
+				return false;
+		} else if (!questao.equals(other.questao))
+			return false;
+		if (uuid == null) {
+			if (other.uuid != null)
+				return false;
+		} else if (!uuid.equals(other.uuid))
+			return false;
+		if (versao == null) {
+			if (other.versao != null)
+				return false;
+		} else if (!versao.equals(other.versao))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Resposta [correta=" + correta + ", dataHoraCriacao=" + dataHoraCriacao + ", descricao=" + descricao
+				+ ", id=" + id + ", questao=" + questao + ", uuid=" + uuid + ", versao=" + versao + "]";
+	}
+	
 }
