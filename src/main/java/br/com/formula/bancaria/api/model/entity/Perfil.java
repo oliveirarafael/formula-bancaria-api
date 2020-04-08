@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 import org.springframework.security.core.GrantedAuthority;
 
@@ -11,7 +12,11 @@ import org.springframework.security.core.GrantedAuthority;
 public class Perfil implements GrantedAuthority{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PERFIL_SEQ")
+	@SequenceGenerator(name = "PERFIL_SEQ", 
+                     sequenceName = "SEQ_PERFIL",
+                     initialValue = 1,
+                     allocationSize = 1) 
     private Long id;
     private String nome;
 

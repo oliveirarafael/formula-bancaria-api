@@ -11,13 +11,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Version;
 
 @Entity
 public class Questao {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "QUESTAO_SEQ")
+	@SequenceGenerator(name = "QUESTAO_SEQ", 
+                     sequenceName = "SEQ_QUESTAO",
+                     initialValue = 1,
+                     allocationSize = 1)
     private Long id;
 	private UUID uuid = UUID.randomUUID();
 	
