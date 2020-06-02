@@ -49,6 +49,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
             .antMatchers(HttpMethod.POST, "/auth").permitAll()
+            .antMatchers(HttpMethod.GET, "/cargas/**").permitAll()
+            .antMatchers("/h2-console/**").permitAll()
             .anyRequest().authenticated()
             //.and().cors()
             .and().csrf().disable()
@@ -59,6 +61,6 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     // Configura os arquivos estaticos
     @Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**");
+		web.ignoring().antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**", "/h2-console/**");
     }
 }

@@ -4,10 +4,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
@@ -23,15 +26,16 @@ public class Modulo {
                      initialValue = 1,
                      allocationSize = 1)  
     private Long id;
-
     private UUID uuid = UUID.randomUUID();
-    private Long percentual;
+    private Integer numero;
+    private Integer percentual;
     private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
 	@Version
     private Long versao;
 
-    @ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "simulado_id", nullable = false)
     private Simulado simulado;
 	
     @ManyToMany
@@ -39,9 +43,14 @@ public class Modulo {
 	
 	public Modulo(){}
 	
-	public Modulo(Long percentual, Simulado simulado) {
+	public Modulo(Integer percentual, Simulado simulado) {
 		this.percentual = percentual;
 		this.simulado = simulado;
+	}
+
+	public Modulo(Integer percentual, Integer numero) {
+		this.percentual = percentual;
+		this.numero = numero;
 	}
 
 	public Long getId() {
@@ -59,12 +68,20 @@ public class Modulo {
 	public void setUuid(UUID uuid) {
 		this.uuid = uuid;
 	}
+	
+	public Integer getNumero() {
+		return numero;
+	}
 
-	public Long getPercentual() {
+	public void setNumero(Integer numero) {
+		this.numero = numero;
+	}
+
+	public Integer getPercentual() {
 		return percentual;
 	}
 
-	public void setPercentual(Long percentual) {
+	public void setPercentual(Integer percentual) {
 		this.percentual = percentual;
 	}
 
@@ -98,6 +115,7 @@ public class Modulo {
 		int result = 1;
 		result = prime * result + ((dataHoraCriacao == null) ? 0 : dataHoraCriacao.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((numero == null) ? 0 : numero.hashCode());
 		result = prime * result + ((percentual == null) ? 0 : percentual.hashCode());
 		result = prime * result + ((questoes == null) ? 0 : questoes.hashCode());
 		result = prime * result + ((simulado == null) ? 0 : simulado.hashCode());
@@ -124,6 +142,11 @@ public class Modulo {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
+			return false;
+		if (numero == null) {
+			if (other.numero != null)
+				return false;
+		} else if (!numero.equals(other.numero))
 			return false;
 		if (percentual == null) {
 			if (other.percentual != null)
@@ -155,8 +178,9 @@ public class Modulo {
 
 	@Override
 	public String toString() {
-		return "Modulo [dataHoraCriacao=" + dataHoraCriacao + ", id=" + id + ", percentual=" + percentual
-				+ ", questoes=" + questoes + ", simulado=" + simulado + ", uuid=" + uuid + ", versao=" + versao + "]";
+		return "Modulo [dataHoraCriacao=" + dataHoraCriacao + ", id=" + id + ", numero=" + numero + ", percentual="
+				+ percentual + ", questoes=" + questoes + ", simulado=" + simulado + ", uuid=" + uuid + ", versao="
+				+ versao + "]";
 	}
 
 }

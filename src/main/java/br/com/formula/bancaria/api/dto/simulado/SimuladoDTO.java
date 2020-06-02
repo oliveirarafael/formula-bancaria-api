@@ -12,13 +12,11 @@ public class SimuladoDTO extends SimuladoLinks{
 
     private UUID uuid;
     private String titulo;
-    private String descricao;
     private LocalDateTime dataHoraCriacao;
     
     public SimuladoDTO(Simulado simulado){
        this.uuid = simulado.getUuid();
        this.titulo = simulado.getTitulo();
-       this.descricao = simulado.getDescricao();
        this.dataHoraCriacao = simulado.getDataHoraCriacao();
        add(this.uuid);
     }
@@ -29,12 +27,8 @@ public class SimuladoDTO extends SimuladoLinks{
 
 	public String getTitulo() {
 		return titulo;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
+    }
+    
 	public LocalDateTime getDataHoraCriacao() {
 		return dataHoraCriacao;
 	}

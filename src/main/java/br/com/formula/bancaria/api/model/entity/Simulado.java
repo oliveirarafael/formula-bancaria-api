@@ -1,11 +1,15 @@
 package br.com.formula.bancaria.api.model.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,20 +29,18 @@ public class Simulado {
   private Long id;
   private UUID uuid = UUID.randomUUID();
   private String titulo;
-  private String descricao;
   private LocalDateTime dataHoraCriacao = LocalDateTime.now();
   
   @Version
   private Long versao;
 
   @OneToMany(mappedBy = "simulado", cascade = CascadeType.ALL)
-  private List<Modulo> modulos;
+  private List<Modulo> modulos = new ArrayList();
 
   public Simulado(){}
 
-  public Simulado(String titulo, String descricao) {
+  public Simulado(String titulo) {
 	  this.titulo = titulo;
-	  this.descricao = descricao;
   }
 
   public Long getId() {
@@ -65,14 +67,6 @@ public class Simulado {
     this.titulo = titulo;
   }
 
-  public String getDescricao() {
-    return descricao;
-  }
-
-  public void setDescricao(String descricao) {
-    this.descricao = descricao;
-  }
-
   public LocalDateTime getDataHoraCriacao() {
     return dataHoraCriacao;
   }
@@ -90,11 +84,12 @@ public class Simulado {
   }
 
   public List<Modulo> getModulos() {
-    return modulos;
+    return Collections.unmodifiableList(this.modulos);
   }
 
-  public void setModulos(List<Modulo> modulos) {
-    this.modulos = modulos;
+  public void adiciona(Modulo modulo){
+    this.modulos.add(modulo);
+    modulo.setSimulado(this);
   }
 
   @Override
@@ -102,7 +97,6 @@ public class Simulado {
     final int prime = 31;
     int result = 1;
     result = prime * result + ((dataHoraCriacao == null) ? 0 : dataHoraCriacao.hashCode());
-    result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
     result = prime * result + ((id == null) ? 0 : id.hashCode());
     result = prime * result + ((modulos == null) ? 0 : modulos.hashCode());
     result = prime * result + ((titulo == null) ? 0 : titulo.hashCode());
@@ -124,11 +118,6 @@ public class Simulado {
       if (other.dataHoraCriacao != null)
         return false;
     } else if (!dataHoraCriacao.equals(other.dataHoraCriacao))
-      return false;
-    if (descricao == null) {
-      if (other.descricao != null)
-        return false;
-    } else if (!descricao.equals(other.descricao))
       return false;
     if (id == null) {
       if (other.id != null)
@@ -160,8 +149,8 @@ public class Simulado {
 
   @Override
   public String toString() {
-    return "Simulado [dataHoraCriacao=" + dataHoraCriacao + ", descricao=" + descricao + ", id=" + id + ", modulos="
-        + modulos + ", titulo=" + titulo + ", uuid=" + uuid + ", versao=" + versao + "]";
+    return "Simulado [dataHoraCriacao=" + dataHoraCriacao + ", id=" + id + ", modulos=" + modulos + ", titulo=" + titulo
+        + ", uuid=" + uuid + ", versao=" + versao + "]";
   }
-   
+
 }
