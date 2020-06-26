@@ -3,6 +3,7 @@ package br.com.formula.bancaria.api.model.entity;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,6 +25,8 @@ public class Usuario implements UserDetails{
                      sequenceName = "SEQ_USUARIO",
                      initialValue = 1,
                      allocationSize = 1)
+	
+	private UUID uuid;
 	private Long id;
 	private String nome;
     private String email;
@@ -62,6 +65,14 @@ public class Usuario implements UserDetails{
 	}
 	public void setAssinante(Boolean assinante) {
 		this.assinante = assinante;
+	}
+
+	public UUID getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(UUID uuid) {
+		this.uuid = uuid;
 	}
 
 	public Collection<? extends GrantedAuthority> getAuthorities() {

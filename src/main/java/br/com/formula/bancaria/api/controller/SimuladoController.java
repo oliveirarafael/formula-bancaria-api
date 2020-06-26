@@ -69,6 +69,17 @@ public class SimuladoController {
        }
        return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/{uuid}/questoes")
+    //@Cacheable(value = "simuladoModulos")
+    public ResponseEntity<DetalheSimuladoDTO> getQuestoes(@PathVariable UUID uuid){
+       Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
+
+       if(optional.isPresent()){
+          return ResponseEntity.ok(new DetalheSimuladoDTO(optional.get()));
+       }
+       return ResponseEntity.notFound().build();
+    }
     
     @PostMapping
     //@CacheEvict(value = {"simulados", "simuladoUUID", "simuladoModulos"}, allEntries = true)

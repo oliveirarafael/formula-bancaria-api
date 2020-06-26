@@ -31,8 +31,11 @@ public class Simulado {
   @Version
   private Long versao;
 
-  @OneToMany(mappedBy = "simulado", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "modulos", cascade = CascadeType.ALL)
   private List<Modulo> modulos;
+
+  @OneToMany(mappedBy = "questoes", cascade = CascadeType.ALL)
+  private List<Questao> questoes;
 
   public Simulado(){}
 
@@ -95,6 +98,14 @@ public class Simulado {
 
   public void setModulos(List<Modulo> modulos) {
     this.modulos = modulos;
+  }
+
+  public List<Questao> getQuestoes() {
+    return questoes;
+  }
+
+  public void setQuestoes(List<Questao> questoes) {
+    this.questoes = questoes;
   }
 
   @Override
