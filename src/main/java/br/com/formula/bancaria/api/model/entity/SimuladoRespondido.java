@@ -18,15 +18,12 @@ import javax.persistence.Version;
 public class SimuladoRespondido {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SIMULADO_RESPONDIDO_SEQ")
-	@SequenceGenerator(name = "SIMULADO_RESPONDIDO_SEQ", 
-                     sequenceName = "SEQ_SIMULADO_RESPONDIDO",
-                     initialValue = 1,
-                     allocationSize = 1)
+    @SequenceGenerator(name = "SIMULADO_RESPONDIDO_SEQ", sequenceName = "SEQ_SIMULADO_RESPONDIDO", initialValue = 1, allocationSize = 1)
     private Long id;
     private UUID uuid = UUID.randomUUID();
 
     private LocalDateTime dataHoraCriacao = LocalDateTime.now();
-    
+
     @Version
     private Long versao;
 
@@ -39,9 +36,10 @@ public class SimuladoRespondido {
     @OneToMany(mappedBy = "simuladoRespondido", cascade = CascadeType.ALL)
     private List<QuestaoRespondida> questoes;
 
-    public SimuladoRespondido(){}
-    
-    public SimuladoRespondido(Simulado simulado, Usuario usuario){
+    public SimuladoRespondido() {
+    }
+
+    public SimuladoRespondido(Simulado simulado, Usuario usuario) {
         this.simulado = simulado;
         this.usuario = usuario;
     }
@@ -61,7 +59,7 @@ public class SimuladoRespondido {
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
     }
-    
+
     public LocalDateTime getDataHoraCriacao() {
         return dataHoraCriacao;
     }
@@ -79,17 +77,17 @@ public class SimuladoRespondido {
     }
 
     public Simulado getSimulado() {
-		return simulado;
-	}
+        return simulado;
+    }
 
-	public void setSimulado(Simulado simulado) {
-		this.simulado = simulado;
-	}
+    public void setSimulado(Simulado simulado) {
+        this.simulado = simulado;
+    }
 
     public List<QuestaoRespondida> getQuestoes() {
         return questoes;
     }
-    
+
     public void setQuestoes(List<QuestaoRespondida> questoes) {
         this.questoes = questoes;
     }
@@ -97,7 +95,7 @@ public class SimuladoRespondido {
     public Usuario getUsuario() {
         return usuario;
     }
-    
+
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }

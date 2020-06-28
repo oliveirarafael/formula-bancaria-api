@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Version;
@@ -17,33 +18,35 @@ import javax.persistence.Version;
 @Entity
 public class Questao {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "QUESTAO_SEQ")
-	@SequenceGenerator(name = "QUESTAO_SEQ", 
-                     sequenceName = "SEQ_QUESTAO",
-                     initialValue = 1,
-                     allocationSize = 1)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "QUESTAO_SEQ")
+	@SequenceGenerator(name = "QUESTAO_SEQ", sequenceName = "SEQ_QUESTAO", initialValue = 1, allocationSize = 1)
+	private Long id;
 	private UUID uuid = UUID.randomUUID();
-	
-	private String assunto; 
-    private String descricao;
-    private LocalDateTime dataHoraCriacao = LocalDateTime.now();
-	
+
+	private String assunto;
+	private String descricao;
+	private LocalDateTime dataHoraCriacao = LocalDateTime.now();
+
 	@Version
-    private Long versao;
-	
-	@OneToMany(mappedBy = "questao", cascade = {PERSIST, REMOVE})
+	private Long versao;
+
+	@OneToMany(mappedBy = "questao", cascade = { PERSIST, REMOVE })
 	private List<Resposta> respostas;
-	
-    @ManyToMany
+
+	@ManyToMany
 	private List<Modulo> modulos;
-	
+
 	private String comentario;
 
-	public Questao(){}
+	@ManyToOne
+	private Simulado simulado;
 
-	public Questao(String assunto, String descricao, List<Resposta> respostas, List<Modulo> modulos, String comentario) {
+	public Questao() {
+	}
+
+	public Questao(String assunto, String descricao, List<Resposta> respostas, List<Modulo> modulos,
+			String comentario) {
 		this.assunto = assunto;
 		this.descricao = descricao;
 		this.respostas = respostas;
@@ -209,6 +212,5 @@ public class Questao {
 				+ ", descricao=" + descricao + ", id=" + id + ", modulos=" + modulos + ", respostas=" + respostas
 				+ ", uuid=" + uuid + ", versao=" + versao + "]";
 	}
-
 
 }

@@ -11,27 +11,23 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Version;
 
-
 @Entity
 public class Resposta {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RESPOSTA_SEQ")
-	@SequenceGenerator(name = "RESPOSTA_SEQ", 
-                     sequenceName = "SEQ_RESPOSTA",
-                     initialValue = 1,
-                     allocationSize = 1)
-    private Long id;
-    private UUID uuid = UUID.randomUUID();
-    private String descricao;
-    private Boolean correta;
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RESPOSTA_SEQ")
+	@SequenceGenerator(name = "RESPOSTA_SEQ", sequenceName = "SEQ_RESPOSTA", initialValue = 1, allocationSize = 1)
+	private Long id;
+	private UUID uuid = UUID.randomUUID();
+	private String descricao;
+	private Boolean correta;
 	private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 	@Version
-    private Long versao;
+	private Long versao;
 
-    @ManyToOne
+	@ManyToOne
 	private Questao questao;
-	
+
 	public Resposta() {
 	}
 
@@ -168,5 +164,5 @@ public class Resposta {
 		return "Resposta [correta=" + correta + ", dataHoraCriacao=" + dataHoraCriacao + ", descricao=" + descricao
 				+ ", id=" + id + ", questao=" + questao + ", uuid=" + uuid + ", versao=" + versao + "]";
 	}
-	
+
 }

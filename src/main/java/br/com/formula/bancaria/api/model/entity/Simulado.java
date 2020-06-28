@@ -18,30 +18,28 @@ public class Simulado {
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SIMULADO_SEQ")
-  @SequenceGenerator(name = "SIMULADO_SEQ", 
-                     sequenceName = "SEQ_SIMULADO",
-                     initialValue = 1,
-                     allocationSize = 1)  
+  @SequenceGenerator(name = "SIMULADO_SEQ", sequenceName = "SEQ_SIMULADO", initialValue = 1, allocationSize = 1)
   private Long id;
   private UUID uuid = UUID.randomUUID();
   private String titulo;
   private String descricao;
   private LocalDateTime dataHoraCriacao = LocalDateTime.now();
-  
+
   @Version
   private Long versao;
 
-  @OneToMany(mappedBy = "modulos", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "simulado", cascade = CascadeType.ALL)
   private List<Modulo> modulos;
 
-  @OneToMany(mappedBy = "questoes", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "simulado", cascade = CascadeType.ALL)
   private List<Questao> questoes;
 
-  public Simulado(){}
+  public Simulado() {
+  }
 
   public Simulado(String titulo, String descricao) {
-	  this.titulo = titulo;
-	  this.descricao = descricao;
+    this.titulo = titulo;
+    this.descricao = descricao;
   }
 
   public Long getId() {
@@ -174,5 +172,5 @@ public class Simulado {
     return "Simulado [dataHoraCriacao=" + dataHoraCriacao + ", descricao=" + descricao + ", id=" + id + ", modulos="
         + modulos + ", titulo=" + titulo + ", uuid=" + uuid + ", versao=" + versao + "]";
   }
-   
+
 }

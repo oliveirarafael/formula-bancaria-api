@@ -9,14 +9,11 @@ import javax.persistence.SequenceGenerator;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
-public class Perfil implements GrantedAuthority{
+public class Perfil implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PERFIL_SEQ")
-	@SequenceGenerator(name = "PERFIL_SEQ", 
-                     sequenceName = "SEQ_PERFIL",
-                     initialValue = 1,
-                     allocationSize = 1) 
+    @SequenceGenerator(name = "PERFIL_SEQ", sequenceName = "SEQ_PERFIL", initialValue = 1, allocationSize = 1)
     private Long id;
     private String nome;
 
@@ -31,14 +28,14 @@ public class Perfil implements GrantedAuthority{
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public void setNome(String nome) {
         this.nome = nome;
     }
 
-	@Override
-	public String getAuthority() {
-		return nome;
+    @Override
+    public String getAuthority() {
+        return nome;
     }
 
     @Override
@@ -76,5 +73,5 @@ public class Perfil implements GrantedAuthority{
     public String toString() {
         return "Perfil [id=" + id + ", nome=" + nome + "]";
     }
-    
+
 }
