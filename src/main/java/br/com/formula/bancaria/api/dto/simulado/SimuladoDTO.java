@@ -11,13 +11,13 @@ import br.com.formula.bancaria.api.model.entity.Simulado;
 public class SimuladoDTO extends SimuladoLinks{
 
     private UUID uuid;
-    private String titulo;
+    private String nome;
     private String descricao;
     private LocalDateTime dataHoraCriacao;
     
     public SimuladoDTO(Simulado simulado){
        this.uuid = simulado.getUuid();
-       this.titulo = simulado.getTitulo();
+       this.nome = simulado.getNome();
        this.descricao = simulado.getDescricao();
        this.dataHoraCriacao = simulado.getDataHoraCriacao();
        add(this.uuid);
@@ -27,8 +27,8 @@ public class SimuladoDTO extends SimuladoLinks{
 		return uuid;
 	}
 
-	public String getTitulo() {
-		return titulo;
+	public String getNome() {
+		return nome;
 	}
 
 	public String getDescricao() {

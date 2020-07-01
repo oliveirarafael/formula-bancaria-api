@@ -8,20 +8,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Version;
 
 @Entity
 public class Resposta {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RESPOSTA_SEQ")
-	@SequenceGenerator(name = "RESPOSTA_SEQ", sequenceName = "SEQ_RESPOSTA", initialValue = 1, allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private UUID uuid = UUID.randomUUID();
 	private String descricao;
 	private Boolean correta;
 	private LocalDateTime dataHoraCriacao = LocalDateTime.now();
+	
 	@Version
 	private Long versao;
 

@@ -12,4 +12,7 @@ import br.com.formula.bancaria.api.model.entity.Resposta;
 public interface RespostaRepository extends JpaRepository<Resposta, Long> {
     Optional<Resposta> findByUuid(UUID uuid);
     List<Resposta> findAllByUuid(Iterator<UUID> uuids);
+
+    Optional<Resposta> findById(Long id);
+    List<Resposta> findAllById(Iterator<Long> id);
 }

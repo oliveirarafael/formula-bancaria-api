@@ -9,20 +9,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Version;
 
 @Entity
 public class Simulado {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SIMULADO_SEQ")
-  @SequenceGenerator(name = "SIMULADO_SEQ", sequenceName = "SEQ_SIMULADO", initialValue = 1, allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private UUID uuid = UUID.randomUUID();
-  private String titulo;
+  private String nome;
   private String descricao;
+  private int quantidadeQuestaoPorExecucao;
   private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
   @Version
@@ -31,22 +31,31 @@ public class Simulado {
   @OneToMany(mappedBy = "simulado", cascade = CascadeType.ALL)
   private List<Modulo> modulos;
 
-  @OneToMany(mappedBy = "simulado", cascade = CascadeType.ALL)
+  @ManyToMany
   private List<Questao> questoes;
 
   public Simulado() {
   }
 
-  public Simulado(String titulo, String descricao) {
-    this.titulo = titulo;
+  public int getQuantidadeQuestaoPorExecucao() {
+    return quantidadeQuestaoPorExecucao;
+  }
+
+  public void setQuantidadeQuestaoPorExecucao(int quantidadeQuestaoPorExecucao) {
+    this.quantidadeQuestaoPorExecucao = quantidadeQuestaoPorExecucao;
+  }
+
+  public Simulado(final String titulo, final String descricao, int quantidadeQuestaoPorExecucao) {
+    this.nome = titulo;
     this.descricao = descricao;
+    this.setQuantidadeQuestaoPorExecucao(quantidadeQuestaoPorExecucao);
   }
 
   public Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(final Long id) {
     this.id = id;
   }
 
@@ -54,23 +63,23 @@ public class Simulado {
     return uuid;
   }
 
-  public void setUuid(UUID uuid) {
+  public void setUuid(final UUID uuid) {
     this.uuid = uuid;
   }
 
-  public String getTitulo() {
-    return titulo;
+  public String getNome() {
+    return nome;
   }
 
-  public void setTitulo(String titulo) {
-    this.titulo = titulo;
+  public void setNome(final String nome) {
+    this.nome = nome;
   }
 
   public String getDescricao() {
     return descricao;
   }
 
-  public void setDescricao(String descricao) {
+  public void setDescricao(final String descricao) {
     this.descricao = descricao;
   }
 
@@ -78,7 +87,7 @@ public class Simulado {
     return dataHoraCriacao;
   }
 
-  public void setDataHoraCriacao(LocalDateTime dataHoraCriacao) {
+  public void setDataHoraCriacao(final LocalDateTime dataHoraCriacao) {
     this.dataHoraCriacao = dataHoraCriacao;
   }
 
@@ -86,7 +95,7 @@ public class Simulado {
     return versao;
   }
 
-  public void setVersao(Long versao) {
+  public void setVersao(final Long versao) {
     this.versao = versao;
   }
 
@@ -94,7 +103,7 @@ public class Simulado {
     return modulos;
   }
 
-  public void setModulos(List<Modulo> modulos) {
+  public void setModulos(final List<Modulo> modulos) {
     this.modulos = modulos;
   }
 
@@ -102,7 +111,7 @@ public class Simulado {
     return questoes;
   }
 
-  public void setQuestoes(List<Questao> questoes) {
+  public void setQuestoes(final List<Questao> questoes) {
     this.questoes = questoes;
   }
 
@@ -114,21 +123,21 @@ public class Simulado {
     result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
     result = prime * result + ((id == null) ? 0 : id.hashCode());
     result = prime * result + ((modulos == null) ? 0 : modulos.hashCode());
-    result = prime * result + ((titulo == null) ? 0 : titulo.hashCode());
+    result = prime * result + ((nome == null) ? 0 : nome.hashCode());
     result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
     result = prime * result + ((versao == null) ? 0 : versao.hashCode());
     return result;
   }
 
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
     if (obj == null)
       return false;
     if (getClass() != obj.getClass())
       return false;
-    Simulado other = (Simulado) obj;
+    final Simulado other = (Simulado) obj;
     if (dataHoraCriacao == null) {
       if (other.dataHoraCriacao != null)
         return false;
@@ -149,10 +158,10 @@ public class Simulado {
         return false;
     } else if (!modulos.equals(other.modulos))
       return false;
-    if (titulo == null) {
-      if (other.titulo != null)
+    if (nome == null) {
+      if (other.nome != null)
         return false;
-    } else if (!titulo.equals(other.titulo))
+    } else if (!nome.equals(other.nome))
       return false;
     if (uuid == null) {
       if (other.uuid != null)
@@ -170,7 +179,6 @@ public class Simulado {
   @Override
   public String toString() {
     return "Simulado [dataHoraCriacao=" + dataHoraCriacao + ", descricao=" + descricao + ", id=" + id + ", modulos="
-        + modulos + ", titulo=" + titulo + ", uuid=" + uuid + ", versao=" + versao + "]";
+        + modulos + ", titulo=" + nome + ", uuid=" + uuid + ", versao=" + versao + "]";
   }
-
 }

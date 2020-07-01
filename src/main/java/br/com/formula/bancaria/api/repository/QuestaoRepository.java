@@ -11,4 +11,7 @@ import br.com.formula.bancaria.api.model.entity.Questao;
 public interface QuestaoRepository extends JpaRepository<Questao, Long>{
     Optional<Questao> findByUuid(UUID uuid);
     List<Questao> findAllByUuid(Iterator<UUID> uuid);
+
+    Optional<Questao> findById(Long id);
+    List<Questao> findAllById(Iterator<Long> id);
 }

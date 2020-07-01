@@ -12,7 +12,7 @@ public class SimuladoQuestaoDTO {
     private List<QuestaoDTO> questoes = new ArrayList<>();
 
     public SimuladoQuestaoDTO(Simulado simulado) {
-        this.setTitulo(simulado.getTitulo());
+        this.setTitulo(simulado.getNome());
         this.questoes.addAll(simulado.getQuestoes().stream().map(QuestaoDTO::new).collect(Collectors.toList()));
     }
 

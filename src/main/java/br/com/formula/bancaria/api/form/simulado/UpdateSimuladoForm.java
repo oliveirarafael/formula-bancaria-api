@@ -21,7 +21,7 @@ public class UpdateSimuladoForm {
     }
 
 	public Simulado atualizar(Simulado simulado) {
-        simulado.setTitulo(this.titulo);
+        simulado.setNome(this.titulo);
         simulado.setDescricao(this.descricao);
 		return simulado;
 	}

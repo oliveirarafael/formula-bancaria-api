@@ -1,25 +1,25 @@
 package br.com.formula.bancaria.api.form.questao;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+// import java.util.Optional;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import br.com.formula.bancaria.api.form.resposta.CreateRespostaForm;
-import br.com.formula.bancaria.api.model.entity.Modulo;
+// import br.com.formula.bancaria.api.model.entity.Modulo;
 import br.com.formula.bancaria.api.model.entity.Questao;
 import br.com.formula.bancaria.api.model.entity.Resposta;
-import br.com.formula.bancaria.api.repository.ModuloRepository;
+// import br.com.formula.bancaria.api.repository.ModuloRepository;
 
 public class CreateQuestaoForm {
 
-    @NotNull
-    private UUID moduloUUID;
+    // @NotNull
+    // private UUID moduloUUID;
+    // @NotNull
+    // private Long moduloId;
     @NotNull @NotEmpty
     private String assunto;
     @NotNull @NotEmpty
@@ -29,9 +29,9 @@ public class CreateQuestaoForm {
     @Valid
     private List<CreateRespostaForm> respostas;
 
-    public void setModuloUUID(UUID moduloUUID) {
-        this.moduloUUID = moduloUUID;
-    }
+    // public void setModuloUUID(Long moduloId) {
+    //     this.moduloId = moduloId;
+    // }
 
     public void setAssunto(String assunto) {
         this.assunto = assunto;
@@ -49,15 +49,26 @@ public class CreateQuestaoForm {
         this.respostas = respostas;
     }
 
-	public Questao converte(ModuloRepository moduloRepository) {
-        Optional<Modulo> moduloConsultado = moduloRepository.findByUuid(this.moduloUUID);
-        List<Resposta> respostas = new ArrayList();
-        this.respostas.stream().map(respostaForm -> respostas.add(respostaForm.converte()));
+	// public Questao converte(ModuloRepository moduloRepository) {
+    //     Optional<Modulo> moduloConsultado = moduloRepository.findById(this.moduloId);
+    //     List<Resposta> respostas = new ArrayList<>();
+    //     this.respostas.stream().map(respostaForm -> respostas.add(respostaForm.converte()));
         
-        if(moduloConsultado.isPresent()){
-           return new Questao(this.assunto, this.descricao, respostas, Arrays.asList(moduloConsultado.get()), comentario);
+    //     if(moduloConsultado.isPresent()){
+    //         // return new Questao(this.assunto, this.descricao, respostas, Arrays.asList(moduloConsultado.get()), comentario);
+    //         return new Questao(this.assunto, this.descricao, respostas, comentario);
+    //     }
+
+	// 	return (Questao) Optional.empty().get();
+    // }
+    
+    public Questao converte() {
+        List<Resposta> respostas = new ArrayList<>();
+
+        for (CreateRespostaForm respostaForm : this.respostas) {
+            respostas.add(respostaForm.converte());
         }
 
-		return (Questao) Optional.empty().get();
+        return new Questao(this.assunto, this.descricao, respostas, comentario);
 	}
 }

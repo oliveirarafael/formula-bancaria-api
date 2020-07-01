@@ -9,23 +9,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+// import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Version;
 
 @Entity
 public class Questao {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "QUESTAO_SEQ")
-	@SequenceGenerator(name = "QUESTAO_SEQ", sequenceName = "SEQ_QUESTAO", initialValue = 1, allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private UUID uuid = UUID.randomUUID();
 
 	private String assunto;
-	private String descricao;
+	private String enunciado;
 	private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
 	@Version
@@ -34,29 +31,23 @@ public class Questao {
 	@OneToMany(mappedBy = "questao", cascade = { PERSIST, REMOVE })
 	private List<Resposta> respostas;
 
-	@ManyToMany
-	private List<Modulo> modulos;
-
 	private String comentario;
-
-	@ManyToOne
-	private Simulado simulado;
 
 	public Questao() {
 	}
 
-	public Questao(String assunto, String descricao, List<Resposta> respostas, List<Modulo> modulos,
-			String comentario) {
-		this.assunto = assunto;
-		this.descricao = descricao;
-		this.respostas = respostas;
-		this.modulos = modulos;
-		this.comentario = comentario;
-	}
+	// public Questao(String assunto, String enunciado, List<Resposta> respostas, List<Modulo> modulos,
+	// 		String comentario) {
+	// 	this.assunto = assunto;
+	// 	this.enunciado = enunciado;
+	// 	this.respostas = respostas;
+	// 	this.modulos = modulos;
+	// 	this.comentario = comentario;
+	// }
 
-	public Questao(String assunto, String descricao, List<Resposta> respostas, String comentario) {
+	public Questao(String assunto, String enunciado, List<Resposta> respostas, String comentario) {
 		this.assunto = assunto;
-		this.descricao = descricao;
+		this.enunciado = enunciado;
 		this.respostas = respostas;
 		this.comentario = comentario;
 	}
@@ -85,12 +76,12 @@ public class Questao {
 		this.assunto = assunto;
 	}
 
-	public String getDescricao() {
-		return descricao;
+	public String getEnunciado() {
+		return enunciado;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setEnunciado(String descricao) {
+		this.enunciado = descricao;
 	}
 
 	public LocalDateTime getDataHoraCriacao() {
@@ -117,13 +108,13 @@ public class Questao {
 		this.respostas = respostas;
 	}
 
-	public List<Modulo> getModulos() {
-		return modulos;
-	}
+	// public List<Modulo> getModulos() {
+	// 	return modulos;
+	// }
 
-	public void setModulos(List<Modulo> modulos) {
-		this.modulos = modulos;
-	}
+	// public void setModulos(List<Modulo> modulos) {
+	// 	this.modulos = modulos;
+	// }
 
 	public String getComentario() {
 		return comentario;
@@ -140,9 +131,9 @@ public class Questao {
 		result = prime * result + ((assunto == null) ? 0 : assunto.hashCode());
 		result = prime * result + ((comentario == null) ? 0 : comentario.hashCode());
 		result = prime * result + ((dataHoraCriacao == null) ? 0 : dataHoraCriacao.hashCode());
-		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
+		result = prime * result + ((enunciado == null) ? 0 : enunciado.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((modulos == null) ? 0 : modulos.hashCode());
+		// result = prime * result + ((modulos == null) ? 0 : modulos.hashCode());
 		result = prime * result + ((respostas == null) ? 0 : respostas.hashCode());
 		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
 		result = prime * result + ((versao == null) ? 0 : versao.hashCode());
@@ -173,21 +164,21 @@ public class Questao {
 				return false;
 		} else if (!dataHoraCriacao.equals(other.dataHoraCriacao))
 			return false;
-		if (descricao == null) {
-			if (other.descricao != null)
+		if (enunciado == null) {
+			if (other.enunciado != null)
 				return false;
-		} else if (!descricao.equals(other.descricao))
+		} else if (!enunciado.equals(other.enunciado))
 			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (modulos == null) {
-			if (other.modulos != null)
-				return false;
-		} else if (!modulos.equals(other.modulos))
-			return false;
+		// if (modulos == null) {
+		// 	if (other.modulos != null)
+		// 		return false;
+		// } else if (!modulos.equals(other.modulos))
+		// 	return false;
 		if (respostas == null) {
 			if (other.respostas != null)
 				return false;
@@ -209,7 +200,7 @@ public class Questao {
 	@Override
 	public String toString() {
 		return "Questao [assunto=" + assunto + ", comentario=" + comentario + ", dataHoraCriacao=" + dataHoraCriacao
-				+ ", descricao=" + descricao + ", id=" + id + ", modulos=" + modulos + ", respostas=" + respostas
+				+ ", descricao=" + enunciado + ", id=" + id + ", respostas=" + respostas
 				+ ", uuid=" + uuid + ", versao=" + versao + "]";
 	}
 

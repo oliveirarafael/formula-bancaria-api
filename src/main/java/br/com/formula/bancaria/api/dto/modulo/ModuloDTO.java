@@ -2,7 +2,6 @@ package br.com.formula.bancaria.api.dto.modulo;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.UUID;
 import org.springframework.data.domain.Page;
 
 import br.com.formula.bancaria.api.dto.modulo.hateoas.ModuloLinks;

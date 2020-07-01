@@ -10,23 +10,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Version;
 
 @Entity
 public class Modulo {
 
-    @Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MODULO_SEQ")
-	@SequenceGenerator(name = "MODULO_SEQ", 
-                     sequenceName = "SEQ_MODULO",
-                     initialValue = 1,
-                     allocationSize = 1)  
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+	private UUID uuid = UUID.randomUUID();
+	private String nome;
+	private String descricao;
 
-    private UUID uuid = UUID.randomUUID();
-    private Long percentual;
-    private LocalDateTime dataHoraCriacao = LocalDateTime.now();
+	private Long percentual;
+	private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
 	@Version
     private Long versao;
@@ -39,7 +36,9 @@ public class Modulo {
 	
 	public Modulo(){}
 	
-	public Modulo(Long percentual, Simulado simulado) {
+	public Modulo(String nome, String descricao, Long percentual, Simulado simulado) {
+		this.nome = nome;
+		this.descricao = descricao;
 		this.percentual = percentual;
 		this.simulado = simulado;
 	}
@@ -90,6 +89,30 @@ public class Modulo {
 
 	public void setQuestoes(List<Questao> questoes) {
 		this.questoes = questoes;
+	}
+
+	public String getNome() {
+		return this.nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getDescricao() {
+		return this.descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public Long getVersao() {
+		return this.versao;
+	}
+
+	public void setVersao(Long versao) {
+		this.versao = versao;
 	}
 
 	@Override

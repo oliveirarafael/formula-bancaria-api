@@ -1,5 +1,6 @@
 package br.com.formula.bancaria.api.model.entity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -11,7 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.Version;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,18 +21,34 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class Usuario implements UserDetails {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USUARIO_SEQ")
-	@SequenceGenerator(name = "USUARIO_SEQ", sequenceName = "SEQ_USUARIO", initialValue = 1, allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	private UUID uuid;
+	private UUID uuid = UUID.randomUUID();
 	private String nome;
 	private String email;
 	private String senha;
 	private Boolean assinante;
+	private LocalDateTime dataHoraCriacao = LocalDateTime.now();
+
+	@Version
+	private Long versao;
+
+	/**
+	 * Versionador do objeto. Usado para serializações
+	 */
+	private static final long serialVersionUID = -3699430255730586480L;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Perfil> perfis = new ArrayList<>();
+
+	public Usuario() { }
+	
+	public Usuario(String nome, String email, String senha)
+	{
+		this.nome = nome;
+		this.email = email;
+		this.senha = senha;
+	}
 
 	public Long getId() {
 		return id;
@@ -81,8 +98,20 @@ public class Usuario implements UserDetails {
 		this.uuid = uuid;
 	}
 
+	public LocalDateTime getDataHoraCriacao() {
+		return dataHoraCriacao;
+	}
+
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return this.perfis;
+	}
+
+	public void addPerfil(Perfil perfil)
+	{
+		if(!this.perfis.contains(perfil))
+		{
+			this.perfis.add(perfil);
+		}
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package br.com.formula.bancaria.api.model.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
@@ -11,14 +12,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Version;
 
 @Entity
 public class SimuladoRespondido {
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SIMULADO_RESPONDIDO_SEQ")
-    @SequenceGenerator(name = "SIMULADO_RESPONDIDO_SEQ", sequenceName = "SEQ_SIMULADO_RESPONDIDO", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private UUID uuid = UUID.randomUUID();
 
@@ -48,16 +48,8 @@ public class SimuladoRespondido {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public UUID getUuid() {
         return uuid;
-    }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
     }
 
     public LocalDateTime getDataHoraCriacao() {
@@ -99,4 +91,35 @@ public class SimuladoRespondido {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof SimuladoRespondido)) {
+            return false;
+        }
+        SimuladoRespondido simuladoRespondido = (SimuladoRespondido) o;
+        return Objects.equals(id, simuladoRespondido.id) && Objects.equals(uuid, simuladoRespondido.uuid) && Objects.equals(dataHoraCriacao, simuladoRespondido.dataHoraCriacao) && Objects.equals(versao, simuladoRespondido.versao) && Objects.equals(simulado, simuladoRespondido.simulado) && Objects.equals(usuario, simuladoRespondido.usuario) && Objects.equals(questoes, simuladoRespondido.questoes);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, uuid, dataHoraCriacao, versao, simulado, usuario, questoes);
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " id='" + getId() + "'" +
+            ", uuid='" + getUuid() + "'" +
+            ", dataHoraCriacao='" + getDataHoraCriacao() + "'" +
+            ", versao='" + getVersao() + "'" +
+            ", simulado='" + getSimulado() + "'" +
+            ", usuario='" + getUsuario() + "'" +
+            ", questoes='" + getQuestoes() + "'" +
+            "}";
+    }
+
 }

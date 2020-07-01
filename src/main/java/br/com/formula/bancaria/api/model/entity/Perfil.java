@@ -1,10 +1,12 @@
 package br.com.formula.bancaria.api.model.entity;
 
+import java.util.UUID;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.Version;
 
 import org.springframework.security.core.GrantedAuthority;
 
@@ -12,13 +14,25 @@ import org.springframework.security.core.GrantedAuthority;
 public class Perfil implements GrantedAuthority {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PERFIL_SEQ")
-    @SequenceGenerator(name = "PERFIL_SEQ", sequenceName = "SEQ_PERFIL", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private UUID uuid = UUID.randomUUID();
     private String nome;
+
+    @Version
+    private Long versao;
+
+    /**
+     * Versionador do objeto. Usado para serializações
+     */
+    private static final long serialVersionUID = 685156994957806631L;
 
     public Long getId() {
         return id;
+    }
+
+    public UUID getUuid() {
+        return uuid;
     }
 
     public String getNome() {

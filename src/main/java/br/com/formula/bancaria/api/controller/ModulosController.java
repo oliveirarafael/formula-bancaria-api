@@ -2,14 +2,11 @@ package br.com.formula.bancaria.api.controller;
 
 import java.net.URI;
 import java.util.Optional;
-import java.util.UUID;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -40,7 +37,6 @@ public class ModulosController {
 	private SimuladoRepository simuladoRepository;
 
     @GetMapping
-    //@Cacheable(value = "modulos")
     public Page<ModuloDTO> get(@PageableDefault(sort = "percentual", 
                                                 direction = Direction.ASC, 
                                                 page = 0, size = 10) Pageable paginacao){
@@ -48,10 +44,19 @@ public class ModulosController {
 		return ModuloDTO.converte(moduloRepository.findAll(paginacao));
     }
 
-    @GetMapping("/{uuid}")
-    //@Cacheable(value = "modulosUUID")
-    public ResponseEntity<ModuloDTO> getUUID(@PathVariable UUID uuid){
-        Optional<Modulo> optional = moduloRepository.findByUuid(uuid);
+    // @GetMapping("/{uuid}")
+    // public ResponseEntity<ModuloDTO> getUUID(@PathVariable UUID uuid){
+    //     Optional<Modulo> optional = moduloRepository.findByUuid(uuid);
+
+    //     if(optional.isPresent()){
+    //         return ResponseEntity.ok(new ModuloDTO(optional.get()));
+    //     }
+
+    //     return ResponseEntity.notFound().build();
+    // }
+    @GetMapping("/{id}")
+    public ResponseEntity<ModuloDTO> getId(@PathVariable Long id){
+        Optional<Modulo> optional = moduloRepository.findById(id);
 
         if(optional.isPresent()){
             return ResponseEntity.ok(new ModuloDTO(optional.get()));
@@ -60,10 +65,19 @@ public class ModulosController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/{uuid}/questoes")
-    //@Cacheable(value = "modulosPerguntas")
-    public ResponseEntity<DetalheModuloDTO> getQuestoes(@PathVariable UUID uuid){
-        Optional<Modulo> optional = moduloRepository.findByUuid(uuid);
+    // @GetMapping("/{uuid}/questoes")
+    // public ResponseEntity<DetalheModuloDTO> getQuestoes(@PathVariable UUID uuid){
+    //     Optional<Modulo> optional = moduloRepository.findByUuid(uuid);
+
+    //     if(optional.isPresent()){
+    //         return ResponseEntity.ok(new DetalheModuloDTO(optional.get()));
+    //     }
+
+    //     return ResponseEntity.notFound().build();
+    // }
+    @GetMapping("/{id}/questoes")
+    public ResponseEntity<DetalheModuloDTO> getQuestoes(@PathVariable Long id){
+        Optional<Modulo> optional = moduloRepository.findById(id);
 
         if(optional.isPresent()){
             return ResponseEntity.ok(new DetalheModuloDTO(optional.get()));
@@ -73,9 +87,8 @@ public class ModulosController {
     }
 
     @PostMapping
-    //@CacheEvict(value = {"modulos", "modulosUUID", "modulosPerguntas"}, allEntries = true)
     @Transactional
-    public ResponseEntity post(@RequestBody @Valid CreateModuloForm moduloFom, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<ModuloDTO> post(@RequestBody @Valid CreateModuloForm moduloFom, UriComponentsBuilder uriBuilder){
         Modulo moduloCadastrado = moduloRepository.save(moduloFom.converte(simuladoRepository));
         URI uri = uriBuilder.path("/{uuid}").buildAndExpand(moduloCadastrado.getUuid()).toUri();
         return ResponseEntity.created(uri).body(new ModuloDTO(moduloCadastrado));

@@ -2,14 +2,11 @@ package br.com.formula.bancaria.api.controller;
 
 import java.net.URI;
 import java.util.Optional;
-import java.util.UUID;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -40,7 +37,6 @@ public class SimuladoController {
     private SimuladoRepository simuladoRepository;
 
     @GetMapping
-    //@Cacheable(value = "simulados") //Value serve como identificador do cache
     public Page<SimuladoDTO> get(@PageableDefault(sort = "dataHoraCriacao", 
                                                   direction = Direction.DESC, 
                                                   page = 0, size = 10) Pageable paginacao){
@@ -48,10 +44,19 @@ public class SimuladoController {
         return SimuladoDTO.converte(simuladoRepository.findAll(paginacao));
     }
 
-    @GetMapping("/{uuid}")
-    //@Cacheable(value = "simuladoUUID")
-    public ResponseEntity<SimuladoDTO> getUUID(@PathVariable UUID uuid){
-      Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
+   //  @GetMapping("/{uuid}")
+   //  public ResponseEntity<SimuladoDTO> getUUID(@PathVariable UUID uuid){
+   //    Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
+
+   //    if(optional.isPresent()){
+   //      return ResponseEntity.ok(new SimuladoDTO(optional.get()));
+   //    }
+   //    return ResponseEntity.notFound().build();
+   //  }
+
+   @GetMapping("/{id}")
+    public ResponseEntity<SimuladoDTO> getId(@PathVariable Long id){
+      Optional<Simulado> optional = simuladoRepository.findById((long)id);
 
       if(optional.isPresent()){
         return ResponseEntity.ok(new SimuladoDTO(optional.get()));
@@ -59,10 +64,64 @@ public class SimuladoController {
       return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/{uuid}/modulos")
-    //@Cacheable(value = "simuladoModulos")
-    public ResponseEntity<DetalheSimuladoDTO> getModulos(@PathVariable UUID uuid){
-       Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
+   //  @PutMapping("/{uuid}")
+   //  @Transactional
+   //  public ResponseEntity<SimuladoDTO> put(@PathVariable UUID uuid, @RequestBody @Valid UpdateSimuladoForm simuladoForm){
+   //      Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
+   //      if(optional.isPresent()){
+   //         Simulado simulado = simuladoForm.atualizar(optional.get());
+   //         return ResponseEntity.ok(new SimuladoDTO(simulado));
+   //      }
+
+   //      return ResponseEntity.notFound().build();
+   //  }
+
+   @PutMapping("/{id}")
+   @Transactional
+   public ResponseEntity<SimuladoDTO> put(@PathVariable Long id, @RequestBody @Valid UpdateSimuladoForm simuladoForm){
+       Optional<Simulado> optional = simuladoRepository.findById(id);
+       if(optional.isPresent()){
+          Simulado simulado = simuladoForm.atualizar(optional.get());
+          return ResponseEntity.ok(new SimuladoDTO(simulado));
+       }
+
+       return ResponseEntity.notFound().build();
+   }
+
+   // @DeleteMapping("/{uuid}")
+   // @Transactional
+   // public ResponseEntity<Object> delete(@PathVariable UUID uuid){
+   //    Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
+   //    if(optional.isPresent()){
+   //       simuladoRepository.delete(optional.get());
+   //       return ResponseEntity.noContent().build();
+   //    }
+   //    return ResponseEntity.notFound().build();
+   // }
+
+   @DeleteMapping("/{id}")
+   @Transactional
+   public ResponseEntity<Object> delete(@PathVariable Long id){
+      Optional<Simulado> optional = simuladoRepository.findById(id);
+      if(optional.isPresent()){
+         simuladoRepository.delete(optional.get());
+         return ResponseEntity.noContent().build();
+      }
+      return ResponseEntity.notFound().build();
+   }
+
+   //  @GetMapping("/{uuid}/modulos")
+   //  public ResponseEntity<DetalheSimuladoDTO> getModulos(@PathVariable UUID uuid){
+   //     Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
+
+   //     if(optional.isPresent()){
+   //        return ResponseEntity.ok(new DetalheSimuladoDTO(optional.get()));
+   //     }
+   //     return ResponseEntity.notFound().build();
+   //  }
+   @GetMapping("/{id}/modulos")
+    public ResponseEntity<DetalheSimuladoDTO> getModulos(@PathVariable Long id){
+       Optional<Simulado> optional = simuladoRepository.findById(id);
 
        if(optional.isPresent()){
           return ResponseEntity.ok(new DetalheSimuladoDTO(optional.get()));
@@ -70,10 +129,19 @@ public class SimuladoController {
        return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/{uuid}/questoes")
-    //@Cacheable(value = "simuladoModulos")
-    public ResponseEntity<DetalheSimuladoDTO> getQuestoes(@PathVariable UUID uuid){
-       Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
+   //  @GetMapping("/{uuid}/questoes")
+   //  public ResponseEntity<DetalheSimuladoDTO> getQuestoes(@PathVariable UUID uuid){
+   //     Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
+
+   //     if(optional.isPresent()){
+   //        return ResponseEntity.ok(new DetalheSimuladoDTO(optional.get()));
+   //     }
+   //     return ResponseEntity.notFound().build();
+   //  }
+
+   @GetMapping("/{id}/questoes")
+    public ResponseEntity<DetalheSimuladoDTO> getQuestoes(@PathVariable Long id){
+       Optional<Simulado> optional = simuladoRepository.findById(id);
 
        if(optional.isPresent()){
           return ResponseEntity.ok(new DetalheSimuladoDTO(optional.get()));
@@ -82,37 +150,10 @@ public class SimuladoController {
     }
     
     @PostMapping
-    //@CacheEvict(value = {"simulados", "simuladoUUID", "simuladoModulos"}, allEntries = true)
     @Transactional
-    public ResponseEntity post(@RequestBody @Valid CreateSimuladoForm simuladoFom, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<SimuladoDTO> post(@RequestBody @Valid CreateSimuladoForm simuladoFom, UriComponentsBuilder uriBuilder){
         Simulado simuladoCadastrado = simuladoRepository.save(simuladoFom.converte());
         URI uri = uriBuilder.path("/simulados/{uuid}").buildAndExpand(simuladoCadastrado.getUuid()).toUri();
         return ResponseEntity.created(uri).body(new SimuladoDTO(simuladoCadastrado));
     }
-
-    @PutMapping("/{uuid}")
-    //@CacheEvict(value = {"simulados", "simuladoUUID", "simuladoModulos"}, allEntries = true)
-    @Transactional
-    public ResponseEntity<SimuladoDTO> put(@PathVariable UUID uuid, @RequestBody @Valid UpdateSimuladoForm simuladoForm){
-        Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
-        if(optional.isPresent()){
-           Simulado simulado = simuladoForm.atualizar(optional.get());
-           return ResponseEntity.ok(new SimuladoDTO(simulado));
-        }
-
-        return ResponseEntity.notFound().build();
-    }
-
-    @DeleteMapping("/{uuid}")
-    //@CacheEvict(value = {"simulados", "simuladoUUID", "simuladoModulos"}, allEntries = true)
-    @Transactional
-    public ResponseEntity delete(@PathVariable UUID uuid){
-        Optional<Simulado> optional = simuladoRepository.findByUuid(uuid);
-        if(optional.isPresent()){
-           simuladoRepository.delete(optional.get());
-           return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
-    }
-
 }

@@ -1,6 +1,7 @@
 package br.com.formula.bancaria.api.model.entity;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.persistence.Entity;
@@ -8,14 +9,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Version;
 
 @Entity
 public class QuestaoRespondida {
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "QUESTAO_RESPONDIDA_SEQ")
-  @SequenceGenerator(name = "QUESTAO_RESPONDIDA_SEQ", sequenceName = "QUESTAO_RESPONDIDA_SIMULADO", initialValue = 1, allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private UUID uuid = UUID.randomUUID();
 
@@ -48,31 +47,31 @@ public class QuestaoRespondida {
   }
 
   public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
+    return this.id;
   }
 
   public UUID getUuid() {
-    return uuid;
-  }
-
-  public void setUuid(UUID uuid) {
-    this.uuid = uuid;
+    return this.uuid;
   }
 
   public LocalDateTime getDataHoraCriacao() {
-    return dataHoraCriacao;
+    return this.dataHoraCriacao;
   }
 
   public void setDataHoraCriacao(LocalDateTime dataHoraCriacao) {
     this.dataHoraCriacao = dataHoraCriacao;
   }
 
+  public Long getVersao() {
+    return this.versao;
+  }
+
+  public void setVersao(Long versao) {
+    this.versao = versao;
+  }
+
   public SimuladoRespondido getSimuladoRespondido() {
-    return simuladoRespondido;
+    return this.simuladoRespondido;
   }
 
   public void setSimuladoRespondido(SimuladoRespondido simuladoRespondido) {
@@ -80,7 +79,7 @@ public class QuestaoRespondida {
   }
 
   public Questao getQuestao() {
-    return questao;
+    return this.questao;
   }
 
   public void setQuestao(Questao questao) {
@@ -88,10 +87,41 @@ public class QuestaoRespondida {
   }
 
   public Resposta getResposta() {
-    return resposta;
+    return this.resposta;
   }
 
   public void setResposta(Resposta resposta) {
     this.resposta = resposta;
   }
+
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == this)
+        return true;
+    if (!(o instanceof QuestaoRespondida)) {
+        return false;
+    }
+    QuestaoRespondida questaoRespondida = (QuestaoRespondida) o;
+    return Objects.equals(id, questaoRespondida.id) && Objects.equals(uuid, questaoRespondida.uuid) && Objects.equals(dataHoraCriacao, questaoRespondida.dataHoraCriacao) && Objects.equals(versao, questaoRespondida.versao) && Objects.equals(simuladoRespondido, questaoRespondida.simuladoRespondido) && Objects.equals(questao, questaoRespondida.questao) && Objects.equals(resposta, questaoRespondida.resposta);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, uuid, dataHoraCriacao, versao, simuladoRespondido, questao, resposta);
+  }
+
+  @Override
+  public String toString() {
+    return "{" +
+      " id='" + getId() + "'" +
+      ", uuid='" + getUuid() + "'" +
+      ", dataHoraCriacao='" + getDataHoraCriacao() + "'" +
+      ", versao='" + getVersao() + "'" +
+      ", simuladoRespondido='" + getSimuladoRespondido() + "'" +
+      ", questao='" + getQuestao() + "'" +
+      ", resposta='" + getResposta() + "'" +
+      "}";
+  }
+
 }
