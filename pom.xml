@@ -97,11 +97,11 @@
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>9.4-1200-jdbc4</version>
-		</dependency>
+		</dependency> -->
 
 	</dependencies>
 
@@ -113,10 +113,6 @@
 				<configuration>
 					<executable>true</executable>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>com.heroku.sdk</groupId>
-				<artifactId>heroku-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
