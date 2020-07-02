@@ -23,6 +23,7 @@ public class Simulado {
   private String nome;
   private String descricao;
   private int quantidadeQuestaoPorExecucao;
+  private double percentualAprovacao;
   private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
   @Version
@@ -37,6 +38,14 @@ public class Simulado {
   public Simulado() {
   }
 
+  public double getPercentualAprovacao() {
+    return percentualAprovacao;
+  }
+
+  public void setPercentualAprovacao(double percentualAprovacao) {
+    this.percentualAprovacao = percentualAprovacao;
+  }
+
   public int getQuantidadeQuestaoPorExecucao() {
     return quantidadeQuestaoPorExecucao;
   }
@@ -45,10 +54,11 @@ public class Simulado {
     this.quantidadeQuestaoPorExecucao = quantidadeQuestaoPorExecucao;
   }
 
-  public Simulado(final String titulo, final String descricao, int quantidadeQuestaoPorExecucao) {
+  public Simulado(final String titulo, final String descricao, final int quantidadeQuestaoPorExecucao, final double percentualAprovacao) {
     this.nome = titulo;
     this.descricao = descricao;
-    this.setQuantidadeQuestaoPorExecucao(quantidadeQuestaoPorExecucao);
+    this.quantidadeQuestaoPorExecucao = quantidadeQuestaoPorExecucao;
+    this.percentualAprovacao = percentualAprovacao;
   }
 
   public Long getId() {

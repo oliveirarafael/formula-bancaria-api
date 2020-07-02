@@ -3,6 +3,7 @@ package br.com.formula.bancaria.api.model.entity;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,6 +18,7 @@ public class Resposta {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private UUID uuid = UUID.randomUUID();
+	@Column(length = 500)
 	private String descricao;
 	private Boolean correta;
 	private LocalDateTime dataHoraCriacao = LocalDateTime.now();

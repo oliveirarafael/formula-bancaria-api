@@ -8,22 +8,42 @@ import org.springframework.data.domain.Page;
 import br.com.formula.bancaria.api.dto.simulado.hateoas.SimuladoLinks;
 import br.com.formula.bancaria.api.model.entity.Simulado;
 
-public class SimuladoDTO extends SimuladoLinks{
+public class SimuladoDTO extends SimuladoLinks {
 
     private UUID uuid;
     private String nome;
     private String descricao;
+    private int quantidadeQuestaoPorExecucao;
+    private double percentualAprovacao;
     private LocalDateTime dataHoraCriacao;
-    
-    public SimuladoDTO(Simulado simulado){
-       this.uuid = simulado.getUuid();
-       this.nome = simulado.getNome();
-       this.descricao = simulado.getDescricao();
-       this.dataHoraCriacao = simulado.getDataHoraCriacao();
-       add(this.uuid);
+
+    public SimuladoDTO(Simulado simulado) {
+        this.uuid = simulado.getUuid();
+        this.nome = simulado.getNome();
+        this.descricao = simulado.getDescricao();
+        this.dataHoraCriacao = simulado.getDataHoraCriacao();
+        this.quantidadeQuestaoPorExecucao = simulado.getQuantidadeQuestaoPorExecucao();
+        this.percentualAprovacao = simulado.getPercentualAprovacao();
+        add(this.uuid);
     }
 
-	public UUID getUuid() {
+    public double getPercentualAprovacao() {
+        return percentualAprovacao;
+    }
+
+    public void setPercentualAprovacao(double percentualAprovacao) {
+        this.percentualAprovacao = percentualAprovacao;
+    }
+
+    public int getQuantidadeQuestaoPorExecucao() {
+        return quantidadeQuestaoPorExecucao;
+    }
+
+    public void setQuantidadeQuestaoPorExecucao(int quantidadeQuestaoPorExecucao) {
+        this.quantidadeQuestaoPorExecucao = quantidadeQuestaoPorExecucao;
+    }
+
+    public UUID getUuid() {
 		return uuid;
 	}
 

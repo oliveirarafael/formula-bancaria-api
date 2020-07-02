@@ -6,14 +6,20 @@ import br.com.formula.bancaria.api.model.entity.Resposta;
 
 public class RespostaDTO {
 
+    private Long id;
     private UUID uuid;
     private String descricao;
     private Boolean correta;
 
     public RespostaDTO(Resposta resposta){
+        this.id = resposta.getId();
         this.uuid = resposta.getUuid();
         this.descricao = resposta.getDescricao();
         this.correta = resposta.getCorreta();
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public UUID getUuid() {

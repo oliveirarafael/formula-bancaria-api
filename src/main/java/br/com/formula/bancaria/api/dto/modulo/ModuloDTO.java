@@ -15,7 +15,7 @@ public class ModuloDTO extends ModuloLinks {
 
     public ModuloDTO(Modulo modulo){
         this.uuid = modulo.getUuid().toString();
-        this.percentual = modulo.getPercentual();
+        this.percentual = modulo.getPercentualRepresentativoSimulado();
         this.dataHoraCriacao = modulo.getDataHoraCriacao();
         add(this.uuid);
     }

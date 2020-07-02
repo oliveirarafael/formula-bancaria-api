@@ -14,15 +14,33 @@ import br.com.formula.bancaria.api.model.entity.Questao;
 
 public class QuestaoDTO {
 
-    private UUID uuid;
-    private String enunciado;
-    private List<RespostaDTO> respostas = new ArrayList<>();
+    private final Long id;
+    private final UUID uuid;
+    private final String enunciado;
+    private final String assunto;
+    private final String comentario;
+    private final List<RespostaDTO> respostas = new ArrayList<>();
 
-    public QuestaoDTO(Questao pergunta){
+    public QuestaoDTO(final Questao pergunta) {
+        this.id = pergunta.getId();
         this.uuid = pergunta.getUuid();
         this.enunciado = pergunta.getEnunciado();
+        this.assunto = pergunta.getAssunto();
+        this.comentario = pergunta.getComentario();
         this.respostas.addAll(pergunta.getRespostas().stream().map(RespostaDTO::new).collect(Collectors.toList()));
         embaralhaRespostas();
+    }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public String getAssunto() {
+        return assunto;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public UUID getUuid() {
@@ -33,15 +51,15 @@ public class QuestaoDTO {
         return enunciado;
     }
 
-    public List<RespostaDTO> getRespostas() {  
+    public List<RespostaDTO> getRespostas() {
         return this.respostas;
     }
 
-    private void embaralhaRespostas(){
-      Collections.shuffle(respostas);
+    private void embaralhaRespostas() {
+        Collections.shuffle(respostas);
     }
 
-    public static Page<QuestaoDTO> converte(Page<Questao> questoes){
+    public static Page<QuestaoDTO> converte(final Page<Questao> questoes) {
         if(Optional.ofNullable(questoes).isPresent()){
            return questoes.map(QuestaoDTO::new);
         }

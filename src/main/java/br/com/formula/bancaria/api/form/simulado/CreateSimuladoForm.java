@@ -10,21 +10,28 @@ public class CreateSimuladoForm {
     private String nome;
     @NotNull @NotEmpty
     private String descricao;
+    @NotNull
     private int quantidadeQuestaoPorExecucao;
+    @NotNull
+    private double percentualAprovacao;
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public void setNome(String nome) {
+      this.nome = nome;
+    }
 	
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	  public void setDescricao(String descricao) {
+		  this.descricao = descricao;
+    }
+
+    public void setPercentualAprovacao(double percentualAprovacao) {
+		  this.percentualAprovacao = percentualAprovacao;
     }
 
     public void setQuantidadeQuestaoPorExecucao(int quantidadeQuestaoPorExecucao) {
-		this.quantidadeQuestaoPorExecucao = quantidadeQuestaoPorExecucao;
+		  this.quantidadeQuestaoPorExecucao = quantidadeQuestaoPorExecucao;
     }
 
     public Simulado converte(){
-        return new Simulado(nome, descricao, quantidadeQuestaoPorExecucao);
+      return new Simulado(nome, descricao, quantidadeQuestaoPorExecucao, percentualAprovacao);
     }
 }

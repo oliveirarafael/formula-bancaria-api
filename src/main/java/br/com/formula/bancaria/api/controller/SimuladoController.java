@@ -24,6 +24,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.formula.bancaria.api.dto.simulado.DetalheSimuladoDTO;
 import br.com.formula.bancaria.api.dto.simulado.SimuladoDTO;
+import br.com.formula.bancaria.api.dto.simulado.SimuladoQuestaoDTO;
 import br.com.formula.bancaria.api.form.simulado.CreateSimuladoForm;
 import br.com.formula.bancaria.api.form.simulado.UpdateSimuladoForm;
 import br.com.formula.bancaria.api.model.entity.Simulado;
@@ -155,5 +156,15 @@ public class SimuladoController {
         Simulado simuladoCadastrado = simuladoRepository.save(simuladoFom.converte());
         URI uri = uriBuilder.path("/simulados/{uuid}").buildAndExpand(simuladoCadastrado.getUuid()).toUri();
         return ResponseEntity.created(uri).body(new SimuladoDTO(simuladoCadastrado));
+    }
+
+    @GetMapping("/{id}/gerar")
+    public ResponseEntity<SimuladoQuestaoDTO> gerar(@PathVariable Long id){
+       Optional<Simulado> optional = simuladoRepository.findById(id);
+
+       if(optional.isPresent()){
+          return ResponseEntity.ok(new SimuladoQuestaoDTO(optional.get()));
+       }
+       return ResponseEntity.notFound().build();
     }
 }

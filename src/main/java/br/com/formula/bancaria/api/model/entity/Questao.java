@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.UUID;
 
 import static javax.persistence.CascadeType.*;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,7 +24,10 @@ public class Questao {
 	private UUID uuid = UUID.randomUUID();
 
 	private String assunto;
+	@Column(length = 500)
 	private String enunciado;
+	@Column(length = 500)
+	private String comentario;
 	private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
 	@Version
@@ -30,8 +35,6 @@ public class Questao {
 
 	@OneToMany(mappedBy = "questao", cascade = { PERSIST, REMOVE })
 	private List<Resposta> respostas;
-
-	private String comentario;
 
 	public Questao() {
 	}
