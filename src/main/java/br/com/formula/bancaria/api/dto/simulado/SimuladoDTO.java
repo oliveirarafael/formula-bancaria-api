@@ -12,7 +12,7 @@ public class SimuladoDTO extends SimuladoLinks {
 
     private UUID uuid;
     private String nome;
-    private String descricao;
+    private String enunciado;
     private int quantidadeQuestaoPorExecucao;
     private double percentualAprovacao;
     private LocalDateTime dataHoraCriacao;
@@ -20,7 +20,7 @@ public class SimuladoDTO extends SimuladoLinks {
     public SimuladoDTO(Simulado simulado) {
         this.uuid = simulado.getUuid();
         this.nome = simulado.getNome();
-        this.descricao = simulado.getDescricao();
+        this.enunciado = simulado.getDescricao();
         this.dataHoraCriacao = simulado.getDataHoraCriacao();
         this.quantidadeQuestaoPorExecucao = simulado.getQuantidadeQuestaoPorExecucao();
         this.percentualAprovacao = simulado.getPercentualAprovacao();
@@ -52,7 +52,7 @@ public class SimuladoDTO extends SimuladoLinks {
 	}
 
 	public String getDescricao() {
-		return descricao;
+		return enunciado;
 	}
 
 	public LocalDateTime getDataHoraCriacao() {

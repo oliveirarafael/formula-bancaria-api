@@ -47,7 +47,7 @@ public class QuestaoDTO {
         return uuid;
     }
 
-    public String getDescricao() {
+    public String getEnunciado() {
         return enunciado;
     }
 
