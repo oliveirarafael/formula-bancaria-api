@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import br.com.formula.bancaria.api.model.entity.Usuario;
 
 public class UsuarioDTO {
-
+    private Long id;
     private UUID uuid;
     private String nome;
     private String email;
@@ -19,6 +19,7 @@ public class UsuarioDTO {
     private Boolean ehProfessor;
 
     public UsuarioDTO(Usuario usuario) {
+        this.id = usuario.getId();
         this.uuid = usuario.getUuid();
         this.nome = usuario.getNome();
         this.email = usuario.getEmail();
@@ -26,6 +27,14 @@ public class UsuarioDTO {
         this.setAssinante(usuario.getAssinante());
         this.setEhAluno(usuario.possuiPerfilAluno());
         this.setEhProfessor(usuario.possuiPerfilProfessor());
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Boolean getEhProfessor() {
