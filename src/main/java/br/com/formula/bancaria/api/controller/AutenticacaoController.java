@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.formula.bancaria.api.dto.TokenDTO;
 import br.com.formula.bancaria.api.form.LoginForm;
+import br.com.formula.bancaria.api.model.entity.Usuario;
 import br.com.formula.bancaria.api.service.TokenService;
 
 @RestController
@@ -34,7 +35,8 @@ public class AutenticacaoController {
         try{
             Authentication authentication = authManager.authenticate(dadosLogin);
             String token = tokenService.token(authentication);
-            return ResponseEntity.ok(new TokenDTO(token, BEARER));    
+            Usuario usuario = (Usuario)authentication.getPrincipal();
+            return ResponseEntity.ok(new TokenDTO(token, BEARER, usuario));    
         }catch(AuthenticationException e){
             throw new UsernameNotFoundException("Usuário inválido");
         }
