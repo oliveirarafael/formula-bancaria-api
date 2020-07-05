@@ -23,8 +23,8 @@ public class SimuladoQuestaoDTO {
         this.setUuid(simulado.getUuid());
         this.setTitulo(simulado.getNome());
         this.setQuantidadeQuestoesExecucao(simulado.getQuantidadeQuestaoPorExecucao());
-        questoes = simulado.getQuestoes().stream().map(QuestaoDTO::new).collect(Collectors.toList());
-        this.questoes = getQuestoesSorteadas();
+        this.setQuestoes(simulado.getQuestoes().stream().map(QuestaoDTO::new).collect(Collectors.toList()));
+        this.setQuestoes(getQuestoesSorteadas());
     }
 
     public UUID getUuid() {
@@ -67,29 +67,32 @@ public class SimuladoQuestaoDTO {
         this.questoes = questoes;
     }
 
-    private void embaralhaQuestoes(){
-        Collections.shuffle(questoes);
-    }
-
-    public List<QuestaoDTO> getQuestoesSorteadas() {
+    private List<QuestaoDTO> getQuestoesSorteadas() {
         Random rand = new Random();
-        List<QuestaoDTO> questoesSorteadas = new ArrayList<>();
+        List<QuestaoDTO> _questoesSorteadas = new ArrayList<>();
+        List<Long> listaNumerosSorteados = new ArrayList<>();
      
-        for (int i = 0; i < questoes.size(); i++) {
-            int randomIndex = rand.nextInt(questoes.size() - 1);
+        for (int i = 1; i <= (questoes.size()); i++) {
+            int randomIndex = rand.nextInt(questoes.size());
+
+            while(listaNumerosSorteados.contains((long)randomIndex))
+            {
+                randomIndex = rand.nextInt(questoes.size());
+            }
 
             QuestaoDTO questaoSorteada = questoes.get(randomIndex);
+            listaNumerosSorteados.add((long)randomIndex);
 
             // Embaralha respostas
             Collections.shuffle(questaoSorteada.getRespostas());
 
-            questoesSorteadas.add(questaoSorteada);
+            _questoesSorteadas.add(questaoSorteada);
             // questoes.remove(randomIndex);
         }
 
         // Embaralha questões sorteadas
-        Collections.shuffle(questoesSorteadas);
+        Collections.shuffle(_questoesSorteadas);
 
-        return questoesSorteadas;
+        return _questoesSorteadas;
     }
 }

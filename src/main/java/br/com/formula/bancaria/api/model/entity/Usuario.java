@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.persistence.Entity;
@@ -16,6 +17,8 @@ import javax.persistence.Version;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import br.com.formula.bancaria.api.enumerators.EPerfil;
 
 @Entity
 public class Usuario implements UserDetails {
@@ -142,6 +145,47 @@ public class Usuario implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	public Boolean possuiPerfil(Perfil perfil)
+	{
+		if(this.perfis == null) return false;
+
+		if(this.perfis.size() == 0) return false;
+
+		return this.perfis.contains(perfil);
+	}
+
+	public Boolean possuiPerfilAluno()
+	{
+		if(this.perfis == null) return false;
+
+		if(this.perfis.size() == 0) return false;
+
+		Long idPerfilAluno = new Long(EPerfil.ALUNO.getValor());
+
+		Optional<Perfil> optional = this.perfis.stream().filter(q -> q.getId().equals(idPerfilAluno)).findFirst();
+		if(optional.isPresent()){
+			return (optional.get() != null);
+		}
+
+		return false;
+	}
+
+	public Boolean possuiPerfilProfessor()
+	{
+		if(this.perfis == null) return false;
+
+		if(this.perfis.size() == 0) return false;
+
+		Long idPerfilAluno = new Long(EPerfil.PROFESSOR.getValor());
+
+		Optional<Perfil> optional = this.perfis.stream().filter(q -> q.getId().equals(idPerfilAluno)).findFirst();
+		if(optional.isPresent()){
+			return (optional.get() != null);
+		}
+
+		return false;
 	}
 
 	@Override

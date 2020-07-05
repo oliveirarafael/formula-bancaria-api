@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -72,4 +73,17 @@ public class UsuarioController {
         URI uri = uriBuilder.path("/usuarios/{uuid}").buildAndExpand(usuarioCadastrado.getUuid()).toUri();
         return ResponseEntity.created(uri).body(new UsuarioDTO(usuarioCadastrado));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UsuarioDTO> getId(@PathVariable Long id){
+        Optional<Usuario> optional = usuarioRepository.findById((long)id);
+
+        if(optional.isPresent()){
+            UsuarioDTO usuarioDto = new UsuarioDTO(optional.get());
+
+            return ResponseEntity.ok(usuarioDto);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
 }
