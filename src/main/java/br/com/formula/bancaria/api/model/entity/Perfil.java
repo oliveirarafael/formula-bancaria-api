@@ -6,33 +6,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Version;
 
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 public class Perfil implements GrantedAuthority {
+    
+    private static final long serialVersionUID = 685156994957806631L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private UUID uuid = UUID.randomUUID();
     private String nome;
-
-    @Version
-    private Long versao;
-
-    /**
-     * Versionador do objeto. Usado para serializações
-     */
-    private static final long serialVersionUID = 685156994957806631L;
 
     public Long getId() {
         return id;
-    }
-
-    public UUID getUuid() {
-        return uuid;
     }
 
     public String getNome() {

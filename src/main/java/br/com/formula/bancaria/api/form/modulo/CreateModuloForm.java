@@ -16,7 +16,7 @@ public class CreateModuloForm {
     @NotNull
     private Long simuladoId;
     @NotNull
-    private Long percentual;
+    private Integer percentual;
     @NotNull @NotEmpty
     private String nome;
     @NotNull @NotEmpty
@@ -29,7 +29,7 @@ public class CreateModuloForm {
         this.simuladoId = simuladoId;
     }
 
-    public void setPercentual(Long percentual) {
+    public void setPercentual(Integer percentual) {
         this.percentual = percentual;
     }
 

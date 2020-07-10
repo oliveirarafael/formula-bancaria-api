@@ -3,12 +3,12 @@ package br.com.formula.bancaria.api.model.entity;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Version;
 
 @Entity
 public class Resposta {
@@ -19,12 +19,12 @@ public class Resposta {
 	private UUID uuid = UUID.randomUUID();
 	private String descricao;
 	private Boolean correta;
+
+	@Column(name = "data_hora_criacao")
 	private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 	
-	@Version
-	private Long versao;
-
 	@ManyToOne
+	@Column(name = "questao")
 	private Questao questao;
 
 	public Resposta() {
@@ -81,14 +81,6 @@ public class Resposta {
 		this.dataHoraCriacao = dataHoraCriacao;
 	}
 
-	public Long getVersao() {
-		return versao;
-	}
-
-	public void setVersao(Long versao) {
-		this.versao = versao;
-	}
-
 	public Questao getQuestao() {
 		return questao;
 	}
@@ -107,7 +99,6 @@ public class Resposta {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((questao == null) ? 0 : questao.hashCode());
 		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
-		result = prime * result + ((versao == null) ? 0 : versao.hashCode());
 		return result;
 	}
 
@@ -150,18 +141,13 @@ public class Resposta {
 				return false;
 		} else if (!uuid.equals(other.uuid))
 			return false;
-		if (versao == null) {
-			if (other.versao != null)
-				return false;
-		} else if (!versao.equals(other.versao))
-			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
 		return "Resposta [correta=" + correta + ", dataHoraCriacao=" + dataHoraCriacao + ", descricao=" + descricao
-				+ ", id=" + id + ", questao=" + questao + ", uuid=" + uuid + ", versao=" + versao + "]";
+				+ ", id=" + id + ", questao=" + questao + ", uuid=" + uuid + "]";
 	}
 
 }

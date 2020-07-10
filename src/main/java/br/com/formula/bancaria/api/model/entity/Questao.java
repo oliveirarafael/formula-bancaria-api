@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.UUID;
 
 import static javax.persistence.CascadeType.*;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-// import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.Version;
 
 @Entity
 public class Questao {
@@ -23,27 +23,16 @@ public class Questao {
 
 	private String assunto;
 	private String enunciado;
+	private String comentario;
+
+	@Column(name = "data_hora_criacao")
 	private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
-	@Version
-	private Long versao;
-
-	@OneToMany(mappedBy = "questao", cascade = { PERSIST, REMOVE })
+	@OneToMany(mappedBy = "questao", cascade = ALL)
 	private List<Resposta> respostas;
-
-	private String comentario;
 
 	public Questao() {
 	}
-
-	// public Questao(String assunto, String enunciado, List<Resposta> respostas, List<Modulo> modulos,
-	// 		String comentario) {
-	// 	this.assunto = assunto;
-	// 	this.enunciado = enunciado;
-	// 	this.respostas = respostas;
-	// 	this.modulos = modulos;
-	// 	this.comentario = comentario;
-	// }
 
 	public Questao(String assunto, String enunciado, List<Resposta> respostas, String comentario) {
 		this.assunto = assunto;
@@ -92,14 +81,6 @@ public class Questao {
 		this.dataHoraCriacao = dataHoraCriacao;
 	}
 
-	public Long getVersao() {
-		return versao;
-	}
-
-	public void setVersao(Long versao) {
-		this.versao = versao;
-	}
-
 	public List<Resposta> getRespostas() {
 		return respostas;
 	}
@@ -107,14 +88,6 @@ public class Questao {
 	public void setRespostas(List<Resposta> respostas) {
 		this.respostas = respostas;
 	}
-
-	// public List<Modulo> getModulos() {
-	// 	return modulos;
-	// }
-
-	// public void setModulos(List<Modulo> modulos) {
-	// 	this.modulos = modulos;
-	// }
 
 	public String getComentario() {
 		return comentario;
@@ -133,10 +106,8 @@ public class Questao {
 		result = prime * result + ((dataHoraCriacao == null) ? 0 : dataHoraCriacao.hashCode());
 		result = prime * result + ((enunciado == null) ? 0 : enunciado.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		// result = prime * result + ((modulos == null) ? 0 : modulos.hashCode());
 		result = prime * result + ((respostas == null) ? 0 : respostas.hashCode());
 		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
-		result = prime * result + ((versao == null) ? 0 : versao.hashCode());
 		return result;
 	}
 
@@ -174,11 +145,6 @@ public class Questao {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		// if (modulos == null) {
-		// 	if (other.modulos != null)
-		// 		return false;
-		// } else if (!modulos.equals(other.modulos))
-		// 	return false;
 		if (respostas == null) {
 			if (other.respostas != null)
 				return false;
@@ -189,19 +155,13 @@ public class Questao {
 				return false;
 		} else if (!uuid.equals(other.uuid))
 			return false;
-		if (versao == null) {
-			if (other.versao != null)
-				return false;
-		} else if (!versao.equals(other.versao))
-			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
 		return "Questao [assunto=" + assunto + ", comentario=" + comentario + ", dataHoraCriacao=" + dataHoraCriacao
-				+ ", descricao=" + enunciado + ", id=" + id + ", respostas=" + respostas
-				+ ", uuid=" + uuid + ", versao=" + versao + "]";
+				+ ", enunciado=" + enunciado + ", id=" + id + ", respostas=" + respostas + ", uuid=" + uuid + "]";
 	}
 
 }

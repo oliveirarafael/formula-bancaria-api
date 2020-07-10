@@ -1,35 +1,37 @@
 package br.com.formula.bancaria.api.model.entity;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Version;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "questao_respondida")
 public class QuestaoRespondida {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private UUID uuid = UUID.randomUUID();
-
+  
+  @Column(name = "data_hora_criacao")
   private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
-  @Version
-  private Long versao;
-
   @ManyToOne
+  @Column(name = "simulado_respondido")
   private SimuladoRespondido simuladoRespondido;
 
   @ManyToOne
+  @Column(name = "questao")
   private Questao questao;
 
   @ManyToOne
+  @Column(name = "resposta")
   private Resposta resposta;
 
   public QuestaoRespondida() {
@@ -62,14 +64,6 @@ public class QuestaoRespondida {
     this.dataHoraCriacao = dataHoraCriacao;
   }
 
-  public Long getVersao() {
-    return this.versao;
-  }
-
-  public void setVersao(Long versao) {
-    this.versao = versao;
-  }
-
   public SimuladoRespondido getSimuladoRespondido() {
     return this.simuladoRespondido;
   }
@@ -96,32 +90,64 @@ public class QuestaoRespondida {
 
 
   @Override
-  public boolean equals(Object o) {
-    if (o == this)
-        return true;
-    if (!(o instanceof QuestaoRespondida)) {
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    QuestaoRespondida other = (QuestaoRespondida) obj;
+    if (dataHoraCriacao == null) {
+      if (other.dataHoraCriacao != null)
         return false;
-    }
-    QuestaoRespondida questaoRespondida = (QuestaoRespondida) o;
-    return Objects.equals(id, questaoRespondida.id) && Objects.equals(uuid, questaoRespondida.uuid) && Objects.equals(dataHoraCriacao, questaoRespondida.dataHoraCriacao) && Objects.equals(versao, questaoRespondida.versao) && Objects.equals(simuladoRespondido, questaoRespondida.simuladoRespondido) && Objects.equals(questao, questaoRespondida.questao) && Objects.equals(resposta, questaoRespondida.resposta);
+    } else if (!dataHoraCriacao.equals(other.dataHoraCriacao))
+      return false;
+    if (id == null) {
+      if (other.id != null)
+        return false;
+    } else if (!id.equals(other.id))
+      return false;
+    if (questao == null) {
+      if (other.questao != null)
+        return false;
+    } else if (!questao.equals(other.questao))
+      return false;
+    if (resposta == null) {
+      if (other.resposta != null)
+        return false;
+    } else if (!resposta.equals(other.resposta))
+      return false;
+    if (simuladoRespondido == null) {
+      if (other.simuladoRespondido != null)
+        return false;
+    } else if (!simuladoRespondido.equals(other.simuladoRespondido))
+      return false;
+    if (uuid == null) {
+      if (other.uuid != null)
+        return false;
+    } else if (!uuid.equals(other.uuid))
+      return false;
+    return true;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, uuid, dataHoraCriacao, versao, simuladoRespondido, questao, resposta);
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((dataHoraCriacao == null) ? 0 : dataHoraCriacao.hashCode());
+    result = prime * result + ((id == null) ? 0 : id.hashCode());
+    result = prime * result + ((questao == null) ? 0 : questao.hashCode());
+    result = prime * result + ((resposta == null) ? 0 : resposta.hashCode());
+    result = prime * result + ((simuladoRespondido == null) ? 0 : simuladoRespondido.hashCode());
+    result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
+    return result;
   }
 
   @Override
   public String toString() {
-    return "{" +
-      " id='" + getId() + "'" +
-      ", uuid='" + getUuid() + "'" +
-      ", dataHoraCriacao='" + getDataHoraCriacao() + "'" +
-      ", versao='" + getVersao() + "'" +
-      ", simuladoRespondido='" + getSimuladoRespondido() + "'" +
-      ", questao='" + getQuestao() + "'" +
-      ", resposta='" + getResposta() + "'" +
-      "}";
+    return "QuestaoRespondida [dataHoraCriacao=" + dataHoraCriacao + ", id=" + id + ", questao=" + questao
+        + ", resposta=" + resposta + ", simuladoRespondido=" + simuladoRespondido + ", uuid=" + uuid + "]";
   }
 
 }

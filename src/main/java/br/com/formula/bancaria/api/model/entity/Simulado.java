@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.Version;
 
 @Entity
 public class Simulado {
@@ -22,30 +22,23 @@ public class Simulado {
   private UUID uuid = UUID.randomUUID();
   private String nome;
   private String descricao;
-  private int quantidadeQuestaoPorExecucao;
-  private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
-  @Version
-  private Long versao;
+  @Column(name = "quantidade_questao_por_execucao")
+  private Integer quantidadeQuestaoPorExecucao;
+
+  @Column(name = "data_hora_criacao")
+  private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
   @OneToMany(mappedBy = "simulado", cascade = CascadeType.ALL)
   private List<Modulo> modulos;
-
+  
   @ManyToMany
   private List<Questao> questoes;
 
   public Simulado() {
   }
 
-  public int getQuantidadeQuestaoPorExecucao() {
-    return quantidadeQuestaoPorExecucao;
-  }
-
-  public void setQuantidadeQuestaoPorExecucao(int quantidadeQuestaoPorExecucao) {
-    this.quantidadeQuestaoPorExecucao = quantidadeQuestaoPorExecucao;
-  }
-
-  public Simulado(final String titulo, final String descricao, int quantidadeQuestaoPorExecucao) {
+  public Simulado(final String titulo, final String descricao, Integer quantidadeQuestaoPorExecucao) {
     this.nome = titulo;
     this.descricao = descricao;
     this.setQuantidadeQuestaoPorExecucao(quantidadeQuestaoPorExecucao);
@@ -90,15 +83,15 @@ public class Simulado {
   public void setDataHoraCriacao(final LocalDateTime dataHoraCriacao) {
     this.dataHoraCriacao = dataHoraCriacao;
   }
-
-  public Long getVersao() {
-    return versao;
+  
+  public Integer getQuantidadeQuestaoPorExecucao() {
+    return quantidadeQuestaoPorExecucao;
   }
 
-  public void setVersao(final Long versao) {
-    this.versao = versao;
+  public void setQuantidadeQuestaoPorExecucao(Integer quantidadeQuestaoPorExecucao) {
+    this.quantidadeQuestaoPorExecucao = quantidadeQuestaoPorExecucao;
   }
-
+  
   public List<Modulo> getModulos() {
     return modulos;
   }
@@ -124,20 +117,21 @@ public class Simulado {
     result = prime * result + ((id == null) ? 0 : id.hashCode());
     result = prime * result + ((modulos == null) ? 0 : modulos.hashCode());
     result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+    result = prime * result + ((quantidadeQuestaoPorExecucao == null) ? 0 : quantidadeQuestaoPorExecucao.hashCode());
+    result = prime * result + ((questoes == null) ? 0 : questoes.hashCode());
     result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
-    result = prime * result + ((versao == null) ? 0 : versao.hashCode());
     return result;
   }
 
   @Override
-  public boolean equals(final Object obj) {
+  public boolean equals(Object obj) {
     if (this == obj)
       return true;
     if (obj == null)
       return false;
     if (getClass() != obj.getClass())
       return false;
-    final Simulado other = (Simulado) obj;
+    Simulado other = (Simulado) obj;
     if (dataHoraCriacao == null) {
       if (other.dataHoraCriacao != null)
         return false;
@@ -163,15 +157,20 @@ public class Simulado {
         return false;
     } else if (!nome.equals(other.nome))
       return false;
+    if (quantidadeQuestaoPorExecucao == null) {
+      if (other.quantidadeQuestaoPorExecucao != null)
+        return false;
+    } else if (!quantidadeQuestaoPorExecucao.equals(other.quantidadeQuestaoPorExecucao))
+      return false;
+    if (questoes == null) {
+      if (other.questoes != null)
+        return false;
+    } else if (!questoes.equals(other.questoes))
+      return false;
     if (uuid == null) {
       if (other.uuid != null)
         return false;
     } else if (!uuid.equals(other.uuid))
-      return false;
-    if (versao == null) {
-      if (other.versao != null)
-        return false;
-    } else if (!versao.equals(other.versao))
       return false;
     return true;
   }
@@ -179,6 +178,7 @@ public class Simulado {
   @Override
   public String toString() {
     return "Simulado [dataHoraCriacao=" + dataHoraCriacao + ", descricao=" + descricao + ", id=" + id + ", modulos="
-        + modulos + ", titulo=" + nome + ", uuid=" + uuid + ", versao=" + versao + "]";
+        + modulos + ", nome=" + nome + ", quantidadeQuestaoPorExecucao=" + quantidadeQuestaoPorExecucao + ", questoes="
+        + questoes + ", uuid=" + uuid + "]";
   }
 }

@@ -10,7 +10,7 @@ import br.com.formula.bancaria.api.model.entity.Modulo;
 public class ModuloDTO extends ModuloLinks {
 
     private String uuid;
-    private Long percentual;
+    private Integer percentual;
     private LocalDateTime dataHoraCriacao;
 
     public ModuloDTO(Modulo modulo){
@@ -24,7 +24,7 @@ public class ModuloDTO extends ModuloLinks {
 		return uuid;
     }
     
-	public Long getPercentual() {
+	public Integer getPercentual() {
 		return percentual;
     }
     

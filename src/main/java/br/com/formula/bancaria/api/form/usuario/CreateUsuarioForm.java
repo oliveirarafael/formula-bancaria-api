@@ -10,15 +10,17 @@ public class CreateUsuarioForm {
     private String nome;
 
     @NotNull @NotEmpty
+    private String sobrenome;
+
+    @NotNull @NotEmpty
     private String email;
     
     @NotNull @NotEmpty
 	private String senha;
 
     public Usuario converte(){
-        return new Usuario(nome, email, senha);
+        return new Usuario(nome, sobrenome, email, senha);
     }
-
 
     public String getNome() {
         return this.nome;
@@ -26,6 +28,14 @@ public class CreateUsuarioForm {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getSobrenome() {
+        return sobrenome;
+    }
+
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
     }
 
     public String getEmail() {

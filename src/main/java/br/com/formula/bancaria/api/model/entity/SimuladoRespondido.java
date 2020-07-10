@@ -6,15 +6,17 @@ import java.util.Objects;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Version;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "simulado_respondido")
 public class SimuladoRespondido {
     
     @Id
@@ -22,15 +24,14 @@ public class SimuladoRespondido {
     private Long id;
     private UUID uuid = UUID.randomUUID();
 
+    @Column(name = "data_hora_criacao")
     private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
-    @Version
-    private Long versao;
-
     @ManyToOne
+    @Column(name = "simualdo")
     private Simulado simulado;
-
     @ManyToOne
+    @Column(name = "usuario")
     private Usuario usuario;
 
     @OneToMany(mappedBy = "simuladoRespondido", cascade = CascadeType.ALL)
@@ -60,14 +61,6 @@ public class SimuladoRespondido {
         this.dataHoraCriacao = dataHoraCriacao;
     }
 
-    public Long getVersao() {
-        return versao;
-    }
-
-    public void setVersao(Long versao) {
-        this.versao = versao;
-    }
-
     public Simulado getSimulado() {
         return simulado;
     }
@@ -94,32 +87,64 @@ public class SimuladoRespondido {
 
 
     @Override
-    public boolean equals(Object o) {
-        if (o == this)
+    public boolean equals(Object obj) {
+        if (this == obj)
             return true;
-        if (!(o instanceof SimuladoRespondido)) {
+        if (obj == null)
             return false;
-        }
-        SimuladoRespondido simuladoRespondido = (SimuladoRespondido) o;
-        return Objects.equals(id, simuladoRespondido.id) && Objects.equals(uuid, simuladoRespondido.uuid) && Objects.equals(dataHoraCriacao, simuladoRespondido.dataHoraCriacao) && Objects.equals(versao, simuladoRespondido.versao) && Objects.equals(simulado, simuladoRespondido.simulado) && Objects.equals(usuario, simuladoRespondido.usuario) && Objects.equals(questoes, simuladoRespondido.questoes);
+        if (getClass() != obj.getClass())
+            return false;
+        SimuladoRespondido other = (SimuladoRespondido) obj;
+        if (dataHoraCriacao == null) {
+            if (other.dataHoraCriacao != null)
+                return false;
+        } else if (!dataHoraCriacao.equals(other.dataHoraCriacao))
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (questoes == null) {
+            if (other.questoes != null)
+                return false;
+        } else if (!questoes.equals(other.questoes))
+            return false;
+        if (simulado == null) {
+            if (other.simulado != null)
+                return false;
+        } else if (!simulado.equals(other.simulado))
+            return false;
+        if (usuario == null) {
+            if (other.usuario != null)
+                return false;
+        } else if (!usuario.equals(other.usuario))
+            return false;
+        if (uuid == null) {
+            if (other.uuid != null)
+                return false;
+        } else if (!uuid.equals(other.uuid))
+            return false;
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, uuid, dataHoraCriacao, versao, simulado, usuario, questoes);
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((dataHoraCriacao == null) ? 0 : dataHoraCriacao.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((questoes == null) ? 0 : questoes.hashCode());
+        result = prime * result + ((simulado == null) ? 0 : simulado.hashCode());
+        result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
+        result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
+        return result;
     }
 
     @Override
     public String toString() {
-        return "{" +
-            " id='" + getId() + "'" +
-            ", uuid='" + getUuid() + "'" +
-            ", dataHoraCriacao='" + getDataHoraCriacao() + "'" +
-            ", versao='" + getVersao() + "'" +
-            ", simulado='" + getSimulado() + "'" +
-            ", usuario='" + getUsuario() + "'" +
-            ", questoes='" + getQuestoes() + "'" +
-            "}";
+        return "SimuladoRespondido [dataHoraCriacao=" + dataHoraCriacao + ", id=" + id + ", questoes=" + questoes
+                + ", simulado=" + simulado + ", usuario=" + usuario + ", uuid=" + uuid + "]";
     }
 
 }
