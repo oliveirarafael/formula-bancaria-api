@@ -87,12 +87,20 @@ public class UsuarioController {
     @RequestMapping(value = "/lembrarSenha", method = { RequestMethod.POST })
     public ResponseEntity<String> lembrarSenha(@RequestBody @Valid final String email,
         final UriComponentsBuilder uriBuilder) {
-        final Optional<Usuario> usuario = usuarioRepository.findByEmail(email); // Perfil Aluno
+        final Optional<Usuario> optionalUsuario = usuarioRepository.findByEmail(email); // Perfil Aluno
 
+        if(optionalUsuario.get() == null) {
+            return ResponseEntity.ok().body("Email enviado");
+        }
+
+        Usuario usuario = optionalUsuario.get();
+        String novaSenha = generateTempooraryPassword(6);
+        usuario.setSenha(new BCryptPasswordEncoder().encode(novaSenha));
+        Usuario usuarioAlterado = usuarioRepository.save(usuario);
         Email from = new Email("keepee@saobentoservicos.com.br");
         String subject = "Fórmula Bancária - Solicitação de senha";
-        Email to = new Email(usuario.get().getEmail());
-        Content content = new Content("text/html", "Sua senha: " + usuario.get().getSenha());
+        Email to = new Email(usuario.getEmail());
+        Content content = new Content("text/html", "Sua senha: " + novaSenha);
         Mail mail = new Mail(from, subject, to, content);
 
         final SendGrid sendgrid = new SendGrid("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");
@@ -126,4 +134,30 @@ public class UsuarioController {
         return ResponseEntity.notFound().build();
     }
 
+    static String generateTempooraryPassword(int n) 
+    { 
+  
+        // chose a Character random from this String 
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                    + "0123456789"
+                                    + "abcdefghijklmnopqrstuvxyz"; 
+  
+        // create StringBuffer size of AlphaNumericString 
+        StringBuilder sb = new StringBuilder(n); 
+  
+        for (int i = 0; i < n; i++) { 
+  
+            // generate a random number between 
+            // 0 to AlphaNumericString variable length 
+            int index 
+                = (int)(AlphaNumericString.length() 
+                        * Math.random()); 
+  
+            // add Character one by one in end of sb 
+            sb.append(AlphaNumericString 
+                          .charAt(index)); 
+        } 
+  
+        return sb.toString(); 
+    } 
 }
