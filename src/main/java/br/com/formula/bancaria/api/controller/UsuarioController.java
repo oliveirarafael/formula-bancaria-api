@@ -1,5 +1,6 @@
 package br.com.formula.bancaria.api.controller;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.Optional;
 
@@ -29,6 +30,11 @@ import br.com.formula.bancaria.api.model.entity.Usuario;
 import br.com.formula.bancaria.api.repository.PerfilRepository;
 import br.com.formula.bancaria.api.repository.UsuarioRepository;
 
+import com.sendgrid.*;
+import com.sendgrid.helpers.mail.Mail;
+import com.sendgrid.helpers.mail.objects.Content;
+import com.sendgrid.helpers.mail.objects.Email;
+
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
@@ -41,45 +47,79 @@ public class UsuarioController {
     @GetMapping
     public Page<UsuarioDTO> get(@PageableDefault(sort = "dataHoraCriacao", 
                                                   direction = Direction.DESC, 
-                                                  page = 0, size = 10) Pageable paginacao){
-                                                      
+                                                  page = 0, size = 10) final Pageable paginacao) {
+
         return UsuarioDTO.converte(usuarioRepository.findAll(paginacao));
     }
 
     @PostMapping
     @Transactional
     @RequestMapping(value = "/alunos", method = { RequestMethod.POST })
-    public ResponseEntity<UsuarioDTO> postAluno(@RequestBody @Valid CreateUsuarioForm usuarioForm, UriComponentsBuilder uriBuilder){
-        Optional<Perfil> perfilAluno = perfilRepository.findById((long)2); // Perfil Aluno
+    public ResponseEntity<UsuarioDTO> postAluno(@RequestBody @Valid final CreateUsuarioForm usuarioForm,
+            final UriComponentsBuilder uriBuilder) {
+        final Optional<Perfil> perfilAluno = perfilRepository.findById((long) 2); // Perfil Aluno
 
         usuarioForm.setSenha(new BCryptPasswordEncoder().encode(usuarioForm.getSenha()));
-        Usuario usuarioParaCadastrar = usuarioForm.converte();
+        final Usuario usuarioParaCadastrar = usuarioForm.converte();
         usuarioParaCadastrar.addPerfil(perfilAluno.get());
-        Usuario usuarioCadastrado = usuarioRepository.save(usuarioParaCadastrar);
-        URI uri = uriBuilder.path("/usuarios/{uuid}").buildAndExpand(usuarioCadastrado.getUuid()).toUri();
+        final Usuario usuarioCadastrado = usuarioRepository.save(usuarioParaCadastrar);
+        final URI uri = uriBuilder.path("/usuarios/{uuid}").buildAndExpand(usuarioCadastrado.getUuid()).toUri();
         return ResponseEntity.created(uri).body(new UsuarioDTO(usuarioCadastrado));
     }
 
     @PostMapping
     @Transactional
     @RequestMapping(value = "/professores", method = { RequestMethod.POST })
-    public ResponseEntity<UsuarioDTO> postProfessor(@RequestBody @Valid CreateUsuarioForm usuarioForm, UriComponentsBuilder uriBuilder){
-        Optional<Perfil> perfilAluno = perfilRepository.findById((long)1); // Perfil Professor
+    public ResponseEntity<UsuarioDTO> postProfessor(@RequestBody @Valid final CreateUsuarioForm usuarioForm,
+            final UriComponentsBuilder uriBuilder) {
+        final Optional<Perfil> perfilAluno = perfilRepository.findById((long) 1); // Perfil Professor
 
         usuarioForm.setSenha(new BCryptPasswordEncoder().encode(usuarioForm.getSenha()));
-        Usuario usuarioParaCadastrar = usuarioForm.converte();
+        final Usuario usuarioParaCadastrar = usuarioForm.converte();
         usuarioParaCadastrar.addPerfil(perfilAluno.get());
-        Usuario usuarioCadastrado = usuarioRepository.save(usuarioParaCadastrar);
-        URI uri = uriBuilder.path("/usuarios/{uuid}").buildAndExpand(usuarioCadastrado.getUuid()).toUri();
+        final Usuario usuarioCadastrado = usuarioRepository.save(usuarioParaCadastrar);
+        final URI uri = uriBuilder.path("/usuarios/{uuid}").buildAndExpand(usuarioCadastrado.getUuid()).toUri();
         return ResponseEntity.created(uri).body(new UsuarioDTO(usuarioCadastrado));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> getId(@PathVariable Long id){
-        Optional<Usuario> optional = usuarioRepository.findById((long)id);
+    @PostMapping
+    @Transactional
+    @RequestMapping(value = "/lembrarSenha", method = { RequestMethod.POST })
+    public ResponseEntity<String> lembrarSenha(@RequestBody @Valid final String email,
+        final UriComponentsBuilder uriBuilder) {
+        final Optional<Usuario> usuario = usuarioRepository.findByEmail(email); // Perfil Aluno
 
-        if(optional.isPresent()){
-            UsuarioDTO usuarioDto = new UsuarioDTO(optional.get());
+        Email from = new Email("keepee@saobentoservicos.com.br");
+        String subject = "Fórmula Bancária - Solicitação de senha";
+        Email to = new Email(usuario.get().getEmail());
+        Content content = new Content("text/html", "Sua senha: " + usuario.get().getSenha());
+        Mail mail = new Mail(from, subject, to, content);
+
+        final SendGrid sendgrid = new SendGrid("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");
+        
+        Request request = new Request();
+        try {
+            request.setMethod(Method.POST);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
+            Response response = sendgrid.api(request);
+
+            if(response.getStatusCode() == 200) {
+                return ResponseEntity.ok().body("E-mail enviado");
+            }
+        } catch (IOException ex) {
+            
+        }
+
+        return ResponseEntity.ok().body("E-mail enviado");
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UsuarioDTO> getId(@PathVariable final Long id) {
+        final Optional<Usuario> optional = usuarioRepository.findById((long) id);
+
+        if (optional.isPresent()) {
+            final UsuarioDTO usuarioDto = new UsuarioDTO(optional.get());
 
             return ResponseEntity.ok(usuarioDto);
         }

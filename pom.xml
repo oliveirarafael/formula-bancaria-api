@@ -103,6 +103,12 @@
 			<version>9.4-1200-jdbc4</version>
 		</dependency> -->
 
+		<dependency>
+			<groupId>com.sendgrid</groupId>
+			<artifactId>sendgrid-java</artifactId>
+			<version>4.6.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
