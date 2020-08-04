@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -29,11 +31,7 @@ import br.com.formula.bancaria.api.model.entity.Perfil;
 import br.com.formula.bancaria.api.model.entity.Usuario;
 import br.com.formula.bancaria.api.repository.PerfilRepository;
 import br.com.formula.bancaria.api.repository.UsuarioRepository;
-
-import com.sendgrid.*;
-import com.sendgrid.helpers.mail.Mail;
-import com.sendgrid.helpers.mail.objects.Content;
-import com.sendgrid.helpers.mail.objects.Email;
+import br.com.formula.bancaria.api.service.UsuarioService;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -43,11 +41,12 @@ public class UsuarioController {
     @Autowired
     private PerfilRepository perfilRepository;
 
+    @Autowired
+    private UsuarioService usuarioService;
 
     @GetMapping
-    public Page<UsuarioDTO> get(@PageableDefault(sort = "dataHoraCriacao", 
-                                                  direction = Direction.DESC, 
-                                                  page = 0, size = 10) final Pageable paginacao) {
+    public Page<UsuarioDTO> get(
+            @PageableDefault(sort = "dataHoraCriacao", direction = Direction.DESC, page = 0, size = 10) final Pageable paginacao) {
 
         return UsuarioDTO.converte(usuarioRepository.findAll(paginacao));
     }
@@ -84,42 +83,10 @@ public class UsuarioController {
 
     @PostMapping
     @Transactional
-    @RequestMapping(value = "/lembrarSenha", method = { RequestMethod.POST })
-    public ResponseEntity<String> lembrarSenha(@RequestBody @Valid final String email,
-        final UriComponentsBuilder uriBuilder) {
-        final Optional<Usuario> optionalUsuario = usuarioRepository.findByEmail(email); // Perfil Aluno
-
-        if(optionalUsuario.get() == null) {
-            return ResponseEntity.ok().body("Email enviado");
-        }
-
-        Usuario usuario = optionalUsuario.get();
-        String novaSenha = generateTempooraryPassword(6);
-        usuario.setSenha(new BCryptPasswordEncoder().encode(novaSenha));
-        Usuario usuarioAlterado = usuarioRepository.save(usuario);
-        Email from = new Email("keepee@saobentoservicos.com.br");
-        String subject = "Fórmula Bancária - Solicitação de senha";
-        Email to = new Email(usuario.getEmail());
-        Content content = new Content("text/html", "Sua senha: " + novaSenha);
-        Mail mail = new Mail(from, subject, to, content);
-
-        final SendGrid sendgrid = new SendGrid("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");
-        
-        Request request = new Request();
-        try {
-            request.setMethod(Method.POST);
-            request.setEndpoint("mail/send");
-            request.setBody(mail.build());
-            Response response = sendgrid.api(request);
-
-            if(response.getStatusCode() == 200) {
-                return ResponseEntity.ok().body("E-mail enviado");
-            }
-        } catch (IOException ex) {
-            
-        }
-
-        return ResponseEntity.ok().body("E-mail enviado");
+    @RequestMapping(value = "/esqueceu-senha", method = { RequestMethod.POST })
+    public ResponseEntity<String> esqueceuSenha(@RequestParam("email") String email) {
+        usuarioService.gerarSenhaProvisoria(email);
+        return ResponseEntity.ok().body("E-mail enviado com sucesso");
     }
 
     @GetMapping("/{id}")
@@ -134,30 +101,4 @@ public class UsuarioController {
         return ResponseEntity.notFound().build();
     }
 
-    static String generateTempooraryPassword(int n) 
-    { 
-  
-        // chose a Character random from this String 
-        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                                    + "0123456789"
-                                    + "abcdefghijklmnopqrstuvxyz"; 
-  
-        // create StringBuffer size of AlphaNumericString 
-        StringBuilder sb = new StringBuilder(n); 
-  
-        for (int i = 0; i < n; i++) { 
-  
-            // generate a random number between 
-            // 0 to AlphaNumericString variable length 
-            int index 
-                = (int)(AlphaNumericString.length() 
-                        * Math.random()); 
-  
-            // add Character one by one in end of sb 
-            sb.append(AlphaNumericString 
-                          .charAt(index)); 
-        } 
-  
-        return sb.toString(); 
-    } 
 }

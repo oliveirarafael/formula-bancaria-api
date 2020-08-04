@@ -5,10 +5,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
-import br.com.formula.bancaria.api.dto.simulado.hateoas.SimuladoLinks;
 import br.com.formula.bancaria.api.model.entity.Simulado;
 
-public class SimuladoDTO extends SimuladoLinks {
+public class SimuladoDTO {
 
     private UUID uuid;
     private String nome;
@@ -24,7 +23,6 @@ public class SimuladoDTO extends SimuladoLinks {
         this.dataHoraCriacao = simulado.getDataHoraCriacao();
         this.quantidadeQuestaoPorExecucao = simulado.getQuantidadeQuestaoPorExecucao();
         this.percentualAprovacao = simulado.getPercentualAprovacao();
-        add(this.uuid);
     }
 
     public double getPercentualAprovacao() {

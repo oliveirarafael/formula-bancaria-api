@@ -12,12 +12,13 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
+
 @Entity
 public class Modulo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	private Long id;
 	private UUID uuid = UUID.randomUUID();
 	private String nome;
 	private String descricao;

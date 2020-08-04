@@ -9,7 +9,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSpringDataWebSupport
-@EnableCaching
+//@EnableCaching
 @EnableSwagger2
 public class FormulaBancariaApiApplication {
 
