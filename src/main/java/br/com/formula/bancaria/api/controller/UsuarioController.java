@@ -1,13 +1,11 @@
 package br.com.formula.bancaria.api.controller;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -81,12 +79,12 @@ public class UsuarioController {
         return ResponseEntity.created(uri).body(new UsuarioDTO(usuarioCadastrado));
     }
 
-    @PostMapping
+    @GetMapping
     @Transactional
     @RequestMapping(value = "/esqueceu-senha", method = { RequestMethod.POST })
     public ResponseEntity<String> esqueceuSenha(@RequestParam("email") String email) {
         usuarioService.gerarSenhaProvisoria(email);
-        return ResponseEntity.ok().body("E-mail enviado com sucesso");
+        return ResponseEntity.ok().body("Senha redefinida com sucesso");
     }
 
     @GetMapping("/{id}")

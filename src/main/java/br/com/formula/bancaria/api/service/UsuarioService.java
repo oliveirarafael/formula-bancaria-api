@@ -21,7 +21,7 @@ public class UsuarioService {
     private EmailService emailService;
 
     public void gerarSenhaProvisoria(String email) {
-        System.out.println("Email =====>> "+email);
+        email = email.toLowerCase();
         Optional<Usuario> usuarioConsultado = repository.findByEmail(email);
          
         if(usuarioConsultado.isPresent()){
