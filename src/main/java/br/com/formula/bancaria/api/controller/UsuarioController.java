@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.formula.bancaria.api.config.validacao.exception.ConflictException;
 import br.com.formula.bancaria.api.dto.usuario.UsuarioDTO;
 import br.com.formula.bancaria.api.form.usuario.CreateUsuarioForm;
 import br.com.formula.bancaria.api.model.entity.Perfil;
@@ -38,7 +39,6 @@ public class UsuarioController {
     private UsuarioRepository usuarioRepository;
     @Autowired
     private PerfilRepository perfilRepository;
-
     @Autowired
     private UsuarioService usuarioService;
 
@@ -49,11 +49,15 @@ public class UsuarioController {
         return UsuarioDTO.converte(usuarioRepository.findAll(paginacao));
     }
 
-    @PostMapping
+    @PostMapping("/alunos")
     @Transactional
-    @RequestMapping(value = "/alunos", method = { RequestMethod.POST })
     public ResponseEntity<UsuarioDTO> postAluno(@RequestBody @Valid final CreateUsuarioForm usuarioForm,
             final UriComponentsBuilder uriBuilder) {
+        
+        if(usuarioRepository.findByEmail(usuarioForm.getEmail()).isPresent()){
+            throw new ConflictException("Usuário já cadastrado");
+        }
+        
         final Optional<Perfil> perfilAluno = perfilRepository.findById((long) 2); // Perfil Aluno
 
         usuarioForm.setSenha(new BCryptPasswordEncoder().encode(usuarioForm.getSenha()));

@@ -18,6 +18,7 @@ public class EmailService {
             MimeMessage mensagem = enviadorEmail.createMimeMessage();
 
             MimeMessageHelper helper = new MimeMessageHelper(mensagem);
+            //helper.setFrom("");
             helper.setTo(email);
             helper.setSubject(assunto);
             helper.setText("<p>"+corpo+"</p>", true);
