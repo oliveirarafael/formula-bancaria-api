@@ -79,9 +79,8 @@ public class UsuarioController {
         return ResponseEntity.created(uri).body(new UsuarioDTO(usuarioCadastrado));
     }
 
-    @GetMapping
+    @GetMapping("/esqueceu-senha")
     @Transactional
-    @RequestMapping(value = "/esqueceu-senha", method = { RequestMethod.POST })
     public ResponseEntity<String> esqueceuSenha(@RequestParam("email") String email) {
         usuarioService.gerarSenhaProvisoria(email);
         return ResponseEntity.ok().body("Senha redefinida com sucesso");
