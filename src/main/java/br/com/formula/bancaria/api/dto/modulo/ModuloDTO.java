@@ -4,10 +4,9 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 
-import br.com.formula.bancaria.api.dto.modulo.hateoas.ModuloLinks;
 import br.com.formula.bancaria.api.model.entity.Modulo;
 
-public class ModuloDTO extends ModuloLinks {
+public class ModuloDTO{
 
     private String uuid;
     private Long percentual;
@@ -17,7 +16,6 @@ public class ModuloDTO extends ModuloLinks {
         this.uuid = modulo.getUuid().toString();
         this.percentual = modulo.getPercentualRepresentativoSimulado();
         this.dataHoraCriacao = modulo.getDataHoraCriacao();
-        add(this.uuid);
     }
 
 	public String getUuid() {
