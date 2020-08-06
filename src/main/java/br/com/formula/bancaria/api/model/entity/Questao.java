@@ -24,9 +24,9 @@ public class Questao {
 	private UUID uuid = UUID.randomUUID();
 
 	private String assunto;
-	@Column(length = 500)
+	@Column(length = 1000)
 	private String enunciado;
-	@Column(length = 500)
+	@Column(length = 1000)
 	private String comentario;
 	private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
@@ -35,6 +35,9 @@ public class Questao {
 
 	@OneToMany(mappedBy = "questao", cascade = { PERSIST, REMOVE })
 	private List<Resposta> respostas;
+
+	// @OneToMany
+	// private List<Modulo> modulos;
 
 	public Questao() {
 	}

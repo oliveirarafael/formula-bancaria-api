@@ -72,7 +72,7 @@ public class SimuladoQuestaoDTO {
         List<QuestaoDTO> _questoesSorteadas = new ArrayList<>();
         List<Long> listaNumerosSorteados = new ArrayList<>();
      
-        for (int i = 1; i <= (questoes.size()); i++) {
+        for (int i = 1; i <= (this.getQuantidadeQuestoesExecucao()); i++) {
             int randomIndex = rand.nextInt(questoes.size());
 
             while(listaNumerosSorteados.contains((long)randomIndex))

@@ -2,7 +2,9 @@ package br.com.formula.bancaria.api.controller;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 // import java.util.UUID;
 
@@ -25,8 +27,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.formula.bancaria.api.dto.simuladoRespondido.SimuladoRespondidoDTO;
+import br.com.formula.bancaria.api.dto.simuladoRespondido.SimuladoRespondidoEstatisticaDTO;
+import br.com.formula.bancaria.api.dto.simuladoRespondido.SimuladoRespondidoEstatisticaItemDTO;
+import br.com.formula.bancaria.api.dto.simuladoRespondido.SimuladoRespondidoEstatisticaModuloDTO;
 import br.com.formula.bancaria.api.form.questaoRespondida.CreateQuestaoRespondidaForm;
 import br.com.formula.bancaria.api.form.simuladoRespondido.CreateSimuladoRespondidoForm;
+import br.com.formula.bancaria.api.model.entity.Modulo;
 import br.com.formula.bancaria.api.model.entity.Questao;
 import br.com.formula.bancaria.api.model.entity.QuestaoRespondida;
 import br.com.formula.bancaria.api.model.entity.Resposta;
@@ -203,5 +209,78 @@ public class SimuladoRespondidoController {
 
         URI uri = uriBuilder.path("/simuladosRespondidos/{uuid}").buildAndExpand(simuladoRespondidoCadastrado.getUuid()).toUri();
         return ResponseEntity.created(uri).body(new SimuladoRespondidoDTO(simuladoRespondidoCadastrado));
+    }
+
+    @GetMapping("/usuarios/{idUsuario}/simulados/{idSimulado}")
+    public ResponseEntity<SimuladoRespondidoEstatisticaDTO> getEstatisticas(@PathVariable Long idUsuario, @PathVariable Long idSimulado) {
+        // Obtendo usuário
+        Optional<Usuario> usuario = usuarioRepository.findById(idUsuario);
+        if(!usuario.isPresent()){
+          return ResponseEntity.badRequest().build();
+        }
+
+        // Obtendo usuário
+        Optional<Simulado> simulado = simuladoRepository.findById(idSimulado);
+        if(!simulado.isPresent()){
+          return ResponseEntity.badRequest().build();
+        }
+
+        // Obter simulados respondidos
+        List<SimuladoRespondido> simuladosRespondidos = simuladoRespondidoRepository.findByUsuarioId(idUsuario);
+        if(simuladosRespondidos == null || simuladosRespondidos.size() <= 0)
+        {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Obter módulos do simulado
+        List<Modulo> modulos = simulado.get().getModulos();
+        if(modulos == null)
+        {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Contadores de módulos
+        Map<Long, Integer> quantidadeQuestoesPorModulo = new HashMap<Long, Integer>();
+        Map<Long, Integer> quantidadeAcertosPorModulo = new HashMap<Long, Integer>();
+        for(Modulo modulo : modulos)
+        {
+            quantidadeQuestoesPorModulo.put(modulo.getId(), 0);
+            quantidadeAcertosPorModulo.put(modulo.getId(), 0);
+        }
+
+        SimuladoRespondidoEstatisticaDTO estatistica = new SimuladoRespondidoEstatisticaDTO();
+        estatistica.setSimulado(simulado.get().getNome());
+
+        // Varrendo lista de simulados respondidos para calcular os percentuais
+        for (SimuladoRespondido simuladoRespondido : simuladosRespondidos) {
+            int totalQuestoesPorSimulado = simulado.get().getQuantidadeQuestaoPorExecucao();
+            int totalAcertos = 0;
+
+            // Verificando questões para verificar as questões corretas
+            for (QuestaoRespondida questaoRespondida : simuladoRespondido.getQuestoes()) {
+                Resposta respostaCorreta = questaoRespondida.getQuestao().getRespostas().stream().filter(q -> q.getCorreta()).findFirst().get();
+                if(respostaCorreta != null && respostaCorreta.getId() == questaoRespondida.getResposta().getId())
+                {
+                    totalAcertos += 1;
+                }
+            }
+
+            // Calculando percentual de acertos por simulado
+            SimuladoRespondidoEstatisticaItemDTO estatisticaSimulado = new SimuladoRespondidoEstatisticaItemDTO();
+            estatisticaSimulado.setPercentualAcertos((double)(totalAcertos/totalQuestoesPorSimulado * 100));    
+            estatisticaSimulado.setData(simuladoRespondido.getDataHoraCriacao());
+        }
+
+        // Calculando percentual de acertos por módulo
+        for (Modulo modulo : modulos)
+        {
+            SimuladoRespondidoEstatisticaModuloDTO moduloDTO = new SimuladoRespondidoEstatisticaModuloDTO();
+            moduloDTO.setModulo(modulo.getNome());
+            moduloDTO.setPercentualAcertos((double)(quantidadeAcertosPorModulo.get(modulo.getId()) / quantidadeQuestoesPorModulo.get(modulo.getId())));
+
+            estatistica.addEstatisticaPorModulo(moduloDTO);
+        }
+
+        return ResponseEntity.ok(estatistica);
     }
 }
