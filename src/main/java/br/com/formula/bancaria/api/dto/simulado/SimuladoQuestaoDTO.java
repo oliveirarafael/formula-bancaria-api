@@ -8,6 +8,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import br.com.formula.bancaria.api.dto.questao.QuestaoDTO;
+import br.com.formula.bancaria.api.model.entity.Modulo;
 // import br.com.formula.bancaria.api.model.entity.Questao;
 import br.com.formula.bancaria.api.model.entity.Simulado;
 
@@ -17,6 +18,7 @@ public class SimuladoQuestaoDTO {
     private String titulo;
     private int quantidadeQuestoesExecucao;
     private List<QuestaoDTO> questoes = new ArrayList<>();
+    private List<Modulo> modulos = new ArrayList<>();
 
     public SimuladoQuestaoDTO(Simulado simulado) {
         this.setId(simulado.getId());
@@ -24,6 +26,7 @@ public class SimuladoQuestaoDTO {
         this.setTitulo(simulado.getNome());
         this.setQuantidadeQuestoesExecucao(simulado.getQuantidadeQuestaoPorExecucao());
         this.setQuestoes(simulado.getQuestoes().stream().map(QuestaoDTO::new).collect(Collectors.toList()));
+        this.modulos = simulado.getModulos();
         this.setQuestoes(getQuestoesSorteadas());
     }
 
@@ -71,27 +74,47 @@ public class SimuladoQuestaoDTO {
         Random rand = new Random();
         List<QuestaoDTO> _questoesSorteadas = new ArrayList<>();
         List<Long> listaNumerosSorteados = new ArrayList<>();
-     
-        for (int i = 1; i <= (this.getQuantidadeQuestoesExecucao()); i++) {
-            int randomIndex = rand.nextInt(questoes.size());
 
-            while(listaNumerosSorteados.contains((long)randomIndex))
-            {
-                randomIndex = rand.nextInt(questoes.size());
+        for (Modulo modulo: modulos)
+        {
+            for (int i = 1; i <= (modulo.getQuantidadeQuestoesPorSimulado()); i++) {
+                int randomIndex = rand.nextInt(modulo.getQuestoes().size());
+
+                while(listaNumerosSorteados.contains((long)randomIndex))
+                {
+                    randomIndex = rand.nextInt(questoes.size());
+                }
+
+                QuestaoDTO questaoSorteada = questoes.get(randomIndex);
+                listaNumerosSorteados.add((long)randomIndex);
+
+                 // Embaralha respostas
+                Collections.shuffle(questaoSorteada.getRespostas());
+
+                _questoesSorteadas.add(questaoSorteada);
             }
-
-            QuestaoDTO questaoSorteada = questoes.get(randomIndex);
-            listaNumerosSorteados.add((long)randomIndex);
-
-            // Embaralha respostas
-            Collections.shuffle(questaoSorteada.getRespostas());
-
-            _questoesSorteadas.add(questaoSorteada);
-            // questoes.remove(randomIndex);
         }
+     
+        // for (int i = 1; i <= (this.getQuantidadeQuestoesExecucao()); i++) {
+        //     int randomIndex = rand.nextInt(questoes.size());
 
-        // Embaralha questões sorteadas
-        Collections.shuffle(_questoesSorteadas);
+        //     while(listaNumerosSorteados.contains((long)randomIndex))
+        //     {
+        //         randomIndex = rand.nextInt(questoes.size());
+        //     }
+
+        //     QuestaoDTO questaoSorteada = questoes.get(randomIndex);
+        //     listaNumerosSorteados.add((long)randomIndex);
+
+        //     // Embaralha respostas
+        //     Collections.shuffle(questaoSorteada.getRespostas());
+
+        //     _questoesSorteadas.add(questaoSorteada);
+        //     // questoes.remove(randomIndex);
+        // }
+
+        // // Embaralha questões sorteadas
+        // Collections.shuffle(_questoesSorteadas);
 
         return _questoesSorteadas;
     }

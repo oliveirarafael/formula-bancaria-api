@@ -9,12 +9,12 @@ import br.com.formula.bancaria.api.model.entity.Modulo;
 public class ModuloDTO{
 
     private String uuid;
-    private Long percentual;
+    private Integer quantidadeQuestoesPorSimulado;
     private LocalDateTime dataHoraCriacao;
 
     public ModuloDTO(Modulo modulo){
         this.uuid = modulo.getUuid().toString();
-        this.percentual = modulo.getPercentualRepresentativoSimulado();
+        this.quantidadeQuestoesPorSimulado = modulo.getQuantidadeQuestoesPorSimulado();
         this.dataHoraCriacao = modulo.getDataHoraCriacao();
     }
 
@@ -22,8 +22,8 @@ public class ModuloDTO{
 		return uuid;
     }
     
-	public Long getPercentual() {
-		return percentual;
+	public Integer getQuantidadeQuestoesPorSimulado() {
+		return quantidadeQuestoesPorSimulado;
     }
     
     public LocalDateTime getDataHoraCriacao() {

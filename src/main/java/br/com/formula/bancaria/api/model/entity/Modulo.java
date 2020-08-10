@@ -10,7 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+// import javax.persistence.OneToMany;
 import javax.persistence.Version;
+
+// import static javax.persistence.CascadeType.*;
 
 
 @Entity
@@ -23,7 +26,7 @@ public class Modulo {
 	private String nome;
 	private String descricao;
 
-	private Long percentualRepresentativoSimulado;
+	private int quantidadeQuestoesPorSimulado;
 	private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
 	@Version
@@ -32,15 +35,16 @@ public class Modulo {
     @ManyToOne
     private Simulado simulado;
 	
-    @ManyToMany
+	@ManyToMany
+	// @OneToMany(mappedBy = "modulo", cascade = { PERSIST, REMOVE })
 	private List<Questao> questoes;
 	
 	public Modulo(){}
 	
-	public Modulo(String nome, String descricao, Long percentualRepresentativoSimulado, Simulado simulado) {
+	public Modulo(String nome, String descricao, Integer quantidadeQuestoesPorSimulado, Simulado simulado) {
 		this.nome = nome;
 		this.descricao = descricao;
-		this.percentualRepresentativoSimulado = percentualRepresentativoSimulado;
+		this.quantidadeQuestoesPorSimulado = quantidadeQuestoesPorSimulado;
 		this.simulado = simulado;
 	}
 
@@ -60,12 +64,12 @@ public class Modulo {
 		this.uuid = uuid;
 	}
 
-	public Long getPercentualRepresentativoSimulado() {
-		return percentualRepresentativoSimulado;
+	public Integer getQuantidadeQuestoesPorSimulado() {
+		return quantidadeQuestoesPorSimulado;
 	}
 
-	public void setPercentualRepresentativoSimulado(Long percentualRepresentativoSimulado) {
-		this.percentualRepresentativoSimulado = percentualRepresentativoSimulado;
+	public void setQuantidadeQuestoesPorSimulado(Integer quantidadeQuestoesPorSimulado) {
+		this.quantidadeQuestoesPorSimulado = quantidadeQuestoesPorSimulado;
 	}
 
 	public LocalDateTime getDataHoraCriacao() {
@@ -122,7 +126,6 @@ public class Modulo {
 		int result = 1;
 		result = prime * result + ((dataHoraCriacao == null) ? 0 : dataHoraCriacao.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((percentualRepresentativoSimulado == null) ? 0 : percentualRepresentativoSimulado.hashCode());
 		result = prime * result + ((questoes == null) ? 0 : questoes.hashCode());
 		result = prime * result + ((simulado == null) ? 0 : simulado.hashCode());
 		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
@@ -149,11 +152,6 @@ public class Modulo {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (percentualRepresentativoSimulado == null) {
-			if (other.percentualRepresentativoSimulado != null)
-				return false;
-		} else if (!percentualRepresentativoSimulado.equals(other.percentualRepresentativoSimulado))
-			return false;
 		if (questoes == null) {
 			if (other.questoes != null)
 				return false;
@@ -179,7 +177,7 @@ public class Modulo {
 
 	@Override
 	public String toString() {
-		return "Modulo [dataHoraCriacao=" + dataHoraCriacao + ", id=" + id + ", percentual=" + percentualRepresentativoSimulado
+		return "Modulo [dataHoraCriacao=" + dataHoraCriacao + ", id=" + id + ", quantidadeQuestoesPorSimulado=" + quantidadeQuestoesPorSimulado
 				+ ", questoes=" + questoes + ", simulado=" + simulado + ", uuid=" + uuid + ", versao=" + versao + "]";
 	}
 

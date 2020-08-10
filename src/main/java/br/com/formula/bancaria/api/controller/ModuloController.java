@@ -29,7 +29,7 @@ import br.com.formula.bancaria.api.repository.SimuladoRepository;
 
 @RestController
 @RequestMapping("/modulos")
-public class ModulosController {
+public class ModuloController {
 
     @Autowired
     private ModuloRepository moduloRepository;
@@ -37,7 +37,7 @@ public class ModulosController {
 	private SimuladoRepository simuladoRepository;
 
     @GetMapping
-    public Page<ModuloDTO> get(@PageableDefault(sort = "percentual", 
+    public Page<ModuloDTO> get(@PageableDefault(sort = "dataHoraCriacao", 
                                                 direction = Direction.ASC, 
                                                 page = 0, size = 10) Pageable paginacao){
 

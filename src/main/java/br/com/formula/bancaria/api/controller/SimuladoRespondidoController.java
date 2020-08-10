@@ -244,6 +244,7 @@ public class SimuladoRespondidoController {
         Map<Long, Integer> quantidadeAcertosPorModulo = new HashMap<Long, Integer>();
         for(Modulo modulo : modulos)
         {
+            // Inicializando contadores
             quantidadeQuestoesPorModulo.put(modulo.getId(), 0);
             quantidadeAcertosPorModulo.put(modulo.getId(), 0);
         }
@@ -256,19 +257,39 @@ public class SimuladoRespondidoController {
             int totalQuestoesPorSimulado = simulado.get().getQuantidadeQuestaoPorExecucao();
             int totalAcertos = 0;
 
-            // Verificando questões para verificar as questões corretas
+            // Verificando questões para verificar as questões corretas e atualizar contadores
             for (QuestaoRespondida questaoRespondida : simuladoRespondido.getQuestoes()) {
-                Resposta respostaCorreta = questaoRespondida.getQuestao().getRespostas().stream().filter(q -> q.getCorreta()).findFirst().get();
-                if(respostaCorreta != null && respostaCorreta.getId() == questaoRespondida.getResposta().getId())
+                Optional<Resposta> respostaCorreta = questaoRespondida.getQuestao().getRespostas().stream().filter(q -> q.getCorreta()).findFirst();
+                if(respostaCorreta.isPresent() && respostaCorreta.get().getId() == questaoRespondida.getResposta().getId())
                 {
                     totalAcertos += 1;
+
+                    for (Modulo modulo : modulos) {
+                        if(modulo.getQuestoes().stream().filter(q -> q.getId() == questaoRespondida.getQuestao().getId()).findFirst().isPresent()) {
+                            int quantidadeQuestoes = quantidadeQuestoesPorModulo.get(modulo.getId()) + 1;
+                            quantidadeQuestoesPorModulo.put(modulo.getId(), quantidadeQuestoes);
+
+                            int quantidade = quantidadeAcertosPorModulo.get(modulo.getId()) + 1;
+                            quantidadeAcertosPorModulo.put(modulo.getId(), quantidade);
+                        }
+                    }
                 }
+                else {
+                    for (Modulo modulo : modulos) {
+                        if(modulo.getQuestoes().stream().filter(q -> q.getId() == questaoRespondida.getQuestao().getId()).findFirst().isPresent()) {
+                            int quantidadeQuestoes = quantidadeQuestoesPorModulo.get(modulo.getId()) + 1;
+                            quantidadeQuestoesPorModulo.put(modulo.getId(), quantidadeQuestoes);
+                        }
+                    }
+                }
+                
             }
 
             // Calculando percentual de acertos por simulado
             SimuladoRespondidoEstatisticaItemDTO estatisticaSimulado = new SimuladoRespondidoEstatisticaItemDTO();
-            estatisticaSimulado.setPercentualAcertos((double)(totalAcertos/totalQuestoesPorSimulado * 100));    
+            estatisticaSimulado.setPercentualAcertos((((double)totalAcertos/(double)totalQuestoesPorSimulado) * (double)100));    
             estatisticaSimulado.setData(simuladoRespondido.getDataHoraCriacao());
+            estatistica.addEstatisticasPorSimulado(estatisticaSimulado);
         }
 
         // Calculando percentual de acertos por módulo
@@ -276,7 +297,9 @@ public class SimuladoRespondidoController {
         {
             SimuladoRespondidoEstatisticaModuloDTO moduloDTO = new SimuladoRespondidoEstatisticaModuloDTO();
             moduloDTO.setModulo(modulo.getNome());
-            moduloDTO.setPercentualAcertos((double)(quantidadeAcertosPorModulo.get(modulo.getId()) / quantidadeQuestoesPorModulo.get(modulo.getId())));
+
+            if(quantidadeQuestoesPorModulo.get(modulo.getId()) == 0) quantidadeQuestoesPorModulo.put(modulo.getId(), 1);
+            moduloDTO.setPercentualAcertos((double)((quantidadeAcertosPorModulo.get(modulo.getId()) / (double)quantidadeQuestoesPorModulo.get(modulo.getId())) * (double)100));
 
             estatistica.addEstatisticaPorModulo(moduloDTO);
         }

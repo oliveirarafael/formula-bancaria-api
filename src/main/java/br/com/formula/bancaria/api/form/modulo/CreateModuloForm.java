@@ -16,7 +16,7 @@ public class CreateModuloForm {
     @NotNull
     private Long simuladoId;
     @NotNull
-    private Long percentual;
+    private Integer quantidadeQuestoesPorSimulado;
     @NotNull @NotEmpty
     private String nome;
     @NotNull @NotEmpty
@@ -29,8 +29,8 @@ public class CreateModuloForm {
         this.simuladoId = simuladoId;
     }
 
-    public void setPercentual(Long percentual) {
-        this.percentual = percentual;
+    public void setQuantidadeQuestoesPorSimulado(Integer quantidadeQuestoesPorSimulado) {
+        this.quantidadeQuestoesPorSimulado = quantidadeQuestoesPorSimulado;
     }
 
     public void setNome(String nome) {
@@ -46,7 +46,7 @@ public class CreateModuloForm {
         Optional<Simulado> simulado = simuladoRepository.findById(simuladoId);
 
         if(simulado.isPresent()){
-            return new Modulo(this.nome, this.descricao, this.percentual, simulado.get());
+            return new Modulo(this.nome, this.descricao, this.quantidadeQuestoesPorSimulado, simulado.get());
         }
         
 		return (Modulo) Optional.empty().get();
