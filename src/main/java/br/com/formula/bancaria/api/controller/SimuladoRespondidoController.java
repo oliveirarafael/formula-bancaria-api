@@ -1,6 +1,7 @@
 package br.com.formula.bancaria.api.controller;
 
 import java.net.URI;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -181,7 +182,7 @@ public class SimuladoRespondidoController {
         }
         
         // Busca as questões por ids (Busca única para evitar sobrecarga no banco)
-        List<Questao> questoes = questaoRepository.findAllById(questaoIds);
+        List<Questao> questoes = questaoRepository.findAllById(questaoIds.iterator());
 
         // Obtém os ids das respostas
         List<Long> respostaIds = new ArrayList<>();
@@ -226,7 +227,7 @@ public class SimuladoRespondidoController {
         }
 
         // Obter simulados respondidos
-        List<SimuladoRespondido> simuladosRespondidos = simuladoRespondidoRepository.findByUsuarioId(idUsuario);
+        List<SimuladoRespondido> simuladosRespondidos = simuladoRespondidoRepository.findBySimuladoIdAndUsuarioId(idSimulado, idUsuario);
         if(simuladosRespondidos == null || simuladosRespondidos.size() <= 0)
         {
             return ResponseEntity.notFound().build();

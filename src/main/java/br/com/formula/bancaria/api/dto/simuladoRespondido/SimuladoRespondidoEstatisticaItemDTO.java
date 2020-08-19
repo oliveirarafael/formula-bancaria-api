@@ -10,11 +10,11 @@ public class SimuladoRespondidoEstatisticaItemDTO {
         return data;
     }
 
-    public Double getPercentualAcertos() {
-        return percentualAcertos;
+    public double getPercentualAcertos() {
+        return Math.round(percentualAcertos);
     }
 
-    public void setPercentualAcertos(Double percentualAcertos) {
+    public void setPercentualAcertos(double percentualAcertos) {
         this.percentualAcertos = percentualAcertos;
     }
 

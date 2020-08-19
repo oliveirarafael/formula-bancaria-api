@@ -9,7 +9,7 @@ public class SimuladoRespondidoEstatisticaModuloDTO {
     }
 
     public double getPercentualAcertos() {
-        return percentualAcertos;
+        return Math.round(percentualAcertos);
     }
 
     public void setPercentualAcertos(double percentualAcertos) {
