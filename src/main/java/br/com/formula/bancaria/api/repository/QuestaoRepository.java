@@ -13,5 +13,5 @@ public interface QuestaoRepository extends JpaRepository<Questao, Long>{
     List<Questao> findAllByUuid(Iterator<UUID> uuid);
 
     Optional<Questao> findById(Long id);
-    List<Questao> findAllById(Iterator<Long> ids);
+    List<Questao> findAllById(Iterator<Long> id);
 }

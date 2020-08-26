@@ -176,12 +176,19 @@ public class SimuladoRespondidoController {
         
         // Obtém os ids das questões
         List<Long> questaoIds = new ArrayList<>();
+        List<Questao> questoes = new ArrayList<>();
         for (CreateQuestaoRespondidaForm questaoRespondida : simuladoRespondidoForm.geQuestoes()) {
             questaoIds.add(questaoRespondida.getQuestaoId());
+
+            Optional<Questao> questaoEncontrada = questaoRepository.findById(questaoRespondida.getQuestaoId());
+            if(questaoEncontrada.isPresent())
+            {
+                questoes.add(questaoEncontrada.get());
+            }
         }
         
         // Busca as questões por ids (Busca única para evitar sobrecarga no banco)
-        List<Questao> questoes = questaoRepository.findAllById(questaoIds.iterator());
+        //List<Questao> questoes = questaoRepository.findAllById(questaoIds.iterator());
 
         // Obtém os ids das respostas
         List<Long> respostaIds = new ArrayList<>();
