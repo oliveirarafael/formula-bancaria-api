@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.formula.bancaria.api.config.validacao.exception.ConflictException;
+import br.com.formula.bancaria.api.dto.base.SimpleViewModelCollectionDTO;
 import br.com.formula.bancaria.api.dto.base.SimpleViewModelDTO;
 import br.com.formula.bancaria.api.dto.usuario.UsuarioDTO;
 import br.com.formula.bancaria.api.form.usuario.CreateUsuarioForm;
@@ -110,7 +111,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}/simulados")
-    public ResponseEntity<List<SimpleViewModelDTO>> getSimuladosUsuario(@PathVariable final Long id) {
+    public ResponseEntity<SimpleViewModelCollectionDTO> getSimuladosUsuario(@PathVariable final Long id) {
         final Optional<Usuario> optional = usuarioRepository.findById((long) id);
         if (!optional.isPresent()) {
             return ResponseEntity.notFound().build();
@@ -133,7 +134,9 @@ public class UsuarioController {
             }
         }
 
-        return ResponseEntity.ok(listaSimuladosFiltrados);
+        SimpleViewModelCollectionDTO result = new SimpleViewModelCollectionDTO(listaSimuladosFiltrados);
+
+        return ResponseEntity.ok(result);
     }
 
 }
