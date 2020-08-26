@@ -260,7 +260,7 @@ public class SimuladoRespondidoController {
         estatistica.setSimulado(simulado.get().getNome());
 
         // Varrendo lista de simulados respondidos para calcular os percentuais
-        int init = (simuladosRespondidos.size() > 8) ? (simuladosRespondidos.size() - 8) : 0;
+        int init = (simuladosRespondidos.size() > 8) ? (simuladosRespondidos.size() - 7) : 0;
         int limit = (simuladosRespondidos.size() > 8) ? (simuladosRespondidos.size() - 1) : simuladosRespondidos.size();
         for (SimuladoRespondido simuladoRespondido : simuladosRespondidos.subList(init, limit)) {
             int totalQuestoesPorSimulado = simulado.get().getQuantidadeQuestaoPorExecucao();
