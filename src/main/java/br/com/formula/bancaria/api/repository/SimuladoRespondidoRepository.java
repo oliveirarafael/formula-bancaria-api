@@ -14,6 +14,7 @@ public interface SimuladoRespondidoRepository extends JpaRepository<SimuladoResp
     List<SimuladoRespondido> findByUsuarioId(Long idUsuario);
     List<SimuladoRespondido> findBySimuladoId(Long idSimulado);
     List<SimuladoRespondido> findBySimuladoIdAndUsuarioId(Long idSimulado, Long idUsuario);
+    List<SimuladoRespondido> findBySimuladoIdAndUsuarioIdOrderByIdDesc(Long idSimulado, Long idUsuario);
 
     // List<Todo> searchResults = repository.findAll(searchSpec);
 }
