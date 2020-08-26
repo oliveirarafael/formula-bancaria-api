@@ -1,7 +1,6 @@
 package br.com.formula.bancaria.api.controller;
 
 import java.net.URI;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

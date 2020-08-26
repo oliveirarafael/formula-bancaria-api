@@ -1,6 +1,8 @@
 package br.com.formula.bancaria.api.controller;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -24,11 +26,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.formula.bancaria.api.config.validacao.exception.ConflictException;
+import br.com.formula.bancaria.api.dto.base.SimpleViewModelDTO;
 import br.com.formula.bancaria.api.dto.usuario.UsuarioDTO;
 import br.com.formula.bancaria.api.form.usuario.CreateUsuarioForm;
 import br.com.formula.bancaria.api.model.entity.Perfil;
+import br.com.formula.bancaria.api.model.entity.SimuladoRespondido;
 import br.com.formula.bancaria.api.model.entity.Usuario;
 import br.com.formula.bancaria.api.repository.PerfilRepository;
+import br.com.formula.bancaria.api.repository.SimuladoRespondidoRepository;
 import br.com.formula.bancaria.api.repository.UsuarioRepository;
 import br.com.formula.bancaria.api.service.UsuarioService;
 
@@ -41,6 +46,8 @@ public class UsuarioController {
     private PerfilRepository perfilRepository;
     @Autowired
     private UsuarioService usuarioService;
+    @Autowired
+    private SimuladoRespondidoRepository simuladoRespondidoRepository;
 
     @GetMapping
     public Page<UsuarioDTO> get(
@@ -100,6 +107,33 @@ public class UsuarioController {
             return ResponseEntity.ok(usuarioDto);
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/{id}/simulados")
+    public ResponseEntity<List<SimpleViewModelDTO>> getSimuladosUsuario(@PathVariable final Long id) {
+        final Optional<Usuario> optional = usuarioRepository.findById((long) id);
+        if (!optional.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        List<SimuladoRespondido> listaSimulados = simuladoRespondidoRepository.findByUsuarioId(id);
+        List<Long> listaSimuladosIds = new ArrayList<>();
+        if(listaSimulados == null)
+        {
+            return ResponseEntity.notFound().build();
+        }
+
+        List<SimpleViewModelDTO> listaSimuladosFiltrados = new ArrayList<>(); 
+        for(SimuladoRespondido simulado: listaSimulados)
+        {
+            if(!listaSimuladosIds.contains(simulado.getSimulado().getId()))
+            {
+                listaSimuladosFiltrados.add(new SimpleViewModelDTO(simulado.getSimulado().getId(), simulado.getSimulado().getUuid(), simulado.getSimulado().getNome()));
+                listaSimuladosIds.add(simulado.getSimulado().getId());
+            }
+        }
+
+        return ResponseEntity.ok(listaSimuladosFiltrados);
     }
 
 }
