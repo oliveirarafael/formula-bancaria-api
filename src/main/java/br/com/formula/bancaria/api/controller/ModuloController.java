@@ -75,12 +75,24 @@ public class ModuloController {
 
     //     return ResponseEntity.notFound().build();
     // }
+
     @GetMapping("/{id}/questoes")
     public ResponseEntity<DetalheModuloDTO> getQuestoes(@PathVariable Long id){
         Optional<Modulo> optional = moduloRepository.findById(id);
 
         if(optional.isPresent()){
             return ResponseEntity.ok(new DetalheModuloDTO(optional.get()));
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/{id}/questoes/estudar")
+    public ResponseEntity<DetalheModuloDTO> getQuestoesParaEstudar(@PathVariable Long id){
+        Optional<Modulo> optional = moduloRepository.findById(id);
+        int quantidadeQuestoesEstudo = 10;
+        if(optional.isPresent()){
+            return ResponseEntity.ok(new DetalheModuloDTO(optional.get(), quantidadeQuestoesEstudo));
         }
 
         return ResponseEntity.notFound().build();

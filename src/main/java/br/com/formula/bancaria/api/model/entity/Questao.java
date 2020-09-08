@@ -25,7 +25,7 @@ public class Questao {
 	private UUID uuid = UUID.randomUUID();
 
 	private String assunto;
-	@Column(length = 1000)
+	@Column(length = 2000)
 	private String enunciado;
 	@Column(length = 1000)
 	private String comentario;
