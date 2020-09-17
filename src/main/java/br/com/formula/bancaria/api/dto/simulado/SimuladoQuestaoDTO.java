@@ -77,21 +77,24 @@ public class SimuladoQuestaoDTO {
 
         for (Modulo modulo: modulos)
         {
-            for (int i = 1; i <= (modulo.getQuantidadeQuestoesPorSimulado()); i++) {
-                int randomIndex = rand.nextInt(modulo.getQuestoes().size());
-
-                while(listaNumerosSorteados.contains((long)randomIndex))
-                {
-                    randomIndex = rand.nextInt(questoes.size());
+            if(modulo.getQuestoes().size() > 0)
+            {
+                for (int i = 1; i <= (modulo.getQuantidadeQuestoesPorSimulado()); i++) {
+                    int randomIndex = rand.nextInt(modulo.getQuestoes().size());
+    
+                    while(listaNumerosSorteados.contains((long)randomIndex))
+                    {
+                        randomIndex = rand.nextInt(questoes.size());
+                    }
+    
+                    QuestaoDTO questaoSorteada = questoes.get(randomIndex);
+                    listaNumerosSorteados.add((long)randomIndex);
+    
+                     // Embaralha respostas
+                    Collections.shuffle(questaoSorteada.getRespostas());
+    
+                    _questoesSorteadas.add(questaoSorteada);
                 }
-
-                QuestaoDTO questaoSorteada = questoes.get(randomIndex);
-                listaNumerosSorteados.add((long)randomIndex);
-
-                 // Embaralha respostas
-                Collections.shuffle(questaoSorteada.getRespostas());
-
-                _questoesSorteadas.add(questaoSorteada);
             }
         }
      

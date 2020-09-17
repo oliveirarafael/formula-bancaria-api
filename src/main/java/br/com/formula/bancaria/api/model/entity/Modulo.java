@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,6 +27,7 @@ public class Modulo {
 	private String nome;
 	private String descricao;
 
+	@Column(nullable = true)
 	private int quantidadeQuestoesPorSimulado;
 	private LocalDateTime dataHoraCriacao = LocalDateTime.now();
 
