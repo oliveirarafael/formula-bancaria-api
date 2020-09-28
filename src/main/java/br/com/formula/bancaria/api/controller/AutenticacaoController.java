@@ -4,6 +4,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.formula.bancaria.api.config.security.Profiles;
 import br.com.formula.bancaria.api.dto.TokenDTO;
 import br.com.formula.bancaria.api.form.LoginForm;
 import br.com.formula.bancaria.api.model.entity.Usuario;
@@ -25,6 +27,7 @@ import br.com.formula.bancaria.api.service.UsuarioService;
 
 @RestController
 @RequestMapping("/auth")
+@Profile(value = {Profiles.PRODUCAO, Profiles.TESTE})
 public class AutenticacaoController {
 
     private static final String BEARER = "Bearer";    

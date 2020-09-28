@@ -3,6 +3,7 @@ package br.com.formula.bancaria.api.config.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -21,6 +22,7 @@ import br.com.formula.bancaria.api.service.auth.AutenticacaoService;
 
 @EnableWebSecurity
 @Configuration
+@Profile(value = {Profiles.PRODUCAO, Profiles.TESTE})
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -51,7 +53,6 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.POST, "/auth", "/usuarios/alunos").permitAll()
             .antMatchers(HttpMethod.GET, "/usuarios/esqueceu-senha").permitAll()
             .anyRequest().authenticated()
-            //.and().cors()
             .and().csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and().addFilterBefore(new AutenticacaoTokenFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class); 
