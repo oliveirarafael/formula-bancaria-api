@@ -180,6 +180,7 @@ public class Usuario implements UserDetails {
 
 		Long idPerfilAluno = new Long(EPerfil.PROFESSOR.getValor());
 
+		
 		Optional<Perfil> optional = this.perfis.stream().filter(q -> q.getId().equals(idPerfilAluno)).findFirst();
 		if(optional.isPresent()){
 			return (optional.get() != null);
